@@ -22,7 +22,7 @@ export interface CreateProductPayload {
   }[];
 
   variants: {
-    size: string;
+    size?: string | null;
     color?: string;
     price: number;
     stock: number;

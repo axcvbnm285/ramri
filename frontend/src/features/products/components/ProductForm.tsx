@@ -17,9 +17,7 @@ import ProductActions from "./ProductActions";
 interface ProductFormProps {
   mode?: "create" | "edit";
   productId?: string;
-  initialValues?: Partial<ProductSchema> & {
-    variants?: (ProductSchema["variants"][number] & { id?: string })[];
-  };
+  initialValues?: Partial<ProductSchema>;
 }
 
 export default function ProductForm({
@@ -36,6 +34,16 @@ export default function ProductForm({
   const isPending = isCreating || isUpdating;
 
   const onSubmit = methods.handleSubmit((data) => {
+    const variants = data.colorGroups.flatMap((group) =>
+      group.sizeStocks.map((sizeStock) => ({
+        id: sizeStock.id,
+        size: sizeStock.size || null,
+        color: group.color || undefined,
+        price: group.priceOverride ?? data.basePrice,
+        stock: Number(sizeStock.stock),
+      }))
+    );
+
     const payload = {
       name: data.name,
       description: data.description || undefined,
@@ -43,13 +51,7 @@ export default function ProductForm({
       categoryId: data.categoryId,
       isFeatured: data.isFeatured ?? false,
       images: data.images ?? [],
-      variants: data.variants.map((variant: any) => ({
-        id: variant.id,
-        size: variant.size,
-        color: variant.color || undefined,
-        price: Number(variant.price),
-        stock: Number(variant.stock),
-      })),
+      variants,
     };
 
     if (mode === "edit" && productId) {

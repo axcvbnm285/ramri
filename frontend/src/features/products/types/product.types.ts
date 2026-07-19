@@ -6,8 +6,8 @@ export interface ProductImage {
 
 export interface ProductVariant {
   id: string;
-  size: string;
-  color?: string;
+  size: string | null;
+  color?: string | null;
   stock: number;
   price: number;
   sku: string;

@@ -71,15 +71,18 @@ export class InventoryRepository {
     reason: InventoryReason,
     note?: string
   ) {
-    return prisma.$transaction(async (tx) => {
-      await tx.productVariant.update({
-        where: { id: variantId },
-        data: { stock: newStock },
-      });
+    return prisma.$transaction(
+      async (tx) => {
+        await tx.productVariant.update({
+          where: { id: variantId },
+          data: { stock: newStock },
+        });
 
-      return tx.inventoryLog.create({
-        data: { variantId, change, previousStock, newStock, reason, note },
-      });
-    });
+        return tx.inventoryLog.create({
+          data: { variantId, change, previousStock, newStock, reason, note },
+        });
+      },
+      { maxWait: 10000, timeout: 20000 }
+    );
   }
 }

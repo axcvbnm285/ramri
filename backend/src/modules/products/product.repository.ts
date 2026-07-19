@@ -2,31 +2,34 @@ import prisma from "@/lib/prisma";
 
 export class ProductRepository {
   async create(data: any) {
-    return prisma.$transaction(async (tx) => {
-      // Create product + variants
-      const product = await tx.product.create({
-        data,
-        include: {
-          variants: true,
-        },
-      });
-
-      // Create all inventory logs in ONE database query
-      if (product.variants.length > 0) {
-        await tx.inventoryLog.createMany({
-          data: product.variants.map((variant) => ({
-            variantId: variant.id,
-            change: variant.stock,
-            previousStock: 0,
-            newStock: variant.stock,
-            reason: "INITIAL_STOCK",
-            note: "Initial product stock",
-          })),
+    return prisma.$transaction(
+      async (tx) => {
+        // Create product + variants
+        const product = await tx.product.create({
+          data,
+          include: {
+            variants: true,
+          },
         });
-      }
 
-      return product;
-    });
+        // Create all inventory logs in ONE database query
+        if (product.variants.length > 0) {
+          await tx.inventoryLog.createMany({
+            data: product.variants.map((variant) => ({
+              variantId: variant.id,
+              change: variant.stock,
+              previousStock: 0,
+              newStock: variant.stock,
+              reason: "INITIAL_STOCK",
+              note: "Initial product stock",
+            })),
+          });
+        }
+
+        return product;
+      },
+      { maxWait: 10000, timeout: 20000 }
+    );
   }
 
   async findCategory(

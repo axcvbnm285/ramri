@@ -1,7 +1,7 @@
 import { Size } from "@prisma/client";
 
 export interface CreateVariantDto {
-  size: Size;
+  size?: Size | null;
   color?: string;
   price: number;
   stock: number;
@@ -24,7 +24,7 @@ export interface CreateProductDto {
 
 export interface UpdateVariantDto {
   id?: string;
-  size: Size;
+  size?: Size | null;
   color?: string;
   price: number;
   stock: number;

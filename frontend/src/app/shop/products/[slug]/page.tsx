@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Loader2, Minus, Plus, ShoppingBag } from "lucide-react";
@@ -24,6 +24,20 @@ export default function ShopProductDetailPage() {
     () => product?.variants.find((v) => v.id === selectedVariantId) ?? null,
     [product, selectedVariantId]
   );
+
+  // Accessories (jewelry, sunglasses, etc.) often have a single variant with
+  // no size/color — auto-select it instead of forcing an extra click.
+  const isSingleUnnamedVariant =
+    !!product &&
+    product.variants.length === 1 &&
+    !product.variants[0].size &&
+    !product.variants[0].color;
+
+  useEffect(() => {
+    if (isSingleUnnamedVariant && product) {
+      setSelectedVariantId(product.variants[0].id);
+    }
+  }, [isSingleUnnamedVariant, product]);
 
   if (isLoading) {
     return (
@@ -92,19 +106,25 @@ export default function ShopProductDetailPage() {
           <p className="font-medium text-red-500">Out of stock</p>
         ) : (
           <>
-            <div>
-              <p className="mb-2 text-sm font-medium text-gray-700">Select size</p>
-              <VariantSelector
-                variants={product.variants}
-                selectedId={selectedVariantId}
-                onSelect={setSelectedVariantId}
-              />
-              {selectedVariant && (
-                <p className="mt-2 text-sm text-gray-500">
-                  {selectedVariant.stock} in stock
-                </p>
-              )}
-            </div>
+            {isSingleUnnamedVariant ? (
+              selectedVariant && (
+                <p className="text-sm text-gray-500">{selectedVariant.stock} in stock</p>
+              )
+            ) : (
+              <div>
+                <p className="mb-2 text-sm font-medium text-gray-700">Select size</p>
+                <VariantSelector
+                  variants={product.variants}
+                  selectedId={selectedVariantId}
+                  onSelect={setSelectedVariantId}
+                />
+                {selectedVariant && (
+                  <p className="mt-2 text-sm text-gray-500">
+                    {selectedVariant.stock} in stock
+                  </p>
+                )}
+              </div>
+            )}
 
             <div className="flex items-center gap-3">
               <p className="text-sm font-medium text-gray-700">Quantity</p>

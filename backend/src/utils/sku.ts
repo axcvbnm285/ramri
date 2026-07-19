@@ -1,7 +1,7 @@
 export function generateSKU(
   productName: string,
-  size?: string,
-  color?: string
+  size?: string | null,
+  color?: string | null
 ) {
   const prefix = productName
     .replace(/[^a-zA-Z0-9]/g, "")

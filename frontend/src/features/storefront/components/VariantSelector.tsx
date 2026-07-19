@@ -12,7 +12,8 @@ export default function VariantSelector({ variants, selectedId, onSelect }: Prop
   return (
     <div className="flex flex-wrap gap-2">
       {variants.map((variant) => {
-        const label = [variant.size, variant.color].filter(Boolean).join(" / ") || "Standard";
+        const sizeLabel = variant.size === "FREE_SIZE" ? "Free Size" : variant.size;
+        const label = [sizeLabel, variant.color].filter(Boolean).join(" / ") || "Standard";
         const outOfStock = variant.stock <= 0;
         const selected = variant.id === selectedId;
 

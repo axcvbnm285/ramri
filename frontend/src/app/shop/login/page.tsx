@@ -1,13 +1,16 @@
 import { Suspense } from "react";
 
 import CustomerLoginForm from "@/features/customerAuth/components/CustomerLoginForm";
+import AuthShell from "@/components/auth/AuthShell";
 
 export default function ShopLoginPage() {
   return (
-    <div className="flex min-h-[70vh] items-center justify-center">
-      <Suspense>
-        <CustomerLoginForm />
-      </Suspense>
-    </div>
+    <Suspense>
+      <AuthShell>
+        <div className="flex justify-center">
+          <CustomerLoginForm />
+        </div>
+      </AuthShell>
+    </Suspense>
   );
 }
