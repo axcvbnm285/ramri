@@ -1,0 +1,26 @@
+# Render Blueprint — optional. Use this via "New > Blueprint" in the Render
+# dashboard if backend/ is the root of its own git repo. If backend/ instead
+# lives inside a monorepo, skip this file and configure the service manually
+# (see the deployment guide), setting "Root Directory" to backend/.
+services:
+  - type: web
+    name: ramri-api
+    runtime: node
+    plan: free
+    buildCommand: npm install && npx prisma generate && npx prisma migrate deploy && npm run build
+    startCommand: npm run start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: CLIENT_URL
+        sync: false
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false
