@@ -8,7 +8,7 @@ import { toast } from "sonner";
 
 import { useStorefrontProduct } from "@/features/storefront/hooks/useStorefrontProduct";
 import ImageGallery from "@/features/storefront/components/ImageGallery";
-import VariantSelector from "@/features/storefront/components/VariantSelector";
+import MultiVariantPicker from "@/features/storefront/components/MultiVariantPicker";
 import { useCartStore } from "@/features/cart/store/cartStore";
 
 export default function ShopProductDetailPage() {
@@ -17,16 +17,10 @@ export default function ShopProductDetailPage() {
   const { data: product, isLoading, isError } = useStorefrontProduct(slug);
   const addItem = useCartStore((state) => state.addItem);
 
-  const [selectedVariantId, setSelectedVariantId] = useState<string | null>(null);
-  const [quantity, setQuantity] = useState(1);
-
-  const selectedVariant = useMemo(
-    () => product?.variants.find((v) => v.id === selectedVariantId) ?? null,
-    [product, selectedVariantId]
-  );
+  const [quantities, setQuantities] = useState<Record<string, number>>({});
 
   // Accessories (jewelry, sunglasses, etc.) often have a single variant with
-  // no size/color — auto-select it instead of forcing an extra click.
+  // no size/color — auto-select qty 1 instead of forcing an extra tap.
   const isSingleUnnamedVariant =
     !!product &&
     product.variants.length === 1 &&
@@ -35,9 +29,24 @@ export default function ShopProductDetailPage() {
 
   useEffect(() => {
     if (isSingleUnnamedVariant && product) {
-      setSelectedVariantId(product.variants[0].id);
+      setQuantities({ [product.variants[0].id]: 1 });
     }
   }, [isSingleUnnamedVariant, product]);
+
+  const updateQuantity = (variantId: string, qty: number) => {
+    setQuantities((prev) => ({ ...prev, [variantId]: qty }));
+  };
+
+  const selectedEntries = useMemo(
+    () => (product?.variants ?? []).filter((v) => (quantities[v.id] ?? 0) > 0),
+    [product, quantities]
+  );
+
+  const totalQuantity = selectedEntries.reduce((sum, v) => sum + quantities[v.id], 0);
+  const totalPrice = selectedEntries.reduce(
+    (sum, v) => sum + Number(v.price) * quantities[v.id],
+    0
+  );
 
   if (isLoading) {
     return (
@@ -53,28 +62,31 @@ export default function ShopProductDetailPage() {
 
   const prices = product.variants.map((v) => Number(v.price));
   const minPrice = prices.length > 0 ? Math.min(...prices) : 0;
-  const displayPrice = selectedVariant ? Number(selectedVariant.price) : minPrice;
   const inStock = product.variants.some((v) => v.stock > 0);
 
   const handleAddToCart = () => {
-    if (!selectedVariant) {
-      toast.error("Please select a size.");
+    if (selectedEntries.length === 0) {
+      toast.error("Please select at least one size.");
       return;
     }
 
-    addItem({
-      variantId: selectedVariant.id,
-      productSlug: product.slug,
-      productName: product.name,
-      image: product.images[0]?.url,
-      size: selectedVariant.size,
-      color: selectedVariant.color,
-      price: Number(selectedVariant.price),
-      quantity,
-      stock: selectedVariant.stock,
+    selectedEntries.forEach((variant) => {
+      addItem({
+        variantId: variant.id,
+        productSlug: product.slug,
+        productName: product.name,
+        image: product.images[0]?.url,
+        size: variant.size,
+        color: variant.color,
+        price: Number(variant.price),
+        quantity: quantities[variant.id],
+        stock: variant.stock,
+      });
     });
 
-    toast.success("Added to cart");
+    toast.success(
+      totalQuantity > 1 ? `Added ${totalQuantity} items to cart` : "Added to cart"
+    );
     router.push("/shop/cart");
   };
 
@@ -91,15 +103,18 @@ export default function ShopProductDetailPage() {
         <div>
           {product.brand && <p className="text-sm text-gray-500">{product.brand}</p>}
           <h1 className="text-2xl font-bold">{product.name}</h1>
-          <motion.p
-            key={displayPrice}
-            initial={{ opacity: 0, y: -4 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.2 }}
-            className="mt-2 text-2xl font-semibold"
-          >
-            ₹{displayPrice.toLocaleString("en-IN")}
-          </motion.p>
+          <p className="mt-2 text-2xl font-semibold">
+            {selectedEntries.length > 0 ? (
+              <>₹{totalPrice.toLocaleString("en-IN")}</>
+            ) : (
+              <>₹{minPrice.toLocaleString("en-IN")}</>
+            )}
+            {selectedEntries.length > 0 && (
+              <span className="ml-2 text-sm font-normal text-gray-500">
+                for {totalQuantity} item{totalQuantity > 1 ? "s" : ""}
+              </span>
+            )}
+          </p>
         </div>
 
         {!inStock ? (
@@ -107,47 +122,50 @@ export default function ShopProductDetailPage() {
         ) : (
           <>
             {isSingleUnnamedVariant ? (
-              selectedVariant && (
-                <p className="text-sm text-gray-500">{selectedVariant.stock} in stock</p>
-              )
+              <div className="flex items-center gap-3">
+                <p className="text-sm font-medium text-gray-700">Quantity</p>
+                <div className="flex items-center rounded-lg border">
+                  <button
+                    onClick={() =>
+                      updateQuantity(
+                        product.variants[0].id,
+                        Math.max(1, (quantities[product.variants[0].id] ?? 1) - 1)
+                      )
+                    }
+                    className="p-2 text-gray-600 hover:text-black"
+                  >
+                    <Minus size={16} />
+                  </button>
+                  <span className="w-8 text-center">{quantities[product.variants[0].id] ?? 1}</span>
+                  <button
+                    onClick={() =>
+                      updateQuantity(
+                        product.variants[0].id,
+                        Math.min(
+                          product.variants[0].stock,
+                          (quantities[product.variants[0].id] ?? 1) + 1
+                        )
+                      )
+                    }
+                    className="p-2 text-gray-600 hover:text-black"
+                  >
+                    <Plus size={16} />
+                  </button>
+                </div>
+                <p className="text-sm text-gray-500">{product.variants[0].stock} in stock</p>
+              </div>
             ) : (
               <div>
-                <p className="mb-2 text-sm font-medium text-gray-700">Select size</p>
-                <VariantSelector
+                <p className="mb-2 text-sm font-medium text-gray-700">
+                  Select size — you can pick more than one
+                </p>
+                <MultiVariantPicker
                   variants={product.variants}
-                  selectedId={selectedVariantId}
-                  onSelect={setSelectedVariantId}
+                  quantities={quantities}
+                  onChange={updateQuantity}
                 />
-                {selectedVariant && (
-                  <p className="mt-2 text-sm text-gray-500">
-                    {selectedVariant.stock} in stock
-                  </p>
-                )}
               </div>
             )}
-
-            <div className="flex items-center gap-3">
-              <p className="text-sm font-medium text-gray-700">Quantity</p>
-              <div className="flex items-center rounded-lg border">
-                <button
-                  onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                  className="p-2 text-gray-600 hover:text-black"
-                >
-                  <Minus size={16} />
-                </button>
-                <span className="w-8 text-center">{quantity}</span>
-                <button
-                  onClick={() =>
-                    setQuantity((q) =>
-                      selectedVariant ? Math.min(selectedVariant.stock, q + 1) : q + 1
-                    )
-                  }
-                  className="p-2 text-gray-600 hover:text-black"
-                >
-                  <Plus size={16} />
-                </button>
-              </div>
-            </div>
 
             <motion.button
               onClick={handleAddToCart}
