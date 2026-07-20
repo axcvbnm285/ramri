@@ -85,9 +85,13 @@ export default function ShopProductDetailPage() {
     });
 
     toast.success(
-      totalQuantity > 1 ? `Added ${totalQuantity} items to cart` : "Added to cart"
+      totalQuantity > 1 ? `Added ${totalQuantity} items to cart` : "Added to cart",
+      { action: { label: "View Cart", onClick: () => router.push("/shop/cart") } }
     );
-    router.push("/shop/cart");
+
+    // Reset the picker so re-adding doesn't look like the previous
+    // selection is still pending, and the customer can keep shopping.
+    setQuantities(isSingleUnnamedVariant ? { [product.variants[0].id]: 1 } : {});
   };
 
   return (
