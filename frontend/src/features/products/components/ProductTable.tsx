@@ -9,7 +9,7 @@ export default function ProductTable({
   products,
 }: Props) {
   return (
-    <div className="overflow-hidden rounded-xl border bg-white">
+    <div className="overflow-x-auto rounded-xl border bg-white">
 
       <table className="w-full">
 

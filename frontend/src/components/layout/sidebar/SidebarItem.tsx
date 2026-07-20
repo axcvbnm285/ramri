@@ -8,9 +8,10 @@ import { SidebarItem as SidebarItemType } from "@/types/sidebar";
 
 interface Props {
   item: SidebarItemType;
+  onClick?: () => void;
 }
 
-export default function SidebarItem({ item }: Props) {
+export default function SidebarItem({ item, onClick }: Props) {
   const pathname = usePathname();
 
   const Icon = item.icon;
@@ -20,6 +21,7 @@ export default function SidebarItem({ item }: Props) {
   return (
     <Link
       href={item.href}
+      onClick={onClick}
       className={clsx(
         "flex items-center gap-3 rounded-xl px-4 py-3 transition-all duration-200",
         active
