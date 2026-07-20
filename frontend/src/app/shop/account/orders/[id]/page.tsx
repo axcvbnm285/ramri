@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { CheckCircle2, Loader2 } from "lucide-react";
 import { toast } from "sonner";
@@ -18,6 +18,7 @@ export default function ShopOrderDetailPage() {
   const { data: customer, isLoading: isLoadingCustomer, isError } = useCurrentCustomer();
   const { data: order, isLoading, isError: isOrderError } = useMyOrder(id);
   const { mutate: markReceived, isPending } = useMarkMyOrderReceived(id);
+  const markReceivedInFlight = useRef(false);
 
   useEffect(() => {
     if (!isLoadingCustomer && isError) {
@@ -42,10 +43,15 @@ export default function ShopOrderDetailPage() {
   }
 
   const handleMarkReceived = () => {
+    if (markReceivedInFlight.current) return;
+    markReceivedInFlight.current = true;
+
     markReceived(undefined, {
       onSuccess: () => toast.success("Thanks! Order marked as received."),
-      onError: (error) =>
-        toast.error(getErrorMessage(error, "Failed to update order.")),
+      onError: (error) => toast.error(getErrorMessage(error, "Failed to update order.")),
+      onSettled: () => {
+        markReceivedInFlight.current = false;
+      },
     });
   };
 

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Menu } from "lucide-react";
 
 import { useCurrentUser } from "@/features/auth/hooks/useCurrentUser";
+import { useNewOrderNotifications } from "@/features/orders/hooks/useNewOrderNotifications";
 
 import Sidebar from "@/components/layout/sidebar/Sidebar";
 
@@ -21,6 +22,8 @@ export default function AdminLayout({
     isLoading,
     isError,
   } = useCurrentUser();
+
+  useNewOrderNotifications(!!data);
 
   useEffect(() => {
     if (!isLoading && isError) {

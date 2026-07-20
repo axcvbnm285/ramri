@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 import { useUpdateOrderStatus } from "../hooks/useUpdateOrderStatus";
 import { getErrorMessage } from "@/lib/getErrorMessage";
@@ -17,9 +18,13 @@ export default function DispatchForm({ orderId, onDone }: Props) {
   const [trackingUrl, setTrackingUrl] = useState("");
 
   const { mutate, isPending } = useUpdateOrderStatus(orderId);
+  const submitInFlight = useRef(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (submitInFlight.current) return;
+    submitInFlight.current = true;
 
     mutate(
       {
@@ -30,8 +35,10 @@ export default function DispatchForm({ orderId, onDone }: Props) {
       },
       {
         onSuccess: onDone,
-        onError: (error) =>
-          alert(getErrorMessage(error, "Failed to dispatch order.")),
+        onError: (error) => toast.error(getErrorMessage(error, "Failed to dispatch order.")),
+        onSettled: () => {
+          submitInFlight.current = false;
+        },
       }
     );
   };

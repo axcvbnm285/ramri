@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 import { Order } from "../types/order.types";
 import { useUpdateOrderStatus } from "../hooks/useUpdateOrderStatus";
@@ -21,30 +22,53 @@ export default function OrderActions({ order }: Props) {
   const { mutate: cancelOrder, isPending: isCancelling } = useCancelOrder(order.id);
   const { mutate: markReceived, isPending: isMarkingReceived } = useMarkOrderReceived(order.id);
 
+  // Refs (not just isPending) guard against a fast double-click firing the
+  // mutation twice before React commits the disabled state to the DOM —
+  // isPending only updates on the next render, refs update synchronously.
+  const confirmInFlight = useRef(false);
+  const cancelInFlight = useRef(false);
+  const receiveInFlight = useRef(false);
+
   const handleConfirm = () => {
+    if (confirmInFlight.current) return;
+    confirmInFlight.current = true;
+
     updateStatus(
       { status: "CONFIRMED" },
       {
-        onError: (error) =>
-          alert(getErrorMessage(error, "Failed to confirm order.")),
+        onError: (error) => toast.error(getErrorMessage(error, "Failed to confirm order.")),
+        onSettled: () => {
+          confirmInFlight.current = false;
+        },
       }
     );
   };
 
   const handleCancel = () => {
+    if (cancelInFlight.current) return;
     if (!confirm("Cancel this order? Stock will be restored.")) return;
 
+    cancelInFlight.current = true;
+
     cancelOrder(undefined, {
-      onError: (error) => alert(getErrorMessage(error, "Failed to cancel order.")),
+      onError: (error) => toast.error(getErrorMessage(error, "Failed to cancel order.")),
+      onSettled: () => {
+        cancelInFlight.current = false;
+      },
     });
   };
 
   const handleMarkReceived = () => {
+    if (receiveInFlight.current) return;
     if (!confirm("Mark this order as received on the customer's behalf?")) return;
 
+    receiveInFlight.current = true;
+
     markReceived(undefined, {
-      onError: (error) =>
-        alert(getErrorMessage(error, "Failed to update order.")),
+      onError: (error) => toast.error(getErrorMessage(error, "Failed to update order.")),
+      onSettled: () => {
+        receiveInFlight.current = false;
+      },
     });
   };
 
