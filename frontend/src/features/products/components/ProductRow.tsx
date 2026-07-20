@@ -91,7 +91,7 @@ export default function ProductRow({
       <td className="px-6 py-4 text-right">
 
         <Link
-          href={`/products/${product.id}`}
+          href={`/products/${product.id}/edit`}
           className="font-medium hover:underline"
         >
           Edit

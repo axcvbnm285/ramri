@@ -1,37 +1,15 @@
 "use client";
 
-import { useParams } from "next/navigation";
-import { useProduct } from "@/features/products/hooks/useProduct";
-import ProductForm from "@/features/products/components/ProductForm";
+import { useEffect } from "react";
+import { useParams, useRouter } from "next/navigation";
 
-export default function EditProductPage() {
+export default function ProductDetailRedirect() {
   const { id } = useParams<{ id: string }>();
-  const { data, isLoading, isError } = useProduct(id);
+  const router = useRouter();
 
-  if (isLoading) return <div className="p-6">Loading product...</div>;
-  if (isError) return <div className="p-6 text-red-500">Failed to load product.</div>;
-  if (!data) return null;
+  useEffect(() => {
+    router.replace(`/products/${id}/edit`);
+  }, [id, router]);
 
-  const initialValues = {
-    name: data.name ?? "",
-    description: data.description ?? "",
-    brand: data.brand ?? "",
-    categoryId: data.categoryId ?? "",
-    isFeatured: data.isFeatured ?? false,
-    images: data.images ?? [],
-    variants: data.variants?.map((v: any) => ({
-      id: v.id,
-      size: v.size,
-      color: v.color ?? "",
-      price: Number(v.price),
-      stock: Number(v.stock),
-    })) ?? [],
-  };
-
-  return (
-    <div className="p-6">
-      <h1 className="mb-6 text-2xl font-bold">Edit Product</h1>
-      <ProductForm mode="edit" productId={id} initialValues={initialValues} />
-    </div>
-  );
+  return null;
 }

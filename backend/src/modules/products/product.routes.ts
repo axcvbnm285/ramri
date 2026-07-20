@@ -15,4 +15,6 @@ router.post("/", controller.create);
 
 router.get("/:id", controller.getById);
 
+router.patch("/:id", controller.update);
+
 export { router as productRoutes };
