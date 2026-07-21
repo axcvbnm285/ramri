@@ -12,6 +12,13 @@ export const signupValidator = [
   body("email").optional({ values: "falsy" }).isEmail().withMessage("Enter a valid email."),
 ];
 
+export const checkPhoneValidator = [
+  body("phone")
+    .trim()
+    .matches(/^[6-9]\d{9}$/)
+    .withMessage("Enter a valid 10-digit phone number."),
+];
+
 export const loginValidator = [
   body("phone").trim().notEmpty().withMessage("Phone number is required."),
   body("password").notEmpty().withMessage("Password is required."),

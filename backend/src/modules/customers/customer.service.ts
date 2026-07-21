@@ -6,6 +6,12 @@ import { getDefaultStore } from "@/lib/store";
 export class CustomerService {
   private repository = new CustomerRepository();
 
+  async checkPhone(phone: string) {
+    const store = await getDefaultStore();
+    const existing = await this.repository.findByPhone(store.id, phone);
+    return { exists: !!existing };
+  }
+
   async signup(data: CustomerSignupDto) {
     const store = await getDefaultStore();
 

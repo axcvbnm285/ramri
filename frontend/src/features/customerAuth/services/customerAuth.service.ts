@@ -2,6 +2,10 @@ import { api } from "@/services/api";
 import { CustomerLoginDto, CustomerSignupDto } from "../types";
 
 export const customerAuthService = {
+  checkPhone(phone: string) {
+    return api.post("/customers/check-phone", { phone });
+  },
+
   signup(data: CustomerSignupDto) {
     return api.post("/customers/signup", data);
   },

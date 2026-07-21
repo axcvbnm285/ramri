@@ -3,12 +3,18 @@ import { CustomerController } from "./customer.controller";
 import { authMiddleware } from "@/middlewares/auth.middleware";
 import { customerAuthMiddleware } from "@/middlewares/customerAuth.middleware";
 import { validate } from "@/middlewares/validate.middleware";
-import { signupValidator, loginValidator, addressValidator } from "./customer.validator";
+import {
+  signupValidator,
+  loginValidator,
+  addressValidator,
+  checkPhoneValidator,
+} from "./customer.validator";
 
 const router = Router();
 const controller = new CustomerController();
 
 // Customer self-service (storefront)
+router.post("/check-phone", checkPhoneValidator, validate, controller.checkPhone);
 router.post("/signup", signupValidator, validate, controller.signup);
 router.post("/login", loginValidator, validate, controller.login);
 router.post("/logout", customerAuthMiddleware, controller.logout);

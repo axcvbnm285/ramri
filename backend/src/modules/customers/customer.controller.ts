@@ -9,6 +9,15 @@ import { CustomerAuthRequest } from "@/middlewares/customerAuth.middleware";
 export class CustomerController {
   private service = new CustomerService();
 
+  checkPhone = async (req: Request, res: Response) => {
+    try {
+      const result = await this.service.checkPhone(req.body.phone);
+      return success(res, "Checked.", result);
+    } catch (error) {
+      return failure(res, (error as Error).message);
+    }
+  };
+
   signup = async (req: Request, res: Response) => {
     try {
       const customer = await this.service.signup(req.body);
