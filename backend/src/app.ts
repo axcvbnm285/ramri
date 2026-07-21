@@ -40,7 +40,7 @@ app.use("/api/analytics", analyticsRoutes);
 app.use("/api/storefront", storefrontRoutes);
 
 app.get("/", (_, res) => {
-  res.json({ success: true, message: "Ramri API Running 🚀" });
+  res.json({ success: true, message: "SandroNepal API Running 🚀" });
 });
 
 export default app;

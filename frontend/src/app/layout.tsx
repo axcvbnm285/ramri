@@ -5,7 +5,7 @@ import QueryProvider from "@/components/providers/QueryProvider";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Ramri | Fashion for Every You",
+  title: "SandroNepal | Fashion for Every You",
   description: "Shop the latest kurtis, sarees and more. Cash on delivery available.",
   icons: {
     icon: "/logo.png",

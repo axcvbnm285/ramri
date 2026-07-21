@@ -42,7 +42,7 @@ export default function SignupForm() {
   return (
     <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-xl">
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/logo.png" alt="Ramri" className="mb-4 h-12 w-auto" />
+      <img src="/logo-header.png" alt="SandroNepal" className="mb-4 h-12 w-auto" />
 
       <h1 className="text-3xl font-bold">Create your store</h1>
 
@@ -57,7 +57,7 @@ export default function SignupForm() {
           <input
             {...register("storeName")}
             type="text"
-            placeholder="Ramri"
+            placeholder="SandroNepal"
             className="w-full rounded-lg border px-4 py-3 outline-none focus:border-black"
           />
 

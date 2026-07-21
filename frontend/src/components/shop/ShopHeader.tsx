@@ -61,7 +61,7 @@ export default function ShopHeader() {
       <div className="mx-auto flex max-w-6xl items-center gap-6 px-4 py-4 md:gap-10">
         <Link href="/shop" className="flex shrink-0 items-center">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.png" alt="Ramri" className="h-10 w-auto md:h-11" />
+          <img src="/logo-header.png" alt="SandroNepal" className="h-10 w-auto md:h-11" />
         </Link>
 
         <nav className="hidden items-stretch gap-8 md:flex">

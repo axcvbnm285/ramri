@@ -18,7 +18,7 @@ export default function DashboardPage() {
         </h1>
 
         <p className="mt-2 text-gray-500">
-          Welcome back to Ramri.
+          Welcome back to SandroNepal.
         </p>
       </div>
 

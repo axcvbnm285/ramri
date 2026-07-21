@@ -45,7 +45,7 @@ export default function LoginForm() {
   return (
     <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-xl">
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/logo.png" alt="Ramri" className="mb-4 h-12 w-auto" />
+      <img src="/logo-header.png" alt="SandroNepal" className="mb-4 h-12 w-auto" />
 
       <h1 className="text-3xl font-bold">
         Welcome Back

@@ -54,7 +54,7 @@ export default function AdminLayout({
           >
             <Menu size={22} />
           </button>
-          <span className="text-lg font-bold">Ramri</span>
+          <span className="text-lg font-bold">SandroNepal</span>
         </header>
 
         <main className="relative min-w-0 flex-1 overflow-x-hidden bg-gradient-to-br from-pink-50/70 via-gray-50 to-purple-50/50 p-4 sm:p-6">

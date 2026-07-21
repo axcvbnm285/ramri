@@ -4,7 +4,7 @@
 # (see the deployment guide), setting "Root Directory" to backend/.
 services:
   - type: web
-    name: ramri-api
+    name: sandronepal-api
     runtime: node
     plan: free
     buildCommand: npm install && npx prisma generate && npx prisma migrate deploy && npm run build
