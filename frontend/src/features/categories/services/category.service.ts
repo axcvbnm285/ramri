@@ -1,12 +1,19 @@
 import { api } from "@/services/api";
+import { CategorySection } from "../types/category.types";
 
 export interface CreateCategoryPayload {
   name: string;
+  section?: CategorySection;
+  imageUrl?: string;
+  publicId?: string;
 }
 
 export interface UpdateCategoryPayload {
   name?: string;
   isActive?: boolean;
+  section?: CategorySection;
+  imageUrl?: string;
+  publicId?: string;
 }
 
 export const categoryService = {

@@ -1,10 +1,14 @@
 import prisma from "@/lib/prisma";
+import { CategorySection } from "@prisma/client";
 
 export class CategoryRepository {
   async create(data: {
     name: string;
     slug: string;
     storeId: string;
+    section?: CategorySection;
+    imageUrl?: string;
+    publicId?: string;
   }) {
     return prisma.category.create({
       data,
@@ -45,6 +49,9 @@ export class CategoryRepository {
       name?: string;
       slug?: string;
       isActive?: boolean;
+      section?: CategorySection;
+      imageUrl?: string;
+      publicId?: string;
     }
   ) {
     return prisma.category.update({

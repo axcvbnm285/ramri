@@ -2,10 +2,29 @@ import prisma from "@/lib/prisma";
 
 export class StorefrontRepository {
   async findCategories(storeId: string) {
-    return prisma.category.findMany({
-      where: { storeId, isActive: true },
+    const categories = await prisma.category.findMany({
+      where: {
+        storeId,
+        isActive: true,
+        products: { some: { status: "ACTIVE" } },
+      },
       orderBy: { name: "asc" },
+      include: {
+        products: {
+          where: { status: "ACTIVE" },
+          orderBy: { createdAt: "asc" },
+          take: 1,
+          include: {
+            images: { orderBy: { position: "asc" }, take: 1 },
+          },
+        },
+      },
     });
+
+    return categories.map(({ products, ...category }) => ({
+      ...category,
+      imageUrl: category.imageUrl ?? products[0]?.images[0]?.url ?? null,
+    }));
   }
 
   async findCategoryBySlug(storeId: string, slug: string) {

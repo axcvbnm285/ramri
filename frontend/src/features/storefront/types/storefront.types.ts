@@ -1,8 +1,11 @@
+export type CategorySection = "WOMEN" | "BEAUTY";
+
 export interface StorefrontCategory {
   id: string;
   name: string;
   slug: string;
   imageUrl?: string | null;
+  section: CategorySection;
 }
 
 export interface StorefrontProductImage {

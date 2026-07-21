@@ -1,19 +1,37 @@
 "use client";
 
-import { useState } from "react";
-import { Loader2, Plus } from "lucide-react";
+import { useRef, useState } from "react";
+import { ImagePlus, Loader2, Plus, X } from "lucide-react";
 
 import { useCategories } from "@/features/categories/hooks/useCategories";
 import { useCreateCategory } from "@/features/categories/hooks/useCreateCategory";
+import { useImageUpload } from "@/features/products/hooks/useImageUpload";
 import CategoryRow from "@/features/categories/components/CategoryRow";
-import { Category } from "@/features/categories/types/category.types";
+import { Category, CategorySection } from "@/features/categories/types/category.types";
 import { getErrorMessage } from "@/lib/getErrorMessage";
 
 export default function CategoriesPage() {
   const [name, setName] = useState("");
+  const [section, setSection] = useState<CategorySection>("WOMEN");
+  const [image, setImage] = useState<{ url: string; publicId: string } | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const { data: categories, isLoading, isError } = useCategories();
   const { mutate: createCategory, isPending } = useCreateCategory();
+  const { uploadImages, isUploading } = useImageUpload();
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+
+    try {
+      const [uploaded] = await uploadImages([file]);
+      setImage(uploaded);
+    } catch (error) {
+      alert(getErrorMessage(error, "Failed to upload image."));
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,9 +39,17 @@ export default function CategoriesPage() {
     if (!name.trim()) return;
 
     createCategory(
-      { name: name.trim() },
       {
-        onSuccess: () => setName(""),
+        name: name.trim(),
+        section,
+        imageUrl: image?.url,
+        publicId: image?.publicId,
+      },
+      {
+        onSuccess: () => {
+          setName("");
+          setImage(null);
+        },
         onError: (error) =>
           alert(getErrorMessage(error, "Failed to create category.")),
       }
@@ -35,14 +61,47 @@ export default function CategoriesPage() {
       <div>
         <h1 className="text-3xl font-bold">Categories</h1>
         <p className="mt-1 text-gray-500">
-          Organize your products into categories customers can browse.
+          Organize your products into categories customers can browse. Add a photo to make the
+          category look great on the storefront homepage.
         </p>
       </div>
 
       <form
         onSubmit={handleSubmit}
-        className="flex items-center gap-3 rounded-xl border bg-white p-4 shadow-sm"
+        className="flex flex-wrap items-center gap-3 rounded-xl border bg-white p-4 shadow-sm"
       >
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/jpeg,image/png,image/webp"
+          className="hidden"
+          onChange={handleFileChange}
+        />
+
+        {image ? (
+          <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-lg border">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={image.url} alt="" className="h-full w-full object-cover" />
+            <button
+              type="button"
+              onClick={() => setImage(null)}
+              className="absolute right-0.5 top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-black/60 text-white"
+            >
+              <X size={10} />
+            </button>
+          </div>
+        ) : (
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            disabled={isUploading}
+            className="flex h-14 w-14 shrink-0 flex-col items-center justify-center gap-0.5 rounded-lg border border-dashed text-gray-400 hover:border-black hover:text-black disabled:opacity-50"
+          >
+            {isUploading ? <Loader2 size={16} className="animate-spin" /> : <ImagePlus size={16} />}
+            <span className="text-[9px]">Photo</span>
+          </button>
+        )}
+
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -50,9 +109,18 @@ export default function CategoriesPage() {
           className="flex-1 rounded-lg border px-4 py-3 outline-none focus:border-black"
         />
 
+        <select
+          value={section}
+          onChange={(e) => setSection(e.target.value as CategorySection)}
+          className="rounded-lg border px-4 py-3"
+        >
+          <option value="WOMEN">Women</option>
+          <option value="BEAUTY">Beauty</option>
+        </select>
+
         <button
           type="submit"
-          disabled={isPending || !name.trim()}
+          disabled={isPending || isUploading || !name.trim()}
           className="flex items-center gap-2 rounded-lg bg-black px-5 py-3 text-white transition hover:bg-gray-800 disabled:opacity-50"
         >
           <Plus size={18} />
@@ -79,6 +147,7 @@ export default function CategoriesPage() {
               <tr>
                 <th className="px-4 py-3 font-medium">Name</th>
                 <th className="px-4 py-3 font-medium">Slug</th>
+                <th className="px-4 py-3 font-medium">Section</th>
                 <th className="px-4 py-3 font-medium">Status</th>
                 <th className="px-4 py-3"></th>
               </tr>

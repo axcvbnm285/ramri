@@ -22,6 +22,9 @@ export class CategoryService {
       name: data.name,
       slug,
       storeId,
+      section: data.section,
+      imageUrl: data.imageUrl,
+      publicId: data.publicId,
     });
   }
 
@@ -51,6 +54,9 @@ export class CategoryService {
       ...(data.name && { name: data.name }),
       ...(slug && { slug }),
       ...(data.isActive !== undefined && { isActive: data.isActive }),
+      ...(data.section && { section: data.section }),
+      ...(data.imageUrl && { imageUrl: data.imageUrl }),
+      ...(data.publicId && { publicId: data.publicId }),
     });
   }
 
