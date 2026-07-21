@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Loader2, Minus, Plus, ShoppingBag } from "lucide-react";
 import { toast } from "sonner";
@@ -10,11 +10,15 @@ import { useStorefrontProduct } from "@/features/storefront/hooks/useStorefrontP
 import ImageGallery from "@/features/storefront/components/ImageGallery";
 import MultiVariantPicker from "@/features/storefront/components/MultiVariantPicker";
 import { useCartStore } from "@/features/cart/store/cartStore";
+import WishlistButton from "@/features/wishlist/components/WishlistButton";
+import { useCurrentCustomer } from "@/features/customerAuth/hooks/useCurrentCustomer";
 
 export default function ShopProductDetailPage() {
   const { slug } = useParams<{ slug: string }>();
   const router = useRouter();
+  const pathname = usePathname();
   const { data: product, isLoading, isError } = useStorefrontProduct(slug);
+  const { data: customer } = useCurrentCustomer();
   const addItem = useCartStore((state) => state.addItem);
 
   const [quantities, setQuantities] = useState<Record<string, number>>({});
@@ -65,6 +69,12 @@ export default function ShopProductDetailPage() {
   const inStock = product.variants.some((v) => v.stock > 0);
 
   const handleAddToCart = () => {
+    if (!customer) {
+      toast.error("Please login to add items to your cart.");
+      router.push(`/shop/login?redirect=${encodeURIComponent(pathname)}`);
+      return;
+    }
+
     if (selectedEntries.length === 0) {
       toast.error("Please select at least one size.");
       return;
@@ -105,8 +115,25 @@ export default function ShopProductDetailPage() {
 
       <div className="space-y-5">
         <div>
-          {product.brand && <p className="text-sm text-gray-500">{product.brand}</p>}
-          <h1 className="text-2xl font-bold">{product.name}</h1>
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              {product.brand && <p className="text-sm text-gray-500">{product.brand}</p>}
+              <h1 className="text-2xl font-bold">{product.name}</h1>
+            </div>
+
+            <WishlistButton
+              item={{
+                productId: product.id,
+                productSlug: product.slug,
+                productName: product.name,
+                image: product.images[0]?.url,
+                price: minPrice,
+              }}
+              size={22}
+              className="h-11 w-11 shrink-0 border bg-white"
+            />
+          </div>
+
           <p className="mt-2 text-2xl font-semibold">
             {selectedEntries.length > 0 ? (
               <>₹{totalPrice.toLocaleString("en-IN")}</>
