@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Image from "next/image";
 import { ImagePlus, Loader2, Plus, X } from "lucide-react";
 
 import { useCategories } from "@/features/categories/hooks/useCategories";
@@ -80,8 +81,7 @@ export default function CategoriesPage() {
 
         {image ? (
           <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-lg border">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={image.url} alt="" className="h-full w-full object-cover" />
+            <Image src={image.url} alt="" fill sizes="56px" className="object-cover" />
             <button
               type="button"
               onClick={() => setImage(null)}

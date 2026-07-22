@@ -1,11 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 
 import { StorefrontProduct } from "../types/storefront.types";
 import WishlistButton from "@/features/wishlist/components/WishlistButton";
+
+const MotionImage = motion.create(Image);
 
 interface Props {
   product: StorefrontProduct;
@@ -53,15 +56,18 @@ export default function ProductCard({ product, index = 0 }: Props) {
         <div className="relative aspect-[3/4] w-full overflow-hidden bg-gray-100">
           {images.length > 0 ? (
             <AnimatePresence mode="sync">
-              <motion.img
+              <MotionImage
                 key={images[activeImage]?.id ?? activeImage}
                 src={images[activeImage]?.url}
                 alt={product.name}
+                fill
+                sizes="(min-width: 1024px) 20vw, (min-width: 640px) 33vw, 50vw"
+                priority={index < 4}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.35, ease: "easeInOut" }}
-                className="absolute inset-0 h-full w-full object-cover"
+                className="object-cover"
               />
             </AnimatePresence>
           ) : (

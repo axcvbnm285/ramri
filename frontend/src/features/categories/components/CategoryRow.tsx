@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Image from "next/image";
 import { Check, ImagePlus, Loader2, Pencil, Trash2, X } from "lucide-react";
 
 import { Category } from "../types/category.types";
@@ -91,8 +92,13 @@ export default function CategoryRow({ category }: Props) {
                 <Loader2 size={14} className="animate-spin text-gray-400" />
               </span>
             ) : category.imageUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={category.imageUrl} alt="" className="h-full w-full object-cover" />
+              <Image
+                src={category.imageUrl}
+                alt={`${category.name} category photo`}
+                fill
+                sizes="40px"
+                className="object-cover"
+              />
             ) : (
               <span className="flex h-full w-full items-center justify-center text-gray-300">
                 <ImagePlus size={14} />

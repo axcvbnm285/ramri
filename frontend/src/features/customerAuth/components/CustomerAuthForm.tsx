@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
@@ -90,8 +91,14 @@ export default function CustomerAuthForm() {
 
   return (
     <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-xl">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/logo-header.png" alt="SandroNepal" className="mb-4 h-12 w-auto" />
+      <Image
+        src="/logo-header.png"
+        alt="SandroNepal"
+        width={1254}
+        height={978}
+        priority
+        className="mb-4 h-12 w-auto"
+      />
 
       {step === "phone" && (
         <>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
@@ -60,8 +61,14 @@ export default function ShopHeader() {
     <header className="sticky top-0 z-30 border-b border-pink-100 bg-white">
       <div className="mx-auto flex max-w-6xl items-center gap-6 px-4 py-4 md:gap-10">
         <Link href="/shop" className="flex shrink-0 items-center">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo-header.png" alt="SandroNepal" className="h-10 w-auto md:h-11" />
+          <Image
+            src="/logo-header.png"
+            alt="SandroNepal"
+            width={1254}
+            height={978}
+            priority
+            className="h-10 w-auto md:h-11"
+          />
         </Link>
 
         <nav className="hidden items-stretch gap-8 md:flex">

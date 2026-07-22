@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { Heart, ShoppingBag, Sparkles } from "lucide-react";
 
@@ -57,8 +58,14 @@ export default function AuthShell({
           className="relative z-10 flex flex-col items-center px-10 text-center"
         >
           <div className="rounded-3xl bg-white/95 p-5 shadow-2xl">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo.png" alt="SandroNepal" className="h-24 w-auto" />
+            <Image
+              src="/logo.png"
+              alt="SandroNepal"
+              width={1254}
+              height={1254}
+              priority
+              className="h-24 w-auto"
+            />
           </div>
           <p className="mt-8 max-w-sm text-lg font-medium text-white/90">{tagline}</p>
           <p className="mt-2 text-sm text-white/70">{subline}</p>

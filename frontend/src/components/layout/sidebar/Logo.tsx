@@ -1,11 +1,18 @@
+import Image from "next/image";
+
 export default function Logo() {
   return (
     <div className="flex items-center gap-2">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/logo-header.png" alt="SandroNepal" className="h-10 w-auto" />
+      <Image
+        src="/logo-header.png"
+        alt="SandroNepal"
+        width={1254}
+        height={978}
+        className="h-10 w-auto"
+      />
 
       <div>
-        <h1 className="text-lg font-bold">SandroNepal</h1>
+        <p className="text-lg font-bold">SandroNepal</p>
         <p className="text-xs text-gray-500">
           Store Management
         </p>

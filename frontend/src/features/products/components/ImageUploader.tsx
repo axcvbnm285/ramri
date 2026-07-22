@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback } from "react";
+import Image from "next/image";
 import { useDropzone } from "react-dropzone";
 import { useFormContext } from "react-hook-form";
 import { X, Upload, Loader2 } from "lucide-react";
@@ -134,12 +135,14 @@ export default function ImageUploader() {
           {images.map((image) => (
             <div
               key={image.publicId}
-              className="relative overflow-hidden rounded-lg border"
+              className="relative h-40 w-full overflow-hidden rounded-lg border"
             >
-              <img
+              <Image
                 src={image.url}
                 alt="Product"
-                className="h-40 w-full object-cover"
+                fill
+                sizes="(min-width: 640px) 50vw, 100vw"
+                className="object-cover"
               />
 
               <button

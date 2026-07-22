@@ -1,10 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { StorefrontProductImage } from "../types/storefront.types";
+
+const MotionImage = motion.create(Image);
 
 interface Props {
   images: StorefrontProductImage[];
@@ -32,15 +35,18 @@ export default function ImageGallery({ images, productName }: Props) {
     <div className="space-y-3">
       <div className="group relative aspect-[3/4] w-full overflow-hidden rounded-xl bg-gray-100">
         <AnimatePresence mode="wait">
-          <motion.img
+          <MotionImage
             key={active.id}
             src={active.url}
             alt={productName}
+            fill
+            sizes="(min-width: 768px) 50vw, 100vw"
+            priority={activeIndex === 0}
             initial={{ opacity: 0, scale: 1.03 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
-            className="h-full w-full object-cover"
+            className="object-cover"
           />
         </AnimatePresence>
 
@@ -83,12 +89,17 @@ export default function ImageGallery({ images, productName }: Props) {
               onClick={() => setActiveIndex(index)}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className={`h-16 w-16 shrink-0 overflow-hidden rounded-lg border-2 transition-colors ${
+              className={`relative h-16 w-16 shrink-0 overflow-hidden rounded-lg border-2 transition-colors ${
                 index === activeIndex ? "border-pink-600" : "border-transparent"
               }`}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={image.url} alt="" className="h-full w-full object-cover" />
+              <Image
+                src={image.url}
+                alt={`${productName} — view ${index + 1}`}
+                fill
+                sizes="64px"
+                className="object-cover"
+              />
             </motion.button>
           ))}
         </div>
