@@ -1,5 +1,12 @@
+import type { Metadata } from "next";
+
 import LoginForm from "@/features/auth/components/LoginForm";
 import AuthShell from "@/components/auth/AuthShell";
+
+export const metadata: Metadata = {
+  title: "Store Login",
+  robots: { index: false, follow: false },
+};
 
 export default function LoginPage() {
   return (

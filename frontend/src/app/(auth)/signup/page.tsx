@@ -1,5 +1,12 @@
+import type { Metadata } from "next";
+
 import SignupForm from "@/features/auth/components/SignupForm";
 import AuthShell from "@/components/auth/AuthShell";
+
+export const metadata: Metadata = {
+  title: "Create Your Store",
+  robots: { index: false, follow: false },
+};
 
 export default function SignupPage() {
   return (

@@ -1,6 +1,14 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Force all metadata (title/description/OG/Twitter tags) to resolve
+  // before the initial HTML is sent, instead of streaming it in after.
+  // Next.js only guarantees streamed metadata reaches JS-executing bots
+  // (Googlebot); link-preview bots that don't run JS — WhatsApp, Facebook,
+  // Twitter, iMessage — would otherwise miss it. WhatsApp sharing matters
+  // a lot here since this store is transitioning its customers off WhatsApp.
+  htmlLimitedBots: /.*/,
+
   images: {
     remotePatterns: [
       {

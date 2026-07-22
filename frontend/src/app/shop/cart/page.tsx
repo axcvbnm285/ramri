@@ -1,105 +1,12 @@
-"use client";
+import type { Metadata } from "next";
 
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { Minus, Plus, Trash2 } from "lucide-react";
+import CartPageClient from "@/features/cart/components/CartPageClient";
 
-import { useCartStore, useCartTotal } from "@/features/cart/store/cartStore";
+export const metadata: Metadata = {
+  title: "Your Cart",
+  robots: { index: false, follow: true },
+};
 
 export default function ShopCartPage() {
-  const router = useRouter();
-  const items = useCartStore((state) => state.items);
-  const updateQuantity = useCartStore((state) => state.updateQuantity);
-  const removeItem = useCartStore((state) => state.removeItem);
-  const total = useCartTotal();
-
-  if (items.length === 0) {
-    return (
-      <div className="flex min-h-[300px] flex-col items-center justify-center rounded-xl border bg-white text-center">
-        <p className="text-lg font-medium">Your cart is empty</p>
-        <Link href="/shop" className="mt-4 rounded-lg bg-black px-5 py-3 text-white">
-          Continue Shopping
-        </Link>
-      </div>
-    );
-  }
-
-  return (
-    <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-      <div className="space-y-4 lg:col-span-2">
-        <h1 className="text-2xl font-bold">Your Cart</h1>
-
-        {items.map((item) => (
-          <div
-            key={item.variantId}
-            className="flex items-center gap-4 rounded-xl border bg-white p-4"
-          >
-            <div className="h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-gray-100">
-              {item.image && (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={item.image} alt={item.productName} className="h-full w-full object-cover" />
-              )}
-            </div>
-
-            <div className="flex-1">
-              <Link href={`/shop/products/${item.productSlug}`} className="font-medium hover:underline">
-                {item.productName}
-              </Link>
-              <p className="text-sm text-gray-500">
-                {[item.size, item.color].filter(Boolean).join(" / ")}
-              </p>
-              <p className="mt-1 font-medium">₹{item.price.toLocaleString("en-IN")}</p>
-            </div>
-
-            <div className="flex items-center rounded-lg border">
-              <button
-                onClick={() => updateQuantity(item.variantId, item.quantity - 1)}
-                className="p-2 text-gray-600 hover:text-black"
-              >
-                <Minus size={14} />
-              </button>
-              <span className="w-8 text-center text-sm">{item.quantity}</span>
-              <button
-                onClick={() => updateQuantity(item.variantId, item.quantity + 1)}
-                disabled={item.quantity >= item.stock}
-                className="p-2 text-gray-600 hover:text-black disabled:opacity-30"
-              >
-                <Plus size={14} />
-              </button>
-            </div>
-
-            <button
-              onClick={() => removeItem(item.variantId)}
-              className="p-2 text-gray-400 hover:text-red-500"
-            >
-              <Trash2 size={18} />
-            </button>
-          </div>
-        ))}
-      </div>
-
-      <div className="h-fit space-y-4 rounded-xl border bg-white p-6">
-        <h2 className="text-lg font-bold">Order Summary</h2>
-
-        <div className="flex justify-between text-gray-600">
-          <span>Subtotal</span>
-          <span>₹{total.toLocaleString("en-IN")}</span>
-        </div>
-
-        <div className="flex justify-between border-t pt-3 text-lg font-bold">
-          <span>Total</span>
-          <span>₹{total.toLocaleString("en-IN")}</span>
-        </div>
-
-        <p className="text-sm text-gray-500">Payment: Cash on Delivery</p>
-
-        <button
-          onClick={() => router.push("/shop/checkout")}
-          className="w-full rounded-lg bg-black py-3 font-medium text-white transition hover:bg-gray-800"
-        >
-          Proceed to Checkout
-        </button>
-      </div>
-    </div>
-  );
+  return <CartPageClient />;
 }
