@@ -4,7 +4,7 @@ export const signupValidator = [
   body("name").trim().notEmpty().withMessage("Name is required."),
   body("phone")
     .trim()
-    .matches(/^[6-9]\d{9}$/)
+    .matches(/^9[678]\d{8}$/)
     .withMessage("Enter a valid 10-digit phone number."),
   body("password")
     .isLength({ min: 6 })
@@ -15,7 +15,7 @@ export const signupValidator = [
 export const checkPhoneValidator = [
   body("phone")
     .trim()
-    .matches(/^[6-9]\d{9}$/)
+    .matches(/^9[678]\d{8}$/)
     .withMessage("Enter a valid 10-digit phone number."),
 ];
 
@@ -28,7 +28,7 @@ export const addressValidator = [
   body("fullName").trim().notEmpty().withMessage("Full name is required."),
   body("phone")
     .trim()
-    .matches(/^[6-9]\d{9}$/)
+    .matches(/^9[678]\d{8}$/)
     .withMessage("Enter a valid 10-digit phone number."),
   body("line1").trim().notEmpty().withMessage("Address line 1 is required."),
   body("city").trim().notEmpty().withMessage("City is required."),

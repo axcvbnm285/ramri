@@ -103,7 +103,7 @@ export default function CustomerAuthForm() {
           <form onSubmit={phoneForm.handleSubmit(onContinue)} className="mt-6 space-y-4">
             <div>
               <div className="flex items-center rounded-lg border px-4 py-3 focus-within:border-black">
-                <span className="text-gray-500">+91</span>
+                <span className="text-gray-500">+977</span>
                 <span className="mx-3 h-5 w-px bg-gray-300" />
                 <input
                   {...phoneForm.register("phone")}
@@ -146,7 +146,7 @@ export default function CustomerAuthForm() {
             onClick={goToStart}
             className="mb-2 flex items-center gap-1 text-sm text-gray-500 hover:text-black"
           >
-            <ChevronLeft size={16} /> +91 {phone}
+            <ChevronLeft size={16} /> +977 {phone}
           </button>
 
           <h1 className="text-3xl font-bold">Welcome Back</h1>
@@ -202,7 +202,7 @@ export default function CustomerAuthForm() {
             onClick={goToStart}
             className="mb-2 flex items-center gap-1 text-sm text-gray-500 hover:text-black"
           >
-            <ChevronLeft size={16} /> +91 {phone}
+            <ChevronLeft size={16} /> +977 {phone}
           </button>
 
           <h1 className="text-3xl font-bold">Create Account</h1>
