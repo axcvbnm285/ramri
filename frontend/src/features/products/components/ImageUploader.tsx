@@ -98,7 +98,7 @@ export default function ImageUploader() {
 
       <div
         {...getRootProps()}
-        className="cursor-pointer rounded-xl border-2 border-dashed p-8 text-center transition hover:border-black"
+        className="cursor-pointer rounded-xl border-2 border-dashed p-8 text-center transition hover:border-nepal-maroon"
       >
         <input {...getInputProps()} />
 
@@ -152,7 +152,7 @@ export default function ImageUploader() {
                     image.publicId
                   )
                 }
-                className="absolute right-2 top-2 rounded-full bg-black p-1 text-white"
+                className="absolute right-2 top-2 rounded-full bg-nepal-maroon p-1 text-white"
               >
                 <X size={16} />
               </button>

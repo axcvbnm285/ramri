@@ -68,6 +68,9 @@ model Store {
   phone String?
 
   logo String?
+  logoPublicId String?
+
+  isActive Boolean @default(true)
 
   address String?
 
@@ -229,8 +232,13 @@ model Customer {
 
   email String?
 
-  storeId String
-  store   Store  @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  // Optional + SetNull: customer accounts are platform-wide, not owned by any
+  // one store. storeId only records which store's signup form they used
+  // first, so deleting that store must never take the customer account with
+  // it (a Cascade here previously wiped every customer account platform-wide
+  // whenever the one store everyone signed up through got deleted).
+  storeId String?
+  store   Store?  @relation(fields: [storeId], references: [id], onDelete: SetNull)
 
   addresses Address[]
   orders    Order[]

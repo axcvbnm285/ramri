@@ -44,7 +44,7 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-xl">
+    <div className="w-full max-w-md rounded-2xl p-8">
       <Image
         src="/logo-header.png"
         alt="SandroNepal"
@@ -59,12 +59,12 @@ export default function LoginForm() {
       </h1>
 
       <p className="mt-2 text-gray-500">
-        Login to your store dashboard.
+        Namaste! Login to keep your store running and your customers happy.
       </p>
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="mt-8 space-y-5"
+        className="mt-6 space-y-5"
       >
         <div>
           <label className="mb-2 block text-sm font-medium">
@@ -75,7 +75,7 @@ export default function LoginForm() {
             {...register("email")}
             type="email"
             placeholder="owner@example.com"
-            className="w-full rounded-lg border px-4 py-3 outline-none focus:border-black"
+            className="w-full rounded-lg border border-[#C9A227]/40 bg-white/60 px-4 py-3 outline-none focus:border-[#7A2436]"
           />
 
           {errors.email && (
@@ -97,7 +97,7 @@ export default function LoginForm() {
                 showPassword ? "text" : "password"
               }
               placeholder="••••••••"
-              className="w-full rounded-lg border px-4 py-3 pr-12 outline-none focus:border-black"
+              className="w-full rounded-lg border border-[#C9A227]/40 bg-white/60 px-4 py-3 pr-12 outline-none focus:border-[#7A2436]"
             />
 
             <button
@@ -125,7 +125,7 @@ export default function LoginForm() {
         <button
           type="submit"
           disabled={isPending}
-          className="flex w-full items-center justify-center rounded-lg bg-black py-3 font-medium text-white transition hover:bg-gray-900 disabled:opacity-50"
+          className="flex w-full items-center justify-center rounded-lg bg-gradient-to-r from-[#2B0A12] to-[#7A2436] py-3 font-medium text-white transition hover:opacity-90 disabled:opacity-50"
         >
           {isPending ? (
             <>
@@ -143,7 +143,7 @@ export default function LoginForm() {
 
       <p className="mt-6 text-center text-sm text-gray-500">
         Don&apos;t have a store yet?{" "}
-        <Link href="/signup" className="font-medium text-black hover:underline">
+        <Link href="/signup" className="font-semibold text-[#7A2436] hover:underline">
           Create one
         </Link>
       </p>

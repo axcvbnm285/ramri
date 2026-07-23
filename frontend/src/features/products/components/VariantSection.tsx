@@ -33,7 +33,7 @@ export default function VariantSection() {
           step="0.01"
           {...register("basePrice", { valueAsNumber: true })}
           placeholder="999"
-          className="w-full max-w-xs rounded-lg border px-4 py-3 outline-none focus:ring-2 focus:ring-black"
+          className="w-full max-w-xs rounded-lg border px-4 py-3 outline-none focus:ring-2 focus:ring-nepal-maroon"
         />
         {errors.basePrice && (
           <p className="mt-1 text-sm text-red-500">{errors.basePrice.message}</p>
@@ -51,7 +51,7 @@ export default function VariantSection() {
           onClick={() =>
             append({ color: "", priceOverride: null, sizeStocks: [{ size: "", stock: 0 }] })
           }
-          className="flex items-center gap-2 rounded-lg bg-black px-4 py-2 text-white"
+          className="flex items-center gap-2 rounded-lg bg-nepal-maroon px-4 py-2 text-white"
         >
           <Plus size={18} />
           Add Color

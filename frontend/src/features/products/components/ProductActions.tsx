@@ -26,7 +26,7 @@ export default function ProductActions({
       <button
         type="submit"
         disabled={isSubmitting}
-        className="flex items-center justify-center rounded-lg bg-black px-6 py-3 text-white disabled:cursor-not-allowed disabled:opacity-50"
+        className="flex items-center justify-center rounded-lg bg-nepal-maroon px-6 py-3 text-white disabled:cursor-not-allowed disabled:opacity-50"
       >
         {isSubmitting ? (
           <>

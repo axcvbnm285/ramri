@@ -84,7 +84,7 @@ export default function OrderActions({ order }: Props) {
         <button
           onClick={handleConfirm}
           disabled={isConfirming}
-          className="flex w-full items-center justify-center gap-2 rounded-lg bg-black py-2.5 font-medium text-white transition hover:bg-gray-800 disabled:opacity-50"
+          className="flex w-full items-center justify-center gap-2 rounded-lg bg-nepal-maroon py-2.5 font-medium text-white transition hover:bg-nepal-maroon-dark disabled:opacity-50"
         >
           {isConfirming && <Loader2 size={16} className="animate-spin" />}
           Confirm Order
@@ -97,7 +97,7 @@ export default function OrderActions({ order }: Props) {
         ) : (
           <button
             onClick={() => setShowDispatchForm(true)}
-            className="w-full rounded-lg bg-black py-2.5 font-medium text-white transition hover:bg-gray-800"
+            className="w-full rounded-lg bg-nepal-maroon py-2.5 font-medium text-white transition hover:bg-nepal-maroon-dark"
           >
             Dispatch via Porter
           </button>

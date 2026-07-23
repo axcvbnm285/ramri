@@ -20,7 +20,7 @@ export default function EmptyProducts() {
 
       <Link
         href="/products/add"
-        className="mt-6 rounded-lg bg-black px-5 py-3 text-white"
+        className="mt-6 rounded-lg bg-nepal-maroon px-5 py-3 text-white"
       >
         Add Product
       </Link>

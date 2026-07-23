@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import LoginForm from "@/features/auth/components/LoginForm";
-import AuthShell from "@/components/auth/AuthShell";
+import CustomerAuthShell from "@/components/auth/CustomerAuthShell";
 
 export const metadata: Metadata = {
   title: "Store Login",
@@ -10,15 +10,12 @@ export const metadata: Metadata = {
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-pink-50 via-white to-purple-50">
-      <AuthShell
-        tagline="Manage your store, your way."
-        subline="Products, orders, inventory and analytics — all in one place."
-      >
+    <div className="min-h-screen bg-gradient-to-b from-[#FBF3E4] via-[#FAF0DD] to-[#F5E7C8]">
+      <CustomerAuthShell>
         <div className="flex justify-center">
           <LoginForm />
         </div>
-      </AuthShell>
+      </CustomerAuthShell>
     </div>
   );
 }

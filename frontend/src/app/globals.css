@@ -1,1 +1,13 @@
 @import "tailwindcss";
+
+@theme {
+  /* Shared Nepal-theme palette (warm cream + maroon + gold) — used across
+     both the customer storefront and the store-admin dashboard so the
+     whole platform reads as one consistent brand. */
+  --color-nepal-maroon-dark: #2b0a12;
+  --color-nepal-maroon: #7a2436;
+  --color-nepal-gold: #c9a227;
+  --color-nepal-cream: #fbf3e4;
+  --color-nepal-cream-2: #faf0dd;
+  --color-nepal-cream-3: #f5e7c8;
+}

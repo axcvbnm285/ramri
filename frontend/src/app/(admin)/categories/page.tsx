@@ -85,7 +85,7 @@ export default function CategoriesPage() {
             <button
               type="button"
               onClick={() => setImage(null)}
-              className="absolute right-0.5 top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-black/60 text-white"
+              className="absolute right-0.5 top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-nepal-maroon-dark/70 text-white"
             >
               <X size={10} />
             </button>
@@ -95,7 +95,7 @@ export default function CategoriesPage() {
             type="button"
             onClick={() => fileInputRef.current?.click()}
             disabled={isUploading}
-            className="flex h-14 w-14 shrink-0 flex-col items-center justify-center gap-0.5 rounded-lg border border-dashed text-gray-400 hover:border-black hover:text-black disabled:opacity-50"
+            className="flex h-14 w-14 shrink-0 flex-col items-center justify-center gap-0.5 rounded-lg border border-dashed text-gray-400 hover:border-nepal-maroon hover:text-nepal-maroon disabled:opacity-50"
           >
             {isUploading ? <Loader2 size={16} className="animate-spin" /> : <ImagePlus size={16} />}
             <span className="text-[9px]">Photo</span>
@@ -106,7 +106,7 @@ export default function CategoriesPage() {
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="New category name (e.g. Kurtis)"
-          className="flex-1 rounded-lg border px-4 py-3 outline-none focus:border-black"
+          className="flex-1 rounded-lg border px-4 py-3 outline-none focus:border-nepal-maroon"
         />
 
         <select
@@ -121,7 +121,7 @@ export default function CategoriesPage() {
         <button
           type="submit"
           disabled={isPending || isUploading || !name.trim()}
-          className="flex items-center gap-2 rounded-lg bg-black px-5 py-3 text-white transition hover:bg-gray-800 disabled:opacity-50"
+          className="flex items-center gap-2 rounded-lg bg-nepal-maroon px-5 py-3 text-white transition hover:bg-nepal-maroon-dark disabled:opacity-50"
         >
           <Plus size={18} />
           Add Category

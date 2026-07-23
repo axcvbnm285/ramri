@@ -23,7 +23,7 @@ export default function BasicInfo() {
           <input
             {...register("name")}
             placeholder="Enter product name"
-            className="w-full rounded-lg border px-4 py-3 outline-none focus:ring-2 focus:ring-black"
+            className="w-full rounded-lg border px-4 py-3 outline-none focus:ring-2 focus:ring-nepal-maroon"
           />
 
           {errors.name && (
@@ -42,7 +42,7 @@ export default function BasicInfo() {
             {...register("description")}
             rows={5}
             placeholder="Write a description..."
-            className="w-full rounded-lg border px-4 py-3 outline-none focus:ring-2 focus:ring-black"
+            className="w-full rounded-lg border px-4 py-3 outline-none focus:ring-2 focus:ring-nepal-maroon"
           />
         </div>
 
@@ -54,7 +54,7 @@ export default function BasicInfo() {
           <input
             {...register("brand")}
             placeholder="Brand name"
-            className="w-full rounded-lg border px-4 py-3 outline-none focus:ring-2 focus:ring-black"
+            className="w-full rounded-lg border px-4 py-3 outline-none focus:ring-2 focus:ring-nepal-maroon"
           />
         </div>
       </div>

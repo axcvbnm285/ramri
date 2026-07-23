@@ -75,7 +75,7 @@ export default function ProductsPage() {
 
         <Link
           href="/products/add"
-          className="flex items-center gap-2 rounded-lg bg-black px-5 py-3 text-white transition hover:bg-gray-800"
+          className="flex items-center gap-2 rounded-lg bg-nepal-maroon px-5 py-3 text-white transition hover:bg-nepal-maroon-dark"
         >
           <Plus size={18} />
           Add Product

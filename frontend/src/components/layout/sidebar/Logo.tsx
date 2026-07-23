@@ -12,7 +12,7 @@ export default function Logo() {
       />
 
       <div>
-        <p className="text-lg font-bold">SandroNepal</p>
+        <p className="text-lg font-bold text-nepal-maroon">SandroNepal</p>
         <p className="text-xs text-gray-500">
           Store Management
         </p>

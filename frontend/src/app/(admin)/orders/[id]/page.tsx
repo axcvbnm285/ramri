@@ -83,7 +83,7 @@ export default function OrderDetailPage() {
                   href={order.trackingUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm font-medium text-pink-600 hover:underline"
+                  className="text-sm font-medium text-nepal-maroon hover:underline"
                 >
                   Track shipment
                 </a>

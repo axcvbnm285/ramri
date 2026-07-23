@@ -12,6 +12,7 @@ import { orderRoutes } from "@/modules/orders";
 import { inventoryRoutes } from "@/modules/inventory";
 import { analyticsRoutes } from "@/modules/analytics";
 import { storefrontRoutes } from "@/modules/storefront";
+import { settingsRoutes } from "@/modules/settings";
 
 
 
@@ -38,6 +39,7 @@ app.use("/api/orders", orderRoutes);
 app.use("/api/inventory", inventoryRoutes);
 app.use("/api/analytics", analyticsRoutes);
 app.use("/api/storefront", storefrontRoutes);
+app.use("/api/settings", settingsRoutes);
 
 app.get("/", (_, res) => {
   res.json({ success: true, message: "SandroNepal API Running 🚀" });

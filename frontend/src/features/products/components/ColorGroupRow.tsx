@@ -98,9 +98,9 @@ export default function ColorGroupRow({ groupIndex, onRemoveGroup, canRemoveGrou
             {fields.map((field, sizeIndex) => (
               <div
                 key={field.id}
-                className="flex items-center gap-1.5 rounded-lg border border-pink-600 bg-pink-50 px-2 py-1.5"
+                className="flex items-center gap-1.5 rounded-lg border border-nepal-maroon bg-nepal-cream-3 px-2 py-1.5"
               >
-                <span className="text-sm font-medium text-pink-700">
+                <span className="text-sm font-medium text-nepal-maroon">
                   {SIZE_LABELS[activeSizes[sizeIndex]?.size ?? ""] ?? activeSizes[sizeIndex]?.size}
                 </span>
                 <input
@@ -113,7 +113,7 @@ export default function ColorGroupRow({ groupIndex, onRemoveGroup, canRemoveGrou
                 <button
                   type="button"
                   onClick={() => removeSize(sizeIndex)}
-                  className="text-pink-400 hover:text-pink-700"
+                  className="text-nepal-gold hover:text-nepal-maroon"
                 >
                   <X size={14} />
                 </button>
@@ -129,7 +129,7 @@ export default function ColorGroupRow({ groupIndex, onRemoveGroup, canRemoveGrou
                 key={size}
                 type="button"
                 onClick={() => addSize(size)}
-                className="rounded-lg border border-dashed px-3 py-1 text-sm text-gray-500 hover:border-pink-600 hover:text-pink-600"
+                className="rounded-lg border border-dashed px-3 py-1 text-sm text-gray-500 hover:border-nepal-maroon hover:text-nepal-maroon"
               >
                 + {SIZE_LABELS[size] ?? size}
               </button>

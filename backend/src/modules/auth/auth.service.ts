@@ -43,6 +43,10 @@ export class AuthService {
     throw new Error("Invalid email or password.");
   }
 
+  if (!user.store.isActive) {
+    throw new Error("This store has been deactivated.");
+  }
+
   const { password, ...safeUser } = user;
 
   return safeUser;

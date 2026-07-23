@@ -9,7 +9,7 @@ export default function OrderTimeline({ logs }: Props) {
     <div className="space-y-4">
       {logs.map((log) => (
         <div key={log.id} className="flex items-start gap-3">
-          <div className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-pink-600" />
+          <div className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-nepal-maroon" />
           <div>
             <p className="font-medium">
               {log.status}{" "}

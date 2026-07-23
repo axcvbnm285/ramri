@@ -16,7 +16,7 @@ export default function OrderFilters({ search, setSearch, status, setStatus }: P
           placeholder="Search order #, customer, phone..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="rounded-lg border px-4 py-2 outline-none focus:ring-2 focus:ring-black"
+          className="rounded-lg border px-4 py-2 outline-none focus:ring-2 focus:ring-nepal-maroon"
         />
 
         <select

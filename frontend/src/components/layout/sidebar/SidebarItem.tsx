@@ -25,8 +25,8 @@ export default function SidebarItem({ item, onClick }: Props) {
       className={clsx(
         "flex items-center gap-3 rounded-xl px-4 py-3 transition-all duration-200",
         active
-          ? "bg-pink-600 text-white shadow-md"
-          : "text-gray-600 hover:bg-pink-100 hover:text-pink-600"
+          ? "bg-nepal-maroon text-white shadow-md"
+          : "text-gray-600 hover:bg-nepal-cream-3/60 hover:text-nepal-maroon"
       )}
     >
       <Icon size={20} />

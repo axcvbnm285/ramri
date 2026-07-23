@@ -24,7 +24,7 @@ export default function StatsCard({
           </h2>
         </div>
 
-        <Icon className="text-pink-600" size={34} />
+        <Icon className="text-nepal-maroon" size={34} />
       </div>
     </div>
   );

@@ -58,9 +58,9 @@ export function useNewOrderNotifications(enabled: boolean) {
               toast.dismiss(t);
               router.push(`/orders/${order.id}`);
             }}
-            className="flex w-80 items-start gap-3 rounded-xl border border-pink-200 bg-white p-4 text-left shadow-lg transition hover:border-pink-400"
+            className="flex w-80 items-start gap-3 rounded-xl border border-nepal-gold/30 bg-white p-4 text-left shadow-lg transition hover:border-nepal-gold"
           >
-            <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-pink-100 text-pink-600">
+            <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-nepal-cream-3 text-nepal-maroon">
               <ShoppingBag size={18} />
             </span>
             <span className="min-w-0">

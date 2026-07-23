@@ -39,7 +39,7 @@ export default function CustomersPage() {
         placeholder="Search by name or phone..."
         value={search}
         onChange={(e) => handleSearchChange(e.target.value)}
-        className="w-full max-w-sm rounded-lg border px-4 py-2 outline-none focus:ring-2 focus:ring-black"
+        className="w-full max-w-sm rounded-lg border px-4 py-2 outline-none focus:ring-2 focus:ring-nepal-maroon"
       />
 
       {isLoading ? (
@@ -82,7 +82,7 @@ export default function CustomersPage() {
                   <td className="px-6 py-4 text-right">
                     <Link
                       href={`/customers/${customer.id}`}
-                      className="text-sm font-medium text-pink-600 hover:underline"
+                      className="text-sm font-medium text-nepal-maroon hover:underline"
                     >
                       View
                     </Link>

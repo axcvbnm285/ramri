@@ -7,6 +7,7 @@ export class StorefrontRepository {
     const categories = await prisma.category.findMany({
       where: {
         isActive: true,
+        store: { isActive: true },
         products: { some: { status: "ACTIVE" } },
       },
       orderBy: { name: "asc" },
@@ -31,7 +32,7 @@ export class StorefrontRepository {
 
   async findCategoryBySlug(slug: string) {
     return prisma.category.findFirst({
-      where: { slug, isActive: true },
+      where: { slug, isActive: true, store: { isActive: true } },
       include: { store: STORE_SELECT },
     });
   }
@@ -49,6 +50,7 @@ export class StorefrontRepository {
 
     const where: any = {
       status: "ACTIVE",
+      store: { isActive: true },
     };
 
     if (query.categorySlug) {
@@ -106,7 +108,7 @@ export class StorefrontRepository {
 
   async findProductBySlug(slug: string) {
     return prisma.product.findFirst({
-      where: { slug, status: "ACTIVE" },
+      where: { slug, status: "ACTIVE", store: { isActive: true } },
       include: {
         category: true,
         store: STORE_SELECT,

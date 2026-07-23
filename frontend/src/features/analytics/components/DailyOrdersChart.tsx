@@ -9,7 +9,7 @@ interface Props {
   data: DailyOrdersPoint[];
 }
 
-const BAR_COLOR = "#db2777"; // brand pink-600, matches rest of admin UI
+const BAR_COLOR = "#7A2436"; // nepal-maroon, matches rest of admin UI
 const WIDTH = 720;
 const HEIGHT = 220;
 const PADDING_LEFT = 36;
@@ -88,7 +88,7 @@ export default function DailyOrdersChart({ data }: Props) {
                     x2={WIDTH}
                     y1={y}
                     y2={y}
-                    stroke="#e5e7eb"
+                    stroke="#EFE3C8"
                     strokeWidth={1}
                   />
                   <text x={0} y={y + 4} fontSize={10} fill="#9ca3af">

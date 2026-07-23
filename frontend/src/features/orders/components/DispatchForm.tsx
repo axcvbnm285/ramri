@@ -50,7 +50,7 @@ export default function DispatchForm({ orderId, onDone }: Props) {
         <input
           value={courierName}
           onChange={(e) => setCourierName(e.target.value)}
-          className="w-full rounded-lg border px-3 py-2 outline-none focus:border-black"
+          className="w-full rounded-lg border px-3 py-2 outline-none focus:border-nepal-maroon"
         />
       </div>
 
@@ -60,7 +60,7 @@ export default function DispatchForm({ orderId, onDone }: Props) {
           value={trackingId}
           onChange={(e) => setTrackingId(e.target.value)}
           placeholder="Porter tracking ID"
-          className="w-full rounded-lg border px-3 py-2 outline-none focus:border-black"
+          className="w-full rounded-lg border px-3 py-2 outline-none focus:border-nepal-maroon"
         />
       </div>
 
@@ -70,14 +70,14 @@ export default function DispatchForm({ orderId, onDone }: Props) {
           value={trackingUrl}
           onChange={(e) => setTrackingUrl(e.target.value)}
           placeholder="https://porter.in/track/..."
-          className="w-full rounded-lg border px-3 py-2 outline-none focus:border-black"
+          className="w-full rounded-lg border px-3 py-2 outline-none focus:border-nepal-maroon"
         />
       </div>
 
       <button
         type="submit"
         disabled={isPending}
-        className="flex w-full items-center justify-center gap-2 rounded-lg bg-black py-2.5 font-medium text-white transition hover:bg-gray-800 disabled:opacity-50"
+        className="flex w-full items-center justify-center gap-2 rounded-lg bg-nepal-maroon py-2.5 font-medium text-white transition hover:bg-nepal-maroon-dark disabled:opacity-50"
       >
         {isPending && <Loader2 size={16} className="animate-spin" />}
         Confirm Dispatch

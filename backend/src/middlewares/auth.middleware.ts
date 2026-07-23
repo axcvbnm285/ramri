@@ -41,17 +41,23 @@ export async function authMiddleware(
         email: true,
         role: true,
         storeId: true,
+        store: { select: { isActive: true } },
       },
     });
 
-    if (!user) {
+    if (!user || !user.store.isActive) {
       return res.status(401).json({
         success: false,
         message: "Unauthorized",
       });
     }
 
-    req.user = user;
+    req.user = {
+      id: user.id,
+      email: user.email,
+      role: user.role,
+      storeId: user.storeId,
+    };
 
     next();
   } catch {

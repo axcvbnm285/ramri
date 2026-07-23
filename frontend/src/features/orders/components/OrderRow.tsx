@@ -32,7 +32,7 @@ export default function OrderRow({ order }: Props) {
         })}
       </td>
       <td className="px-6 py-4 text-right">
-        <Link href={`/orders/${order.id}`} className="text-sm font-medium text-pink-600 hover:underline">
+        <Link href={`/orders/${order.id}`} className="text-sm font-medium text-nepal-maroon hover:underline">
           View
         </Link>
       </td>

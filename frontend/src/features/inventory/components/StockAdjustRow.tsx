@@ -53,7 +53,7 @@ export default function StockAdjustRow({ variant }: Props) {
           <button
             onClick={handleRestock}
             disabled={isPending}
-            className="rounded-lg bg-black px-3 py-1.5 text-sm font-medium text-white transition hover:bg-gray-800 disabled:opacity-50"
+            className="rounded-lg bg-nepal-maroon px-3 py-1.5 text-sm font-medium text-white transition hover:bg-nepal-maroon-dark disabled:opacity-50"
           >
             Restock
           </button>

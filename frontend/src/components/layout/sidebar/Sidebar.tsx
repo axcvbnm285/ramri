@@ -40,7 +40,7 @@ export default function Sidebar({ open, onClose }: Props) {
   return (
     <>
       {/* Desktop sidebar */}
-      <aside className="hidden h-screen w-72 flex-col justify-between border-r bg-white p-5 lg:flex">
+      <aside className="hidden h-screen w-72 flex-col justify-between border-r border-nepal-gold/20 bg-white p-5 lg:flex">
         <SidebarContent />
       </aside>
 
