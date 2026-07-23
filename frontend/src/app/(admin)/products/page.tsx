@@ -104,10 +104,28 @@ export default function ProductsPage() {
         <ProductTable products={products} />
       )}
 
-      {/* Pagination (coming next) */}
       {pagination && (
-        <div className="text-sm text-gray-500">
-          Page {pagination.page} of {pagination.totalPages} • {pagination.total} products
+        <div className="flex items-center justify-between text-sm text-gray-500">
+          <span>
+            Page {pagination.page} of {pagination.totalPages} • {pagination.total} products
+          </span>
+
+          <div className="flex gap-2">
+            <button
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
+              disabled={page <= 1}
+              className="rounded-lg border px-3 py-1.5 disabled:opacity-40"
+            >
+              Previous
+            </button>
+            <button
+              onClick={() => setPage((p) => Math.min(pagination.totalPages, p + 1))}
+              disabled={page >= pagination.totalPages}
+              className="rounded-lg border px-3 py-1.5 disabled:opacity-40"
+            >
+              Next
+            </button>
+          </div>
         </div>
       )}
     </div>

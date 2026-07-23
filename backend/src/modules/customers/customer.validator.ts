@@ -35,6 +35,6 @@ export const addressValidator = [
   body("state").trim().notEmpty().withMessage("State is required."),
   body("pincode")
     .trim()
-    .matches(/^\d{6}$/)
-    .withMessage("Enter a valid 6-digit pincode."),
+    .matches(/^\d{5}$/)
+    .withMessage("Enter a valid 5-digit postal code."),
 ];

@@ -119,7 +119,7 @@ export default function ProductCard({ product, index = 0 }: Props) {
 
         <div className="p-2 pt-2.5">
           <p className="truncate text-sm font-medium text-gray-900">{product.name}</p>
-          <p className="truncate text-xs text-gray-500">{product.brand || " "}</p>
+          <p className="truncate text-xs text-gray-500">Sold by {product.store.name}</p>
           <p className="mt-1 text-sm font-semibold text-gray-900">
             ₹{minPrice.toLocaleString("en-IN")}
           </p>

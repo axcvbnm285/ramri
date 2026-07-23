@@ -2,14 +2,9 @@ import prisma from "@/lib/prisma";
 import { AddressDto } from "./customer.types";
 
 export class CustomerRepository {
-  async findByPhone(storeId: string, phone: string) {
+  async findByPhone(phone: string) {
     return prisma.customer.findUnique({
-      where: {
-        storeId_phone: {
-          storeId,
-          phone,
-        },
-      },
+      where: { phone },
     });
   }
 

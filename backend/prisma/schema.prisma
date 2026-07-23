@@ -238,7 +238,7 @@ model Customer {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([storeId, phone])
+  @@unique([phone])
 }
 
 model Address {

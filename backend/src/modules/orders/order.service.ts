@@ -9,7 +9,7 @@ const ALLOWED_TRANSITIONS: Record<string, string[]> = {
 export class OrderService {
   private repository = new OrderRepository();
 
-  async placeOrder(storeId: string, customerId: string, data: PlaceOrderDto) {
+  async placeOrder(customerId: string, data: PlaceOrderDto) {
     if (!data.items || data.items.length === 0) {
       throw new Error("Your cart is empty.");
     }
@@ -20,13 +20,7 @@ export class OrderService {
       throw new Error("Delivery address not found.");
     }
 
-    return this.repository.placeOrder(
-      storeId,
-      customerId,
-      data.addressId,
-      data.items,
-      data.notes
-    );
+    return this.repository.placeOrder(customerId, data.addressId, data.items, data.notes);
   }
 
   async getAllForStore(storeId: string, query: any) {

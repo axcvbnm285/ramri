@@ -11,6 +11,8 @@ export interface CartItem {
   price: number;
   quantity: number;
   stock: number;
+  storeId?: string;
+  storeName?: string;
 }
 
 interface CartState {

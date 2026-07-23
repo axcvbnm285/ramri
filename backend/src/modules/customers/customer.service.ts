@@ -7,20 +7,21 @@ export class CustomerService {
   private repository = new CustomerRepository();
 
   async checkPhone(phone: string) {
-    const store = await getDefaultStore();
-    const existing = await this.repository.findByPhone(store.id, phone);
+    const existing = await this.repository.findByPhone(phone);
     return { exists: !!existing };
   }
 
   async signup(data: CustomerSignupDto) {
-    const store = await getDefaultStore();
-
-    const existing = await this.repository.findByPhone(store.id, data.phone);
+    const existing = await this.repository.findByPhone(data.phone);
 
     if (existing) {
       throw new Error("An account with this phone number already exists.");
     }
 
+    // Customer accounts are platform-wide (not tied to one store), but the
+    // column is still required — record whichever store's signup form they
+    // used first. Purely informational, not used for auth or scoping.
+    const store = await getDefaultStore();
     const hashedPassword = await hashPassword(data.password);
 
     const customer = await this.repository.create({
@@ -36,9 +37,7 @@ export class CustomerService {
   }
 
   async login(data: CustomerLoginDto) {
-    const store = await getDefaultStore();
-
-    const customer = await this.repository.findByPhone(store.id, data.phone);
+    const customer = await this.repository.findByPhone(data.phone);
 
     if (!customer) {
       throw new Error("Invalid phone number or password.");

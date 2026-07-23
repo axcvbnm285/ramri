@@ -8,8 +8,12 @@ export class OrderRepository {
     return prisma.address.findFirst({ where: { id, customerId } });
   }
 
+  // A cart can span multiple sellers (stores) on the marketplace. Each store
+  // fulfills its own orders independently, so one checkout creates one Order
+  // per store represented in the cart, all inside a single transaction —
+  // if any store's items fail (e.g. out of stock), the whole checkout rolls
+  // back rather than leaving some orders placed and others not.
   async placeOrder(
-    storeId: string,
     customerId: string,
     addressId: string,
     items: PlaceOrderItemDto[],
@@ -17,28 +21,7 @@ export class OrderRepository {
   ) {
     return prisma.$transaction(
       async (tx) => {
-      const orderNumber = generateOrderNumber();
-
-      let subtotal = 0;
-
-      const orderItemsData: {
-        variantId: string;
-        productName: string;
-        size: any;
-        color: string | null;
-        price: any;
-        quantity: number;
-        subtotal: number;
-      }[] = [];
-
-      const inventoryLogs: {
-        variantId: string;
-        change: number;
-        previousStock: number;
-        newStock: number;
-        reason: "ORDER";
-        note: string;
-      }[] = [];
+      const variantsByItem = new Map<string, any>();
 
       for (const item of items) {
         const variant = await tx.productVariant.findUnique({
@@ -46,70 +29,113 @@ export class OrderRepository {
           include: { product: true },
         });
 
-        if (!variant || variant.product.storeId !== storeId) {
+        if (!variant) {
           throw new Error("One or more items in your cart are no longer available.");
         }
 
-        if (variant.stock < item.quantity) {
-          const label = [variant.product.name, variant.size, variant.color]
-            .filter(Boolean)
-            .join(" - ");
-          throw new Error(`${label} is out of stock.`);
+        variantsByItem.set(item.variantId, variant);
+      }
+
+      const itemsByStore = new Map<string, { item: PlaceOrderItemDto; variant: any }[]>();
+
+      for (const item of items) {
+        const variant = variantsByItem.get(item.variantId)!;
+        const storeId = variant.product.storeId;
+        const group = itemsByStore.get(storeId) ?? [];
+        group.push({ item, variant });
+        itemsByStore.set(storeId, group);
+      }
+
+      const orders = [];
+
+      for (const [storeId, groupedItems] of itemsByStore) {
+        const orderNumber = generateOrderNumber();
+
+        let subtotal = 0;
+
+        const orderItemsData: {
+          variantId: string;
+          productName: string;
+          size: any;
+          color: string | null;
+          price: any;
+          quantity: number;
+          subtotal: number;
+        }[] = [];
+
+        const inventoryLogs: {
+          variantId: string;
+          change: number;
+          previousStock: number;
+          newStock: number;
+          reason: "ORDER";
+          note: string;
+        }[] = [];
+
+        for (const { item, variant } of groupedItems) {
+          if (variant.stock < item.quantity) {
+            const label = [variant.product.name, variant.size, variant.color]
+              .filter(Boolean)
+              .join(" - ");
+            throw new Error(`${label} is out of stock.`);
+          }
+
+          const previousStock = variant.stock;
+          const newStock = previousStock - item.quantity;
+
+          await tx.productVariant.update({
+            where: { id: variant.id },
+            data: { stock: newStock },
+          });
+
+          inventoryLogs.push({
+            variantId: variant.id,
+            change: -item.quantity,
+            previousStock,
+            newStock,
+            reason: "ORDER",
+            note: `Order #${orderNumber}`,
+          });
+
+          const lineSubtotal = Number(variant.price) * item.quantity;
+          subtotal += lineSubtotal;
+
+          orderItemsData.push({
+            variantId: variant.id,
+            productName: variant.product.name,
+            size: variant.size,
+            color: variant.color,
+            price: variant.price,
+            quantity: item.quantity,
+            subtotal: lineSubtotal,
+          });
         }
 
-        const previousStock = variant.stock;
-        const newStock = previousStock - item.quantity;
-
-        await tx.productVariant.update({
-          where: { id: variant.id },
-          data: { stock: newStock },
-        });
-
-        inventoryLogs.push({
-          variantId: variant.id,
-          change: -item.quantity,
-          previousStock,
-          newStock,
-          reason: "ORDER",
-          note: `Order #${orderNumber}`,
-        });
-
-        const lineSubtotal = Number(variant.price) * item.quantity;
-        subtotal += lineSubtotal;
-
-        orderItemsData.push({
-          variantId: variant.id,
-          productName: variant.product.name,
-          size: variant.size,
-          color: variant.color,
-          price: variant.price,
-          quantity: item.quantity,
-          subtotal: lineSubtotal,
-        });
-      }
-
-      const order = await tx.order.create({
-        data: {
-          orderNumber,
-          storeId,
-          customerId,
-          addressId,
-          notes,
-          subtotal,
-          total: subtotal,
-          items: { create: orderItemsData },
-          statusLogs: {
-            create: { status: "PENDING", changedBy: "CUSTOMER" },
+        const order = await tx.order.create({
+          data: {
+            orderNumber,
+            storeId,
+            customerId,
+            addressId,
+            notes,
+            subtotal,
+            total: subtotal,
+            items: { create: orderItemsData },
+            statusLogs: {
+              create: { status: "PENDING", changedBy: "CUSTOMER" },
+            },
           },
-        },
-        include: { items: true, address: true },
-      });
+          include: { items: true, address: true },
+        });
 
-      if (inventoryLogs.length > 0) {
-        await tx.inventoryLog.createMany({ data: inventoryLogs });
+        if (inventoryLogs.length > 0) {
+          await tx.inventoryLog.createMany({ data: inventoryLogs });
+        }
+
+        orders.push(order);
       }
 
-      return order;
+      return orders;
       },
       { maxWait: 10000, timeout: 20000 }
     );

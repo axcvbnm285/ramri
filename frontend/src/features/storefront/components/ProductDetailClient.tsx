@@ -91,6 +91,8 @@ export default function ProductDetailClient() {
         price: Number(variant.price),
         quantity: quantities[variant.id],
         stock: variant.stock,
+        storeId: product.store.id,
+        storeName: product.store.name,
       });
     });
 
@@ -119,6 +121,9 @@ export default function ProductDetailClient() {
             <div>
               {product.brand && <p className="text-sm text-gray-500">{product.brand}</p>}
               <h1 className="text-2xl font-bold">{product.name}</h1>
+              <p className="mt-1 text-xs font-medium text-gray-400">
+                Sold by {product.store.name}
+              </p>
             </div>
 
             <WishlistButton

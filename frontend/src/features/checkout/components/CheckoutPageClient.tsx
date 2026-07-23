@@ -51,6 +51,13 @@ export default function CheckoutPageClient() {
     );
   }
 
+  const storeGroups = items.reduce<Record<string, typeof items>>((groups, item) => {
+    const key = item.storeName ?? "Other";
+    groups[key] = [...(groups[key] ?? []), item];
+    return groups;
+  }, {});
+  const storeNames = Object.keys(storeGroups);
+
   const handlePlaceOrder = () => {
     if (!effectiveAddressId) {
       toast.error("Please select a delivery address.");
@@ -65,8 +72,17 @@ export default function CheckoutPageClient() {
       {
         onSuccess: (response) => {
           clearCart();
-          toast.success("Order placed successfully!");
-          router.push(`/shop/account/orders/${response.data.data.id}`);
+          const orders: { id: string }[] = response.data.data;
+
+          if (orders.length === 1) {
+            toast.success("Order placed successfully!");
+            router.push(`/shop/account/orders/${orders[0].id}`);
+          } else {
+            toast.success(
+              `Order placed! Split into ${orders.length} orders — one per seller.`
+            );
+            router.push("/shop/account/orders");
+          }
         },
         onError: (error) => toast.error(getErrorMessage(error, "Failed to place order.")),
       }
@@ -137,12 +153,28 @@ export default function CheckoutPageClient() {
       <div className="h-fit space-y-4 rounded-xl border bg-white p-6">
         <h2 className="text-lg font-bold">Order Summary</h2>
 
-        {items.map((item) => (
-          <div key={item.variantId} className="flex justify-between text-sm text-gray-600">
-            <span>
-              {item.productName} × {item.quantity}
-            </span>
-            <span>₹{(item.price * item.quantity).toLocaleString("en-IN")}</span>
+        {storeNames.length > 1 ? (
+          <p className="text-xs text-gray-500">
+            Items from {storeNames.length} sellers — this will be placed as {storeNames.length}{" "}
+            separate orders.
+          </p>
+        ) : null}
+
+        {storeNames.map((storeName) => (
+          <div key={storeName} className="space-y-2">
+            {storeNames.length > 1 && (
+              <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">
+                {storeName}
+              </p>
+            )}
+            {storeGroups[storeName].map((item) => (
+              <div key={item.variantId} className="flex justify-between text-sm text-gray-600">
+                <span>
+                  {item.productName} × {item.quantity}
+                </span>
+                <span>₹{(item.price * item.quantity).toLocaleString("en-IN")}</span>
+              </div>
+            ))}
           </div>
         ))}
 

@@ -1,11 +1,17 @@
 export type CategorySection = "WOMEN" | "BEAUTY";
 
+export interface StorefrontStore {
+  id: string;
+  name: string;
+}
+
 export interface StorefrontCategory {
   id: string;
   name: string;
   slug: string;
   imageUrl?: string | null;
   section: CategorySection;
+  store: StorefrontStore;
 }
 
 export interface StorefrontProductImage {
@@ -30,6 +36,7 @@ export interface StorefrontProduct {
   brand?: string | null;
   isFeatured: boolean;
   category: StorefrontCategory;
+  store: StorefrontStore;
   images: StorefrontProductImage[];
   variants: StorefrontProductVariant[];
 }

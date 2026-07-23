@@ -1,15 +1,17 @@
 import prisma from "@/lib/prisma";
 
+const STORE_SELECT = { select: { id: true, name: true } };
+
 export class StorefrontRepository {
-  async findCategories(storeId: string) {
+  async findCategories() {
     const categories = await prisma.category.findMany({
       where: {
-        storeId,
         isActive: true,
         products: { some: { status: "ACTIVE" } },
       },
       orderBy: { name: "asc" },
       include: {
+        store: STORE_SELECT,
         products: {
           where: { status: "ACTIVE" },
           orderBy: { createdAt: "asc" },
@@ -27,28 +29,25 @@ export class StorefrontRepository {
     }));
   }
 
-  async findCategoryBySlug(storeId: string, slug: string) {
+  async findCategoryBySlug(slug: string) {
     return prisma.category.findFirst({
-      where: { storeId, slug, isActive: true },
+      where: { slug, isActive: true },
+      include: { store: STORE_SELECT },
     });
   }
 
-  async findProducts(
-    storeId: string,
-    query: {
-      page?: number;
-      limit?: number;
-      search?: string;
-      categorySlug?: string;
-      featured?: boolean;
-      sort?: string;
-    }
-  ) {
+  async findProducts(query: {
+    page?: number;
+    limit?: number;
+    search?: string;
+    categorySlug?: string;
+    featured?: boolean;
+    sort?: string;
+  }) {
     const page = query.page ?? 1;
     const limit = query.limit ?? 12;
 
     const where: any = {
-      storeId,
       status: "ACTIVE",
     };
 
@@ -83,6 +82,7 @@ export class StorefrontRepository {
         where,
         include: {
           category: true,
+          store: STORE_SELECT,
           images: { orderBy: { position: "asc" } },
           variants: true,
         },
@@ -104,11 +104,12 @@ export class StorefrontRepository {
     };
   }
 
-  async findProductBySlug(storeId: string, slug: string) {
+  async findProductBySlug(slug: string) {
     return prisma.product.findFirst({
-      where: { storeId, slug, status: "ACTIVE" },
+      where: { slug, status: "ACTIVE" },
       include: {
         category: true,
+        store: STORE_SELECT,
         images: { orderBy: { position: "asc" } },
         variants: true,
       },

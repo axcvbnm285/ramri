@@ -10,12 +10,8 @@ export class OrderController {
   // Customer-facing
   placeOrder = async (req: CustomerAuthRequest, res: Response) => {
     try {
-      const order = await this.service.placeOrder(
-        req.customer!.storeId,
-        req.customer!.id,
-        req.body
-      );
-      return success(res, "Order placed successfully.", order, 201);
+      const orders = await this.service.placeOrder(req.customer!.id, req.body);
+      return success(res, "Order placed successfully.", orders, 201);
     } catch (error) {
       return failure(res, (error as Error).message);
     }
