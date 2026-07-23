@@ -90,7 +90,7 @@ export default function CustomerAuthForm() {
   };
 
   return (
-    <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-xl">
+    <div className="w-full max-w-md rounded-2xl p-8">
       <Image
         src="/logo-header.png"
         alt="SandroNepal"
@@ -109,7 +109,7 @@ export default function CustomerAuthForm() {
 
           <form onSubmit={phoneForm.handleSubmit(onContinue)} className="mt-6 space-y-4">
             <div>
-              <div className="flex items-center rounded-lg border px-4 py-3 focus-within:border-black">
+              <div className="flex items-center rounded-lg border border-[#C9A227]/40 bg-white/60 px-4 py-3 focus-within:border-[#7A2436]">
                 <span className="text-gray-500">+977</span>
                 <span className="mx-3 h-5 w-px bg-gray-300" />
                 <input
@@ -130,7 +130,7 @@ export default function CustomerAuthForm() {
             <button
               type="submit"
               disabled={checkPhone.isPending}
-              className="flex w-full items-center justify-center rounded-lg bg-black py-3 font-medium uppercase tracking-wide text-white transition hover:bg-gray-900 disabled:bg-gray-300"
+              className="flex w-full items-center justify-center rounded-lg bg-gradient-to-r from-[#2B0A12] to-[#7A2436] py-3 font-medium uppercase tracking-wide text-white transition hover:opacity-90 disabled:opacity-50"
             >
               {checkPhone.isPending ? (
                 <Loader2 size={18} className="animate-spin" />
@@ -142,7 +142,7 @@ export default function CustomerAuthForm() {
 
           <p className="mt-6 text-center text-sm text-gray-500">
             Have trouble logging in?{" "}
-            <span className="font-semibold text-pink-600">Get help</span>
+            <span className="font-semibold text-[#7A2436]">Get help</span>
           </p>
         </>
       )}
@@ -168,7 +168,7 @@ export default function CustomerAuthForm() {
                   type={showPassword ? "text" : "password"}
                   placeholder="••••••••"
                   autoFocus
-                  className="w-full rounded-lg border px-4 py-3 pr-12 outline-none focus:border-black"
+                  className="w-full rounded-lg border border-[#C9A227]/40 bg-white/60 px-4 py-3 pr-12 outline-none focus:border-[#7A2436]"
                 />
                 <button
                   type="button"
@@ -188,7 +188,7 @@ export default function CustomerAuthForm() {
             <button
               type="submit"
               disabled={login.isPending}
-              className="flex w-full items-center justify-center rounded-lg bg-black py-3 font-medium text-white transition hover:bg-gray-900 disabled:opacity-50"
+              className="flex w-full items-center justify-center rounded-lg bg-gradient-to-r from-[#2B0A12] to-[#7A2436] py-3 font-medium text-white transition hover:opacity-90 disabled:opacity-50"
             >
               {login.isPending ? (
                 <>
@@ -223,7 +223,7 @@ export default function CustomerAuthForm() {
                 type="text"
                 placeholder="Your name"
                 autoFocus
-                className="w-full rounded-lg border px-4 py-3 outline-none focus:border-black"
+                className="w-full rounded-lg border border-[#C9A227]/40 bg-white/60 px-4 py-3 outline-none focus:border-[#7A2436]"
               />
               {signupForm.formState.errors.name && (
                 <p className="mt-1 text-sm text-red-500">
@@ -240,7 +240,7 @@ export default function CustomerAuthForm() {
                 {...signupForm.register("email")}
                 type="email"
                 placeholder="you@example.com"
-                className="w-full rounded-lg border px-4 py-3 outline-none focus:border-black"
+                className="w-full rounded-lg border border-[#C9A227]/40 bg-white/60 px-4 py-3 outline-none focus:border-[#7A2436]"
               />
               {signupForm.formState.errors.email && (
                 <p className="mt-1 text-sm text-red-500">
@@ -256,7 +256,7 @@ export default function CustomerAuthForm() {
                   {...signupForm.register("password")}
                   type={showPassword ? "text" : "password"}
                   placeholder="••••••••"
-                  className="w-full rounded-lg border px-4 py-3 pr-12 outline-none focus:border-black"
+                  className="w-full rounded-lg border border-[#C9A227]/40 bg-white/60 px-4 py-3 pr-12 outline-none focus:border-[#7A2436]"
                 />
                 <button
                   type="button"
@@ -276,7 +276,7 @@ export default function CustomerAuthForm() {
             <button
               type="submit"
               disabled={signup.isPending}
-              className="flex w-full items-center justify-center rounded-lg bg-black py-3 font-medium text-white transition hover:bg-gray-900 disabled:opacity-50"
+              className="flex w-full items-center justify-center rounded-lg bg-gradient-to-r from-[#2B0A12] to-[#7A2436] py-3 font-medium text-white transition hover:opacity-90 disabled:opacity-50"
             >
               {signup.isPending ? (
                 <>

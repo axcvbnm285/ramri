@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 
 import CustomerAuthForm from "@/features/customerAuth/components/CustomerAuthForm";
-import AuthShell from "@/components/auth/AuthShell";
+import CustomerAuthShell from "@/components/auth/CustomerAuthShell";
 
 export const metadata: Metadata = {
   title: "Sign Up",
@@ -12,11 +12,11 @@ export const metadata: Metadata = {
 export default function ShopSignupPage() {
   return (
     <Suspense>
-      <AuthShell>
+      <CustomerAuthShell>
         <div className="flex justify-center">
           <CustomerAuthForm />
         </div>
-      </AuthShell>
+      </CustomerAuthShell>
     </Suspense>
   );
 }
