@@ -3,6 +3,7 @@ export type CategorySection = "WOMEN" | "BEAUTY";
 export interface StorefrontStore {
   id: string;
   name: string;
+  logo?: string | null;
   promoEnabled?: boolean;
   promoBadgeText?: string | null;
   promoTitle?: string | null;
@@ -14,6 +15,7 @@ export interface StorefrontStore {
 export interface Promotion {
   storeId: string;
   storeName: string;
+  storeLogo: string | null;
   title: string | null;
   description: string | null;
   badgeText: string | null;

@@ -14,6 +14,7 @@ import WishlistButton from "@/features/wishlist/components/WishlistButton";
 import { useCurrentCustomer } from "@/features/customerAuth/hooks/useCurrentCustomer";
 import { getErrorMessage } from "@/lib/getErrorMessage";
 import { isPromoActive } from "@/features/storefront/utils/promo";
+import StoreLogoAvatar from "@/components/StoreLogoAvatar";
 
 export default function ProductDetailClient() {
   const { slug } = useParams<{ slug: string }>();
@@ -114,7 +115,8 @@ export default function ProductDetailClient() {
             <div>
               {product.brand && <p className="text-sm text-gray-500">{product.brand}</p>}
               <h1 className="text-2xl font-bold">{product.name}</h1>
-              <p className="mt-1 text-xs font-medium text-gray-400">
+              <p className="mt-1 flex items-center gap-1.5 text-xs font-medium text-gray-400">
+                <StoreLogoAvatar logoUrl={product.store.logo} name={product.store.name} size={18} />
                 Sold by {product.store.name}
               </p>
               {isPromoActive(product.store) && (

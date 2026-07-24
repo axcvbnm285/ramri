@@ -10,6 +10,7 @@ import { useMyOrder } from "@/features/customerOrders/hooks/useMyOrder";
 import { useMarkMyOrderReceived } from "@/features/customerOrders/hooks/useMarkMyOrderReceived";
 import OrderStatusBadge from "@/features/orders/components/OrderStatusBadge";
 import PaymentStatusBadge from "@/features/orders/components/PaymentStatusBadge";
+import StoreLogoAvatar from "@/components/StoreLogoAvatar";
 import { getErrorMessage } from "@/lib/getErrorMessage";
 
 export default function OrderDetailClient() {
@@ -61,7 +62,13 @@ export default function OrderDetailClient() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold">{order.orderNumber}</h1>
-          <p className="text-gray-500">
+          {order.store && (
+            <div className="mt-1 flex items-center gap-1.5">
+              <StoreLogoAvatar logoUrl={order.store.logo} name={order.store.name} size={18} />
+              <span className="text-sm font-medium text-gray-600">{order.store.name}</span>
+            </div>
+          )}
+          <p className="mt-1 text-gray-500">
             Placed on{" "}
             {new Date(order.createdAt).toLocaleDateString("en-IN", {
               day: "numeric",

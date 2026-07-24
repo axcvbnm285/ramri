@@ -11,6 +11,12 @@ export interface OrderItem {
   subtotal: number;
 }
 
+export interface OrderStore {
+  id: string;
+  name: string;
+  logo?: string | null;
+}
+
 export interface OrderAddress {
   id: string;
   fullName: string;
@@ -47,6 +53,7 @@ export interface CustomerOrder {
   receivedAt?: string | null;
   createdAt: string;
   items: OrderItem[];
+  store?: OrderStore;
   address?: OrderAddress;
   statusLogs?: OrderStatusLog[];
 }

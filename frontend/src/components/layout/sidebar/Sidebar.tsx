@@ -17,7 +17,9 @@ function SidebarContent({ onNavigate }: SidebarContentProps) {
   return (
     <>
       <div>
-        <Logo />
+        <div className="flex justify-center">
+          <Logo />
+        </div>
 
         <nav className="mt-10 flex flex-col gap-2">
           {SIDEBAR_ITEMS.map((item) => (

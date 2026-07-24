@@ -9,6 +9,7 @@ import { useCurrentCustomer } from "@/features/customerAuth/hooks/useCurrentCust
 import { useMyOrders } from "@/features/customerOrders/hooks/useMyOrders";
 import OrderStatusBadge from "@/features/orders/components/OrderStatusBadge";
 import PaymentStatusBadge from "@/features/orders/components/PaymentStatusBadge";
+import StoreLogoAvatar from "@/components/StoreLogoAvatar";
 
 export default function OrderHistoryClient() {
   const router = useRouter();
@@ -50,8 +51,14 @@ export default function OrderHistoryClient() {
               className="flex items-center justify-between rounded-xl border bg-white p-4 transition hover:shadow-sm"
             >
               <div>
-                <p className="font-medium">{order.orderNumber}</p>
-                <p className="text-sm text-gray-500">
+                <div className="flex items-center gap-2">
+                  {order.store && (
+                    <StoreLogoAvatar logoUrl={order.store.logo} name={order.store.name} size={20} />
+                  )}
+                  <p className="font-medium">{order.orderNumber}</p>
+                </div>
+                <p className="mt-0.5 text-sm text-gray-500">
+                  {order.store && <>{order.store.name} • </>}
                   {new Date(order.createdAt).toLocaleDateString("en-IN", {
                     day: "numeric",
                     month: "short",

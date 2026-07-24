@@ -8,6 +8,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { StorefrontProduct } from "../types/storefront.types";
 import { isPromoActive } from "../utils/promo";
 import WishlistButton from "@/features/wishlist/components/WishlistButton";
+import StoreLogoAvatar from "@/components/StoreLogoAvatar";
 
 const MotionImage = motion.create(Image);
 
@@ -126,7 +127,10 @@ export default function ProductCard({ product, index = 0 }: Props) {
 
         <div className="p-2 pt-2.5">
           <p className="truncate text-sm font-medium text-gray-900">{product.name}</p>
-          <p className="truncate text-xs text-gray-500">Sold by {product.store.name}</p>
+          <p className="mt-0.5 flex items-center gap-1.5 truncate text-xs text-gray-500">
+            <StoreLogoAvatar logoUrl={product.store.logo} name={product.store.name} size={16} />
+            Sold by {product.store.name}
+          </p>
           <p className="mt-1 text-sm font-semibold text-gray-900">
             ₹{minPrice.toLocaleString("en-IN")}
           </p>

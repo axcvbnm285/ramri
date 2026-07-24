@@ -8,6 +8,8 @@ import { useCurrentUser } from "@/features/auth/hooks/useCurrentUser";
 import { useNewOrderNotifications } from "@/features/orders/hooks/useNewOrderNotifications";
 
 import Sidebar from "@/components/layout/sidebar/Sidebar";
+import Logo from "@/components/layout/sidebar/Logo";
+import StoreBrandBanner from "@/components/layout/StoreBrandBanner";
 
 export default function AdminLayout({
   children,
@@ -54,14 +56,19 @@ export default function AdminLayout({
           >
             <Menu size={22} />
           </button>
-          <span className="text-lg font-bold text-nepal-maroon">SandroNepal</span>
+          <div className="flex flex-1 justify-center">
+            <Logo compact />
+          </div>
         </header>
 
         <main className="relative min-w-0 flex-1 overflow-x-hidden bg-gradient-to-br from-nepal-cream/60 via-gray-50 to-nepal-cream-3/40 p-4 sm:p-6">
           <div className="pointer-events-none fixed -right-24 top-0 -z-0 h-72 w-72 rounded-full bg-nepal-gold/15 blur-3xl" />
           <div className="pointer-events-none fixed bottom-0 right-1/3 -z-0 h-64 w-64 rounded-full bg-nepal-maroon/10 blur-3xl" />
 
-          <div className="relative z-10">{children}</div>
+          <div className="relative z-10">
+            <StoreBrandBanner />
+            {children}
+          </div>
         </main>
       </div>
     </div>

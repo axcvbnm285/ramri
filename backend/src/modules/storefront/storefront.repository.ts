@@ -4,6 +4,7 @@ const STORE_SELECT = {
   select: {
     id: true,
     name: true,
+    logo: true,
     promoEnabled: true,
     promoBadgeText: true,
     promoTitle: true,
@@ -142,6 +143,7 @@ export class StorefrontRepository {
       select: {
         id: true,
         name: true,
+        logo: true,
         promoTitle: true,
         promoDescription: true,
         promoBadgeText: true,
@@ -157,6 +159,7 @@ export class StorefrontRepository {
     return stores.map((store) => ({
       storeId: store.id,
       storeName: store.name,
+      storeLogo: store.logo,
       title: store.promoTitle,
       description: store.promoDescription,
       badgeText: store.promoBadgeText,

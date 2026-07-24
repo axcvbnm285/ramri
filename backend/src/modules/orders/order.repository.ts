@@ -216,7 +216,10 @@ export class OrderRepository {
     return prisma.order.findMany({
       where: { customerId },
       orderBy: { createdAt: "desc" },
-      include: { items: true },
+      include: {
+        items: true,
+        store: { select: { id: true, name: true, logo: true } },
+      },
     });
   }
 
@@ -227,6 +230,7 @@ export class OrderRepository {
         items: true,
         address: true,
         statusLogs: { orderBy: { createdAt: "asc" } },
+        store: { select: { id: true, name: true, logo: true } },
       },
     });
   }

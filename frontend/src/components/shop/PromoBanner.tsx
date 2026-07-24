@@ -7,6 +7,7 @@ import { ArrowRight, Sparkles } from "lucide-react";
 import { usePromotions } from "@/features/storefront/hooks/usePromotions";
 import { useCountdown } from "@/hooks/useCountdown";
 import PagodaMotif from "@/components/auth/PagodaMotif";
+import StoreLogoAvatar from "@/components/StoreLogoAvatar";
 import { Promotion } from "@/features/storefront/types/storefront.types";
 
 export default function PromoBanner() {
@@ -55,6 +56,16 @@ function PromoCard({ promo }: { promo: Promotion }) {
             <Sparkles size={14} />
             Limited time offer from {promo.storeName}
           </p>
+
+          <div className="mt-2 flex items-center gap-2">
+            <StoreLogoAvatar
+              logoUrl={promo.storeLogo}
+              name={promo.storeName}
+              size={22}
+              className="border-nepal-gold/40"
+            />
+            <span className="text-sm font-semibold text-white/90">{promo.storeName}</span>
+          </div>
 
           {promo.title && (
             <h2 className="mt-3 text-3xl font-bold leading-tight md:text-4xl">{promo.title}</h2>
