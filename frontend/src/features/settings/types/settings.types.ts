@@ -7,6 +7,12 @@ export interface Store {
   logoPublicId?: string | null;
   paymentQrUrl?: string | null;
   paymentQrPublicId?: string | null;
+  promoEnabled: boolean;
+  promoBadgeText?: string | null;
+  promoTitle?: string | null;
+  promoDescription?: string | null;
+  promoStartsAt?: string | null;
+  promoEndsAt?: string | null;
   isActive: boolean;
   address?: string | null;
   instagram?: string | null;
@@ -21,4 +27,10 @@ export interface UpdateStorePayload {
   logoPublicId?: string;
   paymentQrUrl?: string;
   paymentQrPublicId?: string;
+  promoEnabled?: boolean;
+  promoBadgeText?: string;
+  promoTitle?: string;
+  promoDescription?: string;
+  promoStartsAt?: string;
+  promoEndsAt?: string;
 }

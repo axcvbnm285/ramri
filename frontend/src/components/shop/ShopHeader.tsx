@@ -14,6 +14,7 @@ import { useCurrentCustomer } from "@/features/customerAuth/hooks/useCurrentCust
 import { useCustomerLogout } from "@/features/customerAuth/hooks/useCustomerLogout";
 import { useStorefrontCategories } from "@/features/storefront/hooks/useStorefrontCategories";
 import { StorefrontCategory } from "@/features/storefront/types/storefront.types";
+import PromoBar from "@/components/shop/PromoBar";
 
 type MenuKey = "women" | "beauty" | "profile" | null;
 
@@ -61,6 +62,8 @@ export default function ShopHeader() {
 
   return (
     <header className="sticky top-0 z-30 border-b border-pink-100 bg-white">
+      <PromoBar />
+
       <div className="mx-auto flex max-w-6xl items-center gap-6 px-4 py-4 md:gap-10">
         <Link href="/shop" className="flex shrink-0 items-center">
           <Image

@@ -23,6 +23,15 @@ export class StorefrontController {
     }
   };
 
+  getPromotions = async (_req: Request, res: Response) => {
+    try {
+      const promotions = await this.service.getPromotions();
+      return success(res, "Promotions fetched successfully.", promotions);
+    } catch (error) {
+      return failure(res, (error as Error).message);
+    }
+  };
+
   getProductBySlug = async (req: Request, res: Response) => {
     try {
       const product = await this.service.getProductBySlug(req.params.slug as string);

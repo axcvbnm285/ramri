@@ -18,6 +18,10 @@ export class StorefrontService {
     });
   }
 
+  async getPromotions() {
+    return this.repository.findActivePromotions();
+  }
+
   async getProductBySlug(slug: string) {
     const product = await this.repository.findProductBySlug(slug);
 

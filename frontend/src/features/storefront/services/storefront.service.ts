@@ -14,6 +14,10 @@ export const storefrontService = {
     return api.get("/storefront/categories");
   },
 
+  getPromotions() {
+    return api.get("/storefront/promotions");
+  },
+
   getProducts(query: StorefrontProductQuery = {}) {
     return api.get("/storefront/products", { params: query });
   },

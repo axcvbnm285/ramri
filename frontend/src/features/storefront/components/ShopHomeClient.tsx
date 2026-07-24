@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 
 import { useStorefrontCategories } from "@/features/storefront/hooks/useStorefrontCategories";
 import HeroSlider from "@/components/shop/HeroSlider";
+import PromoBanner from "@/components/shop/PromoBanner";
 
 export default function ShopHomeClient() {
   const { data: categories, isLoading: isLoadingCategories } = useStorefrontCategories();
@@ -13,6 +14,8 @@ export default function ShopHomeClient() {
   return (
     <div className="space-y-12">
       <HeroSlider />
+
+      <PromoBanner />
 
       <section id="categories">
         <h2 className="mb-5 text-sm font-bold uppercase tracking-[0.2em] text-gray-800">

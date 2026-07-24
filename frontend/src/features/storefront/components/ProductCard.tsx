@@ -6,6 +6,7 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 
 import { StorefrontProduct } from "../types/storefront.types";
+import { isPromoActive } from "../utils/promo";
 import WishlistButton from "@/features/wishlist/components/WishlistButton";
 
 const MotionImage = motion.create(Image);
@@ -87,6 +88,12 @@ export default function ProductCard({ product, index = 0 }: Props) {
           {product.isFeatured && (
             <span className="absolute left-2 top-2 z-10 rounded-full bg-pink-600 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-white shadow-sm">
               Featured
+            </span>
+          )}
+
+          {isPromoActive(product.store) && (
+            <span className="absolute right-2 top-2 z-10 -rotate-2 rounded-full bg-nepal-gold px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-nepal-maroon-dark shadow-sm">
+              {product.store.promoBadgeText ?? "Offer"}
             </span>
           )}
 

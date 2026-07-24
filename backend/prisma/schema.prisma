@@ -80,6 +80,13 @@ model Store {
   paymentQrUrl String?
   paymentQrPublicId String?
 
+  promoEnabled     Boolean   @default(false)
+  promoBadgeText   String?
+  promoTitle       String?
+  promoDescription String?
+  promoStartsAt    DateTime?
+  promoEndsAt      DateTime?
+
   isActive Boolean @default(true)
 
   address String?

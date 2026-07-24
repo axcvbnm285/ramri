@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { Loader2, Minus, Plus, ShoppingBag } from "lucide-react";
+import { Loader2, Minus, Plus, ShoppingBag, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 
 import { useStorefrontProduct } from "@/features/storefront/hooks/useStorefrontProduct";
@@ -13,6 +13,7 @@ import { useAddToCart } from "@/features/cart/hooks/useAddToCart";
 import WishlistButton from "@/features/wishlist/components/WishlistButton";
 import { useCurrentCustomer } from "@/features/customerAuth/hooks/useCurrentCustomer";
 import { getErrorMessage } from "@/lib/getErrorMessage";
+import { isPromoActive } from "@/features/storefront/utils/promo";
 
 export default function ProductDetailClient() {
   const { slug } = useParams<{ slug: string }>();
@@ -116,6 +117,13 @@ export default function ProductDetailClient() {
               <p className="mt-1 text-xs font-medium text-gray-400">
                 Sold by {product.store.name}
               </p>
+              {isPromoActive(product.store) && (
+                <p className="mt-2 inline-flex items-center gap-1.5 rounded-lg bg-nepal-cream-3/60 px-2.5 py-1 text-xs font-semibold text-nepal-maroon-dark">
+                  <Sparkles size={12} />
+                  {product.store.promoBadgeText ?? "Limited-time offer"} — free item is the
+                  seller&apos;s pick
+                </p>
+              )}
             </div>
 
             <WishlistButton

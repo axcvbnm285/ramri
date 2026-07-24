@@ -1,6 +1,17 @@
 import prisma from "@/lib/prisma";
 
-const STORE_SELECT = { select: { id: true, name: true } };
+const STORE_SELECT = {
+  select: {
+    id: true,
+    name: true,
+    promoEnabled: true,
+    promoBadgeText: true,
+    promoTitle: true,
+    promoDescription: true,
+    promoStartsAt: true,
+    promoEndsAt: true,
+  },
+};
 
 export class StorefrontRepository {
   async findCategories() {
@@ -116,5 +127,41 @@ export class StorefrontRepository {
         variants: true,
       },
     });
+  }
+
+  async findActivePromotions() {
+    const now = new Date();
+
+    const stores = await prisma.store.findMany({
+      where: {
+        isActive: true,
+        promoEnabled: true,
+        promoStartsAt: { lte: now },
+        promoEndsAt: { gte: now },
+      },
+      select: {
+        id: true,
+        name: true,
+        promoTitle: true,
+        promoDescription: true,
+        promoBadgeText: true,
+        promoEndsAt: true,
+        categories: {
+          where: { isActive: true },
+          select: { slug: true },
+          take: 1,
+        },
+      },
+    });
+
+    return stores.map((store) => ({
+      storeId: store.id,
+      storeName: store.name,
+      title: store.promoTitle,
+      description: store.promoDescription,
+      badgeText: store.promoBadgeText,
+      endsAt: store.promoEndsAt,
+      categorySlug: store.categories[0]?.slug ?? null,
+    }));
   }
 }

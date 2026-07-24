@@ -21,6 +21,12 @@ export class SettingsService {
       ...(data.logoPublicId && { logoPublicId: data.logoPublicId }),
       ...(data.paymentQrUrl && { paymentQrUrl: data.paymentQrUrl }),
       ...(data.paymentQrPublicId && { paymentQrPublicId: data.paymentQrPublicId }),
+      ...(data.promoEnabled !== undefined && { promoEnabled: data.promoEnabled }),
+      ...(data.promoBadgeText && { promoBadgeText: data.promoBadgeText }),
+      ...(data.promoTitle && { promoTitle: data.promoTitle }),
+      ...(data.promoDescription && { promoDescription: data.promoDescription }),
+      ...(data.promoStartsAt && { promoStartsAt: new Date(data.promoStartsAt) }),
+      ...(data.promoEndsAt && { promoEndsAt: new Date(data.promoEndsAt) }),
     });
   }
 

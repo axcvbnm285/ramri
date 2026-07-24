@@ -6,6 +6,7 @@ import { useStoreSettings } from "@/features/settings/hooks/useStoreSettings";
 import StoreNameCard from "@/features/settings/components/StoreNameCard";
 import StoreLogoCard from "@/features/settings/components/StoreLogoCard";
 import PaymentQrCard from "@/features/settings/components/PaymentQrCard";
+import PromotionCard from "@/features/settings/components/PromotionCard";
 import ContactUsCard from "@/features/settings/components/ContactUsCard";
 import DeleteStoreCard from "@/features/settings/components/DeleteStoreCard";
 
@@ -38,6 +39,7 @@ export default function SettingsPage() {
       <StoreNameCard store={store} />
       <StoreLogoCard store={store} />
       <PaymentQrCard store={store} />
+      <PromotionCard store={store} />
       <ContactUsCard storeEmail={store.email} />
       <DeleteStoreCard store={store} />
     </div>
