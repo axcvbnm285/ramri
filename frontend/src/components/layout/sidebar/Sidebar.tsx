@@ -42,7 +42,7 @@ export default function Sidebar({ open, onClose }: Props) {
   return (
     <>
       {/* Desktop sidebar */}
-      <aside className="hidden h-screen w-72 flex-col justify-between border-r border-nepal-gold/20 bg-white p-5 lg:flex">
+      <aside className="hidden h-screen w-72 flex-col justify-between border-r border-nepal-gold/20 bg-white p-5 dark:border-gray-700 dark:bg-gray-900 lg:flex">
         <SidebarContent />
       </aside>
 
@@ -62,12 +62,12 @@ export default function Sidebar({ open, onClose }: Props) {
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ type: "tween", duration: 0.25, ease: "easeOut" }}
-              className="fixed inset-y-0 left-0 z-50 flex w-72 flex-col justify-between bg-white p-5 shadow-xl lg:hidden"
+              className="fixed inset-y-0 left-0 z-50 flex w-72 flex-col justify-between bg-white p-5 shadow-xl dark:bg-gray-900 lg:hidden"
             >
               <button
                 onClick={onClose}
                 aria-label="Close menu"
-                className="absolute right-4 top-4 rounded-lg p-1.5 text-gray-500 hover:bg-gray-100"
+                className="absolute right-4 top-4 rounded-lg p-1.5 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800"
               >
                 <X size={20} />
               </button>

@@ -9,7 +9,7 @@ export default function BasicInfo() {
   } = useFormContext();
 
   return (
-    <div className="rounded-xl border bg-white p-6 shadow-sm">
+    <div className="rounded-xl border dark:border-gray-700 bg-white dark:bg-gray-800 p-6 shadow-sm">
       <h2 className="mb-6 text-xl font-semibold">
         Basic Information
       </h2>
@@ -23,7 +23,7 @@ export default function BasicInfo() {
           <input
             {...register("name")}
             placeholder="Enter product name"
-            className="w-full rounded-lg border px-4 py-3 outline-none focus:ring-2 focus:ring-nepal-maroon"
+            className="w-full rounded-lg border dark:border-gray-700 px-4 py-3 outline-none focus:ring-2 focus:ring-nepal-maroon dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-500"
           />
 
           {errors.name && (
@@ -42,7 +42,7 @@ export default function BasicInfo() {
             {...register("description")}
             rows={5}
             placeholder="Write a description..."
-            className="w-full rounded-lg border px-4 py-3 outline-none focus:ring-2 focus:ring-nepal-maroon"
+            className="w-full rounded-lg border dark:border-gray-700 px-4 py-3 outline-none focus:ring-2 focus:ring-nepal-maroon dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-500"
           />
         </div>
 
@@ -54,7 +54,7 @@ export default function BasicInfo() {
           <input
             {...register("brand")}
             placeholder="Brand name"
-            className="w-full rounded-lg border px-4 py-3 outline-none focus:ring-2 focus:ring-nepal-maroon"
+            className="w-full rounded-lg border dark:border-gray-700 px-4 py-3 outline-none focus:ring-2 focus:ring-nepal-maroon dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-500"
           />
         </div>
       </div>

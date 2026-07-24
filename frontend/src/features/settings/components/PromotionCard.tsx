@@ -50,11 +50,11 @@ export default function PromotionCard({ store }: Props) {
   };
 
   return (
-    <div className="rounded-2xl border border-nepal-gold/20 bg-white p-6 shadow-sm">
+    <div className="rounded-2xl border border-nepal-gold/20 bg-white dark:bg-gray-800 p-6 shadow-sm">
       <div className="flex items-start justify-between">
         <div>
           <h2 className="text-lg font-bold">Promotion</h2>
-          <p className="mt-1 text-sm text-gray-500">
+          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
             Run a limited-time offer — customers see it as a countdown banner across the store.
           </p>
         </div>
@@ -62,11 +62,11 @@ export default function PromotionCard({ store }: Props) {
         <button
           onClick={() => setEnabled((e) => !e)}
           className={`relative h-6 w-11 shrink-0 rounded-full transition ${
-            enabled ? "bg-nepal-maroon" : "bg-gray-200"
+            enabled ? "bg-nepal-maroon" : "bg-gray-200 dark:bg-gray-700"
           }`}
         >
           <span
-            className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition ${
+            className={`absolute top-0.5 h-5 w-5 rounded-full bg-white dark:bg-gray-800 shadow transition ${
               enabled ? "left-5" : "left-0.5"
             }`}
           />
@@ -80,7 +80,7 @@ export default function PromotionCard({ store }: Props) {
             value={badgeText}
             onChange={(e) => setBadgeText(e.target.value)}
             placeholder="e.g. Buy 1 Get 1 Free"
-            className="w-full rounded-lg border border-nepal-gold/40 px-4 py-2.5 outline-none focus:border-nepal-maroon"
+            className="w-full rounded-lg border border-nepal-gold/40 px-4 py-2.5 outline-none focus:border-nepal-maroon dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-500"
           />
         </div>
 
@@ -90,7 +90,7 @@ export default function PromotionCard({ store }: Props) {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="e.g. Festive Surprise Week"
-            className="w-full rounded-lg border border-nepal-gold/40 px-4 py-2.5 outline-none focus:border-nepal-maroon"
+            className="w-full rounded-lg border border-nepal-gold/40 px-4 py-2.5 outline-none focus:border-nepal-maroon dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-500"
           />
         </div>
 
@@ -101,7 +101,7 @@ export default function PromotionCard({ store }: Props) {
             onChange={(e) => setDescription(e.target.value)}
             placeholder="e.g. Buy any 1 item and get a free surprise pick from us, on the house."
             rows={2}
-            className="w-full rounded-lg border border-nepal-gold/40 px-4 py-2.5 outline-none focus:border-nepal-maroon"
+            className="w-full rounded-lg border border-nepal-gold/40 px-4 py-2.5 outline-none focus:border-nepal-maroon dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-500"
           />
         </div>
 
@@ -112,7 +112,7 @@ export default function PromotionCard({ store }: Props) {
               type="datetime-local"
               value={startsAt}
               onChange={(e) => setStartsAt(e.target.value)}
-              className="w-full rounded-lg border border-nepal-gold/40 px-4 py-2.5 outline-none focus:border-nepal-maroon"
+              className="w-full rounded-lg border border-nepal-gold/40 px-4 py-2.5 outline-none focus:border-nepal-maroon dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-500"
             />
           </div>
           <div className="flex-1">
@@ -121,7 +121,7 @@ export default function PromotionCard({ store }: Props) {
               type="datetime-local"
               value={endsAt}
               onChange={(e) => setEndsAt(e.target.value)}
-              className="w-full rounded-lg border border-nepal-gold/40 px-4 py-2.5 outline-none focus:border-nepal-maroon"
+              className="w-full rounded-lg border border-nepal-gold/40 px-4 py-2.5 outline-none focus:border-nepal-maroon dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-500"
             />
           </div>
         </div>

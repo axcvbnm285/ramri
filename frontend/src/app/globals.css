@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   /* Shared Nepal-theme palette (warm cream + maroon + gold) — used across
      both the customer storefront and the store-admin dashboard so the

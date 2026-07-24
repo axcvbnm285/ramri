@@ -69,7 +69,7 @@ export default function CategoryRow({ category }: Props) {
   };
 
   return (
-    <tr className="border-t">
+    <tr className="border-t dark:border-gray-700">
       <td className="px-4 py-3">
         <div className="flex items-center gap-3">
           <input
@@ -84,12 +84,12 @@ export default function CategoryRow({ category }: Props) {
             type="button"
             onClick={() => fileInputRef.current?.click()}
             disabled={isUploading}
-            className="relative h-10 w-10 shrink-0 overflow-hidden rounded-lg border bg-gray-50 disabled:opacity-50"
+            className="relative h-10 w-10 shrink-0 overflow-hidden rounded-lg border dark:border-gray-700 bg-gray-50 dark:bg-gray-900 disabled:opacity-50"
             title="Change photo"
           >
             {isUploading ? (
               <span className="flex h-full w-full items-center justify-center">
-                <Loader2 size={14} className="animate-spin text-gray-400" />
+                <Loader2 size={14} className="animate-spin text-gray-400 dark:text-gray-500" />
               </span>
             ) : category.imageUrl ? (
               <Image
@@ -110,7 +110,7 @@ export default function CategoryRow({ category }: Props) {
             <input
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full rounded-lg border px-3 py-2 outline-none focus:border-nepal-maroon"
+              className="w-full rounded-lg border px-3 py-2 outline-none focus:border-nepal-maroon dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-500"
               autoFocus
             />
           ) : (
@@ -119,7 +119,7 @@ export default function CategoryRow({ category }: Props) {
         </div>
       </td>
 
-      <td className="px-4 py-3 text-gray-500">{category.slug}</td>
+      <td className="px-4 py-3 text-gray-500 dark:text-gray-400">{category.slug}</td>
 
       <td className="px-4 py-3">
         <select
@@ -130,7 +130,7 @@ export default function CategoryRow({ category }: Props) {
               data: { section: e.target.value as "WOMEN" | "BEAUTY" },
             })
           }
-          className="rounded-lg border px-2 py-1.5 text-sm"
+          className="rounded-lg border dark:border-gray-700 px-2 py-1.5 text-sm dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-500"
         >
           <option value="WOMEN">Women</option>
           <option value="BEAUTY">Beauty</option>
@@ -142,8 +142,8 @@ export default function CategoryRow({ category }: Props) {
           onClick={toggleActive}
           className={`rounded-full px-3 py-1 text-xs font-medium ${
             category.isActive
-              ? "bg-green-100 text-green-700"
-              : "bg-gray-100 text-gray-500"
+              ? "bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300"
+              : "bg-gray-100 text-gray-500 dark:bg-gray-700 dark:text-gray-400"
           }`}
         >
           {category.isActive ? "Active" : "Inactive"}
@@ -166,7 +166,7 @@ export default function CategoryRow({ category }: Props) {
                   setName(category.name);
                   setEditing(false);
                 }}
-                className="rounded-lg p-2 text-gray-500 hover:bg-gray-100"
+                className="rounded-lg p-2 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:bg-gray-700"
               >
                 <X size={16} />
               </button>
@@ -175,7 +175,7 @@ export default function CategoryRow({ category }: Props) {
             <>
               <button
                 onClick={() => setEditing(true)}
-                className="rounded-lg p-2 text-gray-500 hover:bg-gray-100"
+                className="rounded-lg p-2 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:bg-gray-700"
               >
                 <Pencil size={16} />
               </button>

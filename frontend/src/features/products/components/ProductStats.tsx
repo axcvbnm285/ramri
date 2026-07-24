@@ -70,14 +70,14 @@ export default function ProductStats({
 
                     <div
                         key={card.title}
-                        className="rounded-xl border bg-white p-6 shadow-sm"
+                        className="rounded-xl border dark:border-gray-700 bg-white dark:bg-gray-800 p-6 shadow-sm"
                     >
 
                         <div className="flex items-center justify-between">
 
                             <div>
 
-                                <p className="text-sm text-gray-500">
+                                <p className="text-sm text-gray-500 dark:text-gray-400">
                                     {card.title}
                                 </p>
 
@@ -89,7 +89,7 @@ export default function ProductStats({
 
                             <Icon
                                 size={28}
-                                className="text-gray-400"
+                                className="text-gray-400 dark:text-gray-500"
                             />
 
                         </div>

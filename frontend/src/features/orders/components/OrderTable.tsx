@@ -7,9 +7,9 @@ interface Props {
 
 export default function OrderTable({ orders }: Props) {
   return (
-    <div className="overflow-x-auto rounded-xl border bg-white">
+    <div className="overflow-x-auto rounded-xl border dark:border-gray-700 bg-white dark:bg-gray-800">
       <table className="w-full text-left text-sm">
-        <thead className="border-b bg-gray-50">
+        <thead className="border-b dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
           <tr>
             <th className="px-6 py-4">Order</th>
             <th className="px-6 py-4">Customer</th>

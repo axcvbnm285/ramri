@@ -23,7 +23,7 @@ export default function SettingsPage() {
 
   if (isError || !store) {
     return (
-      <div className="rounded-xl border bg-white p-8 text-center">
+      <div className="rounded-xl border dark:border-gray-700 bg-white dark:bg-gray-800 p-8 text-center">
         <p className="text-red-500">Failed to load store settings.</p>
       </div>
     );
@@ -33,7 +33,7 @@ export default function SettingsPage() {
     <div className="max-w-2xl space-y-6">
       <div>
         <h1 className="text-3xl font-bold">Settings</h1>
-        <p className="mt-1 text-gray-500">Manage how your store looks and runs.</p>
+        <p className="mt-1 text-gray-500 dark:text-gray-400">Manage how your store looks and runs.</p>
       </div>
 
       <StoreNameCard store={store} />

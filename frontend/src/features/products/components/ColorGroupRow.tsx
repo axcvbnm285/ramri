@@ -42,7 +42,7 @@ export default function ColorGroupRow({ groupIndex, onRemoveGroup, canRemoveGrou
   };
 
   return (
-    <div className="rounded-xl border bg-gray-50 p-4">
+    <div className="rounded-xl border dark:border-gray-700 bg-gray-50 dark:bg-gray-900 p-4">
       <div className="flex items-start justify-between gap-3">
         <div className="flex-1 space-y-3">
           <div>
@@ -50,20 +50,20 @@ export default function ColorGroupRow({ groupIndex, onRemoveGroup, canRemoveGrou
             <input
               {...register(`colorGroups.${groupIndex}.color`)}
               placeholder="e.g. Red — leave blank if not applicable"
-              className="w-full rounded-lg border px-3 py-2"
+              className="w-full rounded-lg border dark:border-gray-700 px-3 py-2 dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-500"
             />
           </div>
 
           <div>
             <label className="mb-1 block text-sm font-medium">
-              Price override <span className="font-normal text-gray-400">(optional)</span>
+              Price override <span className="font-normal text-gray-400 dark:text-gray-500">(optional)</span>
             </label>
             <input
               type="number"
               step="0.01"
               {...register(`colorGroups.${groupIndex}.priceOverride`)}
               placeholder="Base price"
-              className="w-full rounded-lg border px-3 py-2"
+              className="w-full rounded-lg border dark:border-gray-700 px-3 py-2 dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-500"
             />
           </div>
         </div>
@@ -72,7 +72,7 @@ export default function ColorGroupRow({ groupIndex, onRemoveGroup, canRemoveGrou
           <button
             type="button"
             onClick={onRemoveGroup}
-            className="mt-7 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border text-red-500 hover:bg-red-50"
+            className="mt-7 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border dark:border-gray-700 text-red-500 hover:bg-red-50"
           >
             <Trash2 size={18} />
           </button>
@@ -84,13 +84,13 @@ export default function ColorGroupRow({ groupIndex, onRemoveGroup, canRemoveGrou
 
         {isBlankMode ? (
           <div className="flex flex-wrap items-center gap-2">
-            <label className="text-sm text-gray-500">No size — Stock:</label>
+            <label className="text-sm text-gray-500 dark:text-gray-400">No size — Stock:</label>
             <input
               type="number"
               {...register(`colorGroups.${groupIndex}.sizeStocks.0.stock`, {
                 valueAsNumber: true,
               })}
-              className="w-24 rounded-lg border px-3 py-1.5"
+              className="w-24 rounded-lg border dark:border-gray-700 px-3 py-1.5 dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-500"
             />
           </div>
         ) : (
@@ -108,7 +108,7 @@ export default function ColorGroupRow({ groupIndex, onRemoveGroup, canRemoveGrou
                   {...register(`colorGroups.${groupIndex}.sizeStocks.${sizeIndex}.stock`, {
                     valueAsNumber: true,
                   })}
-                  className="w-16 rounded border px-1.5 py-0.5 text-sm"
+                  className="w-16 rounded border dark:border-gray-700 px-1.5 py-0.5 text-sm dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-500"
                 />
                 <button
                   type="button"
@@ -129,7 +129,7 @@ export default function ColorGroupRow({ groupIndex, onRemoveGroup, canRemoveGrou
                 key={size}
                 type="button"
                 onClick={() => addSize(size)}
-                className="rounded-lg border border-dashed px-3 py-1 text-sm text-gray-500 hover:border-nepal-maroon hover:text-nepal-maroon"
+                className="rounded-lg border border-dashed px-3 py-1 text-sm text-gray-500 dark:text-gray-400 hover:border-nepal-maroon hover:text-nepal-maroon"
               >
                 + {SIZE_LABELS[size] ?? size}
               </button>

@@ -61,7 +61,7 @@ export default function CategoriesPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold">Categories</h1>
-        <p className="mt-1 text-gray-500">
+        <p className="mt-1 text-gray-500 dark:text-gray-400">
           Organize your products into categories customers can browse. Add a photo to make the
           category look great on the storefront homepage.
         </p>
@@ -69,7 +69,7 @@ export default function CategoriesPage() {
 
       <form
         onSubmit={handleSubmit}
-        className="flex flex-wrap items-center gap-3 rounded-xl border bg-white p-4 shadow-sm"
+        className="flex flex-wrap items-center gap-3 rounded-xl border dark:border-gray-700 bg-white dark:bg-gray-800 p-4 shadow-sm"
       >
         <input
           ref={fileInputRef}
@@ -80,7 +80,7 @@ export default function CategoriesPage() {
         />
 
         {image ? (
-          <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-lg border">
+          <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-lg border dark:border-gray-700">
             <Image src={image.url} alt="" fill sizes="56px" className="object-cover" />
             <button
               type="button"
@@ -95,7 +95,7 @@ export default function CategoriesPage() {
             type="button"
             onClick={() => fileInputRef.current?.click()}
             disabled={isUploading}
-            className="flex h-14 w-14 shrink-0 flex-col items-center justify-center gap-0.5 rounded-lg border border-dashed text-gray-400 hover:border-nepal-maroon hover:text-nepal-maroon disabled:opacity-50"
+            className="flex h-14 w-14 shrink-0 flex-col items-center justify-center gap-0.5 rounded-lg border border-dashed text-gray-400 dark:text-gray-500 hover:border-nepal-maroon hover:text-nepal-maroon disabled:opacity-50"
           >
             {isUploading ? <Loader2 size={16} className="animate-spin" /> : <ImagePlus size={16} />}
             <span className="text-[9px]">Photo</span>
@@ -106,13 +106,13 @@ export default function CategoriesPage() {
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="New category name (e.g. Kurtis)"
-          className="flex-1 rounded-lg border px-4 py-3 outline-none focus:border-nepal-maroon"
+          className="flex-1 rounded-lg border px-4 py-3 outline-none focus:border-nepal-maroon dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-500"
         />
 
         <select
           value={section}
           onChange={(e) => setSection(e.target.value as CategorySection)}
-          className="rounded-lg border px-4 py-3"
+          className="rounded-lg border dark:border-gray-700 px-4 py-3 dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-500"
         >
           <option value="WOMEN">Women</option>
           <option value="BEAUTY">Beauty</option>
@@ -133,17 +133,17 @@ export default function CategoriesPage() {
           <Loader2 className="h-8 w-8 animate-spin" />
         </div>
       ) : isError ? (
-        <div className="rounded-xl border bg-white p-8 text-center">
+        <div className="rounded-xl border dark:border-gray-700 bg-white dark:bg-gray-800 p-8 text-center">
           <p className="text-red-500">Failed to load categories.</p>
         </div>
       ) : !categories || categories.length === 0 ? (
-        <div className="rounded-xl border bg-white p-8 text-center text-gray-500">
+        <div className="rounded-xl border dark:border-gray-700 bg-white dark:bg-gray-800 p-8 text-center text-gray-500 dark:text-gray-400">
           No categories yet. Add your first one above.
         </div>
       ) : (
-        <div className="overflow-x-auto rounded-xl border bg-white shadow-sm">
+        <div className="overflow-x-auto rounded-xl border dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm">
           <table className="w-full text-left text-sm">
-            <thead className="bg-gray-50 text-gray-500">
+            <thead className="bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400">
               <tr>
                 <th className="px-4 py-3 font-medium">Name</th>
                 <th className="px-4 py-3 font-medium">Slug</th>

@@ -18,18 +18,18 @@ export default function ShopHomeClient() {
       <PromoBanner />
 
       <section id="categories">
-        <h2 className="mb-5 text-sm font-bold uppercase tracking-[0.2em] text-gray-800">
+        <h2 className="mb-5 text-sm font-bold uppercase tracking-[0.2em] text-gray-800 dark:text-gray-200">
           Shop by Category
         </h2>
 
         {isLoadingCategories ? (
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
             {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="aspect-[4/5] animate-pulse rounded-xl bg-gray-100" />
+              <div key={i} className="aspect-[4/5] animate-pulse rounded-xl bg-gray-100 dark:bg-gray-800" />
             ))}
           </div>
         ) : !categories || categories.length === 0 ? (
-          <p className="text-gray-500">No categories yet.</p>
+          <p className="text-gray-500 dark:text-gray-400">No categories yet.</p>
         ) : (
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
             {categories.map((category, i) => (
@@ -42,7 +42,7 @@ export default function ShopHomeClient() {
                 whileTap={{ scale: 0.98 }}
               >
                 <Link href={`/shop/categories/${category.slug}`} className="group block">
-                  <div className="relative aspect-[4/5] w-full overflow-hidden rounded-xl bg-gradient-to-br from-orange-100 via-amber-50 to-rose-100">
+                  <div className="relative aspect-[4/5] w-full overflow-hidden rounded-xl bg-gradient-to-br from-orange-100 via-amber-50 to-rose-100 dark:from-gray-800 dark:via-gray-800 dark:to-gray-700">
                     {category.imageUrl ? (
                       <Image
                         src={category.imageUrl}
@@ -53,14 +53,14 @@ export default function ShopHomeClient() {
                       />
                     ) : (
                       <div className="flex h-full w-full items-center justify-center">
-                        <span className="text-3xl font-serif italic text-orange-300">
+                        <span className="text-3xl font-serif italic text-orange-300 dark:text-gray-500">
                           {category.name.charAt(0).toUpperCase()}
                         </span>
                       </div>
                     )}
                   </div>
 
-                  <p className="mt-3 truncate text-center text-sm font-bold uppercase tracking-wide text-gray-900">
+                  <p className="mt-3 truncate text-center text-sm font-bold uppercase tracking-wide text-gray-900 dark:text-gray-100">
                     {category.name}
                   </p>
                 </Link>

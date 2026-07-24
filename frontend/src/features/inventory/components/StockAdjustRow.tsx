@@ -28,10 +28,10 @@ export default function StockAdjustRow({ variant }: Props) {
   };
 
   return (
-    <tr className="border-t">
+    <tr className="border-t dark:border-gray-700">
       <td className="px-4 py-3">
         <p className="font-medium">{variant.product.name}</p>
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-gray-500 dark:text-gray-400">
           {[variant.size, variant.color].filter(Boolean).join(" / ") || variant.sku}
         </p>
       </td>
@@ -48,7 +48,7 @@ export default function StockAdjustRow({ variant }: Props) {
             min={1}
             value={amount}
             onChange={(e) => setAmount(Number(e.target.value))}
-            className="w-20 rounded-lg border px-2 py-1.5 text-right"
+            className="w-20 rounded-lg border dark:border-gray-700 px-2 py-1.5 text-right dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-500"
           />
           <button
             onClick={handleRestock}

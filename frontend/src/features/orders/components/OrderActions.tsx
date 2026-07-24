@@ -77,7 +77,7 @@ export default function OrderActions({ order }: Props) {
   }
 
   return (
-    <div className="space-y-3 rounded-2xl border bg-white p-6 shadow-sm">
+    <div className="space-y-3 rounded-2xl border dark:border-gray-700 bg-white dark:bg-gray-800 p-6 shadow-sm">
       <h2 className="text-lg font-bold">Actions</h2>
 
       {order.status === "PENDING" && (

@@ -10,7 +10,7 @@ interface Props {
 
 export default function OrderRow({ order }: Props) {
   return (
-    <tr className="border-t hover:bg-gray-50">
+    <tr className="border-t dark:border-gray-700 hover:bg-gray-50 dark:bg-gray-900">
       <td className="px-6 py-4 font-medium">
         <Link href={`/orders/${order.id}`} className="hover:underline">
           {order.orderNumber}
@@ -18,7 +18,7 @@ export default function OrderRow({ order }: Props) {
       </td>
       <td className="px-6 py-4">
         <div>{order.customer?.name}</div>
-        <div className="text-sm text-gray-500">{order.customer?.phone}</div>
+        <div className="text-sm text-gray-500 dark:text-gray-400">{order.customer?.phone}</div>
       </td>
       <td className="px-6 py-4">{order.items.length} item(s)</td>
       <td className="px-6 py-4">₹{Number(order.total).toLocaleString("en-IN")}</td>
@@ -30,7 +30,7 @@ export default function OrderRow({ order }: Props) {
           )}
         </div>
       </td>
-      <td className="px-6 py-4 text-gray-500">
+      <td className="px-6 py-4 text-gray-500 dark:text-gray-400">
         {new Date(order.createdAt).toLocaleDateString("en-IN", {
           day: "numeric",
           month: "short",

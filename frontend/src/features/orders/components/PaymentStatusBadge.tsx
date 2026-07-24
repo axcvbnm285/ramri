@@ -1,9 +1,9 @@
 import { PaymentStatus } from "../types/order.types";
 
 const STYLES: Record<PaymentStatus, string> = {
-  PENDING_VERIFICATION: "bg-yellow-100 text-yellow-700",
-  PAID: "bg-green-100 text-green-700",
-  REJECTED: "bg-red-100 text-red-700",
+  PENDING_VERIFICATION: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/40 dark:text-yellow-300",
+  PAID: "bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300",
+  REJECTED: "bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300",
 };
 
 const LABELS: Record<PaymentStatus, string> = {

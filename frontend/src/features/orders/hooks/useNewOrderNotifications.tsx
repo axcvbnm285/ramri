@@ -58,14 +58,14 @@ export function useNewOrderNotifications(enabled: boolean) {
               toast.dismiss(t);
               router.push(`/orders/${order.id}`);
             }}
-            className="flex w-80 items-start gap-3 rounded-xl border border-nepal-gold/30 bg-white p-4 text-left shadow-lg transition hover:border-nepal-gold"
+            className="flex w-80 items-start gap-3 rounded-xl border border-nepal-gold/30 bg-white dark:bg-gray-800 p-4 text-left shadow-lg transition hover:border-nepal-gold"
           >
             <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-nepal-cream-3 text-nepal-maroon">
               <ShoppingBag size={18} />
             </span>
             <span className="min-w-0">
-              <span className="block font-semibold text-gray-900">New order received!</span>
-              <span className="block truncate text-sm text-gray-500">
+              <span className="block font-semibold text-gray-900 dark:text-gray-100">New order received!</span>
+              <span className="block truncate text-sm text-gray-500 dark:text-gray-400">
                 {order.customer?.name ?? "Customer"} • {order.orderNumber}
               </span>
             </span>

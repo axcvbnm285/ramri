@@ -44,13 +44,13 @@ export default function DispatchForm({ orderId, onDone }: Props) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-3 rounded-xl border bg-gray-50 p-4">
+    <form onSubmit={handleSubmit} className="space-y-3 rounded-xl border dark:border-gray-700 bg-gray-50 dark:bg-gray-900 p-4">
       <div>
         <label className="mb-1 block text-sm font-medium">Courier</label>
         <input
           value={courierName}
           onChange={(e) => setCourierName(e.target.value)}
-          className="w-full rounded-lg border px-3 py-2 outline-none focus:border-nepal-maroon"
+          className="w-full rounded-lg border px-3 py-2 outline-none focus:border-nepal-maroon dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-500"
         />
       </div>
 
@@ -60,7 +60,7 @@ export default function DispatchForm({ orderId, onDone }: Props) {
           value={trackingId}
           onChange={(e) => setTrackingId(e.target.value)}
           placeholder="Porter tracking ID"
-          className="w-full rounded-lg border px-3 py-2 outline-none focus:border-nepal-maroon"
+          className="w-full rounded-lg border px-3 py-2 outline-none focus:border-nepal-maroon dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-500"
         />
       </div>
 
@@ -70,7 +70,7 @@ export default function DispatchForm({ orderId, onDone }: Props) {
           value={trackingUrl}
           onChange={(e) => setTrackingUrl(e.target.value)}
           placeholder="https://porter.in/track/..."
-          className="w-full rounded-lg border px-3 py-2 outline-none focus:border-nepal-maroon"
+          className="w-full rounded-lg border px-3 py-2 outline-none focus:border-nepal-maroon dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-500"
         />
       </div>
 

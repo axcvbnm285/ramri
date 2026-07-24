@@ -25,14 +25,14 @@ export default function CategorySelect() {
   }, [isLoading, categories, getValues, setValue]);
 
   return (
-    <div className="rounded-xl border bg-white p-6 shadow-sm">
+    <div className="rounded-xl border dark:border-gray-700 bg-white dark:bg-gray-800 p-6 shadow-sm">
       <h2 className="mb-5 text-xl font-semibold">
         Category
       </h2>
 
       <select
         {...register("categoryId")}
-        className="w-full rounded-lg border px-4 py-3"
+        className="w-full rounded-lg border dark:border-gray-700 px-4 py-3 dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-500"
       >
         <option value="">
           {isLoading

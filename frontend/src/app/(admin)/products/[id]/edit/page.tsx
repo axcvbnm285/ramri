@@ -21,7 +21,7 @@ export default function EditProductPage() {
 
   if (isError || !data) {
     return (
-      <div className="rounded-xl border bg-white p-8 text-center">
+      <div className="rounded-xl border dark:border-gray-700 bg-white dark:bg-gray-800 p-8 text-center">
         <p className="text-red-500">Failed to load product.</p>
       </div>
     );

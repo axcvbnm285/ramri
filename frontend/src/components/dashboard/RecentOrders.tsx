@@ -9,7 +9,7 @@ export default function RecentOrders() {
   const orders = data?.orders ?? [];
 
   return (
-    <div className="rounded-2xl bg-white p-6 shadow-sm">
+    <div className="rounded-2xl bg-white p-6 shadow-sm dark:bg-gray-800">
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-lg font-bold">Recent Orders</h2>
         <Link href="/orders" className="text-sm font-medium text-nepal-maroon hover:underline">
@@ -27,11 +27,11 @@ export default function RecentOrders() {
             <Link
               key={order.id}
               href={`/orders/${order.id}`}
-              className="flex items-center justify-between rounded-xl border p-3 transition hover:bg-gray-50"
+              className="flex items-center justify-between rounded-xl border p-3 transition hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-700"
             >
               <div>
                 <p className="font-medium">{order.orderNumber}</p>
-                <p className="text-sm text-gray-500">{order.customer?.name}</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">{order.customer?.name}</p>
               </div>
 
               <div className="flex items-center gap-3">

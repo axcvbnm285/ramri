@@ -21,7 +21,7 @@ export default function CustomerDetailPage() {
 
   if (isError || !customer) {
     return (
-      <div className="rounded-xl border bg-white p-8 text-center">
+      <div className="rounded-xl border dark:border-gray-700 bg-white dark:bg-gray-800 p-8 text-center">
         <p className="text-red-500">Failed to load customer.</p>
       </div>
     );
@@ -31,27 +31,27 @@ export default function CustomerDetailPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold">{customer.name}</h1>
-        <p className="mt-1 text-gray-500">{customer.phone}</p>
+        <p className="mt-1 text-gray-500 dark:text-gray-400">{customer.phone}</p>
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div className="space-y-6 lg:col-span-2">
-          <div className="rounded-2xl border bg-white p-6 shadow-sm">
+          <div className="rounded-2xl border dark:border-gray-700 bg-white dark:bg-gray-800 p-6 shadow-sm">
             <h2 className="mb-4 text-lg font-bold">Order History</h2>
 
             {customer.orders.length === 0 ? (
-              <p className="text-sm text-gray-500">No orders yet.</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">No orders yet.</p>
             ) : (
               <div className="divide-y">
                 {customer.orders.map((order) => (
                   <Link
                     key={order.id}
                     href={`/orders/${order.id}`}
-                    className="flex items-center justify-between py-3 hover:bg-gray-50"
+                    className="flex items-center justify-between py-3 hover:bg-gray-50 dark:bg-gray-900"
                   >
                     <div>
                       <p className="font-medium">{order.orderNumber}</p>
-                      <p className="text-sm text-gray-500">
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
                         {new Date(order.createdAt).toLocaleDateString("en-IN")}
                       </p>
                     </div>
@@ -69,18 +69,18 @@ export default function CustomerDetailPage() {
         </div>
 
         <div className="space-y-6">
-          <div className="rounded-2xl border bg-white p-6 shadow-sm">
+          <div className="rounded-2xl border dark:border-gray-700 bg-white dark:bg-gray-800 p-6 shadow-sm">
             <h2 className="mb-3 text-lg font-bold">Saved Addresses</h2>
 
             {customer.addresses.length === 0 ? (
-              <p className="text-sm text-gray-500">No addresses saved.</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">No addresses saved.</p>
             ) : (
               <div className="space-y-4">
                 {customer.addresses.map((address) => (
                   <div key={address.id} className="text-sm">
                     <p className="font-medium">{address.fullName}</p>
-                    <p className="text-gray-500">{address.phone}</p>
-                    <p className="text-gray-500">
+                    <p className="text-gray-500 dark:text-gray-400">{address.phone}</p>
+                    <p className="text-gray-500 dark:text-gray-400">
                       {address.line1}
                       {address.line2 ? `, ${address.line2}` : ""}, {address.city},{" "}
                       {address.state} - {address.pincode}

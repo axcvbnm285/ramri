@@ -28,7 +28,7 @@ export default function PaymentVerificationCard({ order }: Props) {
   };
 
   return (
-    <div className="rounded-2xl border bg-white p-6 shadow-sm">
+    <div className="rounded-2xl border dark:border-gray-700 bg-white dark:bg-gray-800 p-6 shadow-sm">
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-lg font-bold">Payment Verification</h2>
         {order.paymentStatus && <PaymentStatusBadge status={order.paymentStatus} />}
@@ -36,7 +36,7 @@ export default function PaymentVerificationCard({ order }: Props) {
 
       {order.paymentProofUrl && (
         <a href={order.paymentProofUrl} target="_blank" rel="noopener noreferrer">
-          <div className="relative mb-3 h-48 w-full overflow-hidden rounded-lg border bg-gray-50">
+          <div className="relative mb-3 h-48 w-full overflow-hidden rounded-lg border dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
             <Image
               src={order.paymentProofUrl}
               alt="Payment proof screenshot"
@@ -49,7 +49,7 @@ export default function PaymentVerificationCard({ order }: Props) {
       )}
 
       {order.paymentReference && (
-        <p className="mb-3 text-sm text-gray-600">
+        <p className="mb-3 text-sm text-gray-600 dark:text-gray-300">
           <span className="font-medium">Reference:</span> {order.paymentReference}
         </p>
       )}
@@ -60,7 +60,7 @@ export default function PaymentVerificationCard({ order }: Props) {
             value={note}
             onChange={(e) => setNote(e.target.value)}
             placeholder="Note (optional, e.g. reason for rejection)"
-            className="w-full rounded-lg border px-3 py-2 text-sm outline-none focus:border-nepal-maroon"
+            className="w-full rounded-lg border px-3 py-2 text-sm outline-none focus:border-nepal-maroon dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-500"
           />
 
           <div className="flex gap-2">
@@ -84,7 +84,7 @@ export default function PaymentVerificationCard({ order }: Props) {
         </div>
       ) : (
         order.paymentVerifiedAt && (
-          <p className="text-xs text-gray-400">
+          <p className="text-xs text-gray-400 dark:text-gray-500">
             Verified on{" "}
             {new Date(order.paymentVerifiedAt).toLocaleString("en-IN", {
               dateStyle: "medium",

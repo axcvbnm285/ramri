@@ -31,7 +31,7 @@ export default function CustomersPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold">Customers</h1>
-        <p className="mt-1 text-gray-500">People who have signed up on your storefront.</p>
+        <p className="mt-1 text-gray-500 dark:text-gray-400">People who have signed up on your storefront.</p>
       </div>
 
       <input
@@ -39,7 +39,7 @@ export default function CustomersPage() {
         placeholder="Search by name or phone..."
         value={search}
         onChange={(e) => handleSearchChange(e.target.value)}
-        className="w-full max-w-sm rounded-lg border px-4 py-2 outline-none focus:ring-2 focus:ring-nepal-maroon"
+        className="w-full max-w-sm rounded-lg border dark:border-gray-700 px-4 py-2 outline-none focus:ring-2 focus:ring-nepal-maroon dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-500"
       />
 
       {isLoading ? (
@@ -47,17 +47,17 @@ export default function CustomersPage() {
           <Loader2 className="h-8 w-8 animate-spin" />
         </div>
       ) : isError ? (
-        <div className="rounded-xl border bg-white p-8 text-center">
+        <div className="rounded-xl border dark:border-gray-700 bg-white dark:bg-gray-800 p-8 text-center">
           <p className="text-red-500">Failed to load customers.</p>
         </div>
       ) : customers.length === 0 ? (
-        <div className="rounded-xl border bg-white p-8 text-center text-gray-500">
+        <div className="rounded-xl border dark:border-gray-700 bg-white dark:bg-gray-800 p-8 text-center text-gray-500 dark:text-gray-400">
           No customers yet.
         </div>
       ) : (
-        <div className="overflow-x-auto rounded-xl border bg-white">
+        <div className="overflow-x-auto rounded-xl border dark:border-gray-700 bg-white dark:bg-gray-800">
           <table className="w-full text-left text-sm">
-            <thead className="border-b bg-gray-50">
+            <thead className="border-b dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
               <tr>
                 <th className="px-6 py-4">Name</th>
                 <th className="px-6 py-4">Phone</th>
@@ -68,11 +68,11 @@ export default function CustomersPage() {
             </thead>
             <tbody className="divide-y">
               {customers.map((customer) => (
-                <tr key={customer.id} className="hover:bg-gray-50">
+                <tr key={customer.id} className="hover:bg-gray-50 dark:bg-gray-900">
                   <td className="px-6 py-4 font-medium">{customer.name}</td>
                   <td className="px-6 py-4">{customer.phone}</td>
                   <td className="px-6 py-4">{customer._count?.orders ?? 0}</td>
-                  <td className="px-6 py-4 text-gray-500">
+                  <td className="px-6 py-4 text-gray-500 dark:text-gray-400">
                     {new Date(customer.createdAt).toLocaleDateString("en-IN", {
                       day: "numeric",
                       month: "short",
@@ -95,7 +95,7 @@ export default function CustomersPage() {
       )}
 
       {pagination && (
-        <div className="flex items-center justify-between text-sm text-gray-500">
+        <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
           <span>
             Page {pagination.page} of {pagination.totalPages} • {pagination.total} customers
           </span>
@@ -104,14 +104,14 @@ export default function CustomersPage() {
             <button
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={page <= 1}
-              className="rounded-lg border px-3 py-1.5 disabled:opacity-40"
+              className="rounded-lg border dark:border-gray-700 px-3 py-1.5 disabled:opacity-40"
             >
               Previous
             </button>
             <button
               onClick={() => setPage((p) => Math.min(pagination.totalPages, p + 1))}
               disabled={page >= pagination.totalPages}
-              className="rounded-lg border px-3 py-1.5 disabled:opacity-40"
+              className="rounded-lg border dark:border-gray-700 px-3 py-1.5 disabled:opacity-40"
             >
               Next
             </button>

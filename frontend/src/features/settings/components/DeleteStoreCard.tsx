@@ -28,9 +28,9 @@ export default function DeleteStoreCard({ store }: Props) {
   };
 
   return (
-    <div className="rounded-2xl border border-red-200 bg-white p-6 shadow-sm">
+    <div className="rounded-2xl border border-red-200 bg-white dark:bg-gray-800 p-6 shadow-sm">
       <h2 className="text-lg font-bold text-red-600">Delete Store</h2>
-      <p className="mt-1 text-sm text-gray-500">
+      <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
         Taking a break or moving on? We&apos;ll keep your data safe on our side, just in case you change your mind.
       </p>
 
@@ -61,13 +61,13 @@ export default function DeleteStoreCard({ store }: Props) {
           </div>
 
           <div>
-            <label className="mb-1 block text-xs font-medium text-gray-600">
+            <label className="mb-1 block text-xs font-medium text-gray-600 dark:text-gray-300">
               Type <strong>{store.name}</strong> to confirm
             </label>
             <input
               value={confirmText}
               onChange={(e) => setConfirmText(e.target.value)}
-              className="w-full max-w-sm rounded-lg border border-red-200 bg-white px-4 py-2 outline-none focus:border-red-500"
+              className="w-full max-w-sm rounded-lg border border-red-200 bg-white dark:bg-gray-800 px-4 py-2 outline-none focus:border-red-500"
               autoFocus
             />
           </div>
@@ -86,7 +86,7 @@ export default function DeleteStoreCard({ store }: Props) {
                 setOpen(false);
                 setConfirmText("");
               }}
-              className="rounded-lg border px-4 py-2.5 text-sm font-medium text-gray-600 hover:bg-gray-50"
+              className="rounded-lg border dark:border-gray-700 px-4 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:bg-gray-900"
             >
               Cancel
             </button>

@@ -15,6 +15,7 @@ import { useCustomerLogout } from "@/features/customerAuth/hooks/useCustomerLogo
 import { useStorefrontCategories } from "@/features/storefront/hooks/useStorefrontCategories";
 import { StorefrontCategory } from "@/features/storefront/types/storefront.types";
 import PromoBar from "@/components/shop/PromoBar";
+import ThemeToggle from "@/components/ThemeToggle";
 
 type MenuKey = "women" | "beauty" | "profile" | null;
 
@@ -61,7 +62,7 @@ export default function ShopHeader() {
   const megaMenuOpen = openMenu === "women" || openMenu === "beauty";
 
   return (
-    <header className="sticky top-0 z-30 border-b border-pink-100 bg-white">
+    <header className="sticky top-0 z-30 border-b border-pink-100 bg-white dark:border-gray-700 dark:bg-gray-900">
       <PromoBar />
 
       <div className="mx-auto flex max-w-6xl items-center gap-6 px-4 py-4 md:gap-10">
@@ -79,7 +80,7 @@ export default function ShopHeader() {
         <nav className="hidden items-stretch gap-8 md:flex">
           <Link
             href="/shop"
-            className="flex items-center border-b-2 border-transparent text-sm font-bold uppercase tracking-wide text-gray-900 hover:text-pink-600"
+            className="flex items-center border-b-2 border-transparent text-sm font-bold uppercase tracking-wide text-gray-900 hover:text-pink-600 dark:text-gray-100"
           >
             Home
           </Link>
@@ -90,7 +91,7 @@ export default function ShopHeader() {
             className={`flex items-center border-b-2 text-sm font-bold uppercase tracking-wide transition-colors ${
               openMenu === "women"
                 ? "border-pink-600 text-pink-600"
-                : "border-transparent text-gray-900 hover:text-pink-600"
+                : "border-transparent text-gray-900 hover:text-pink-600 dark:text-gray-100"
             }`}
           >
             Women
@@ -102,7 +103,7 @@ export default function ShopHeader() {
             className={`flex items-center border-b-2 text-sm font-bold uppercase tracking-wide transition-colors ${
               openMenu === "beauty"
                 ? "border-pink-600 text-pink-600"
-                : "border-transparent text-gray-900 hover:text-pink-600"
+                : "border-transparent text-gray-900 hover:text-pink-600 dark:text-gray-100"
             }`}
           >
             Beauty
@@ -119,11 +120,13 @@ export default function ShopHeader() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search for products, brands and more"
-            className="w-full rounded-sm border border-transparent bg-gray-100 py-2.5 pl-9 pr-4 text-sm outline-none transition-colors focus:border-pink-300 focus:bg-white"
+            className="w-full rounded-sm border border-transparent bg-gray-100 py-2.5 pl-9 pr-4 text-sm outline-none transition-colors focus:border-pink-300 focus:bg-white dark:bg-gray-800 dark:text-gray-100 dark:focus:bg-gray-800"
           />
         </form>
 
         <div className="flex shrink-0 items-center gap-6">
+          <ThemeToggle className="text-gray-800 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-800" />
+
           <div
             className="relative"
             onMouseEnter={() => openWithClear("profile")}
@@ -131,7 +134,7 @@ export default function ShopHeader() {
           >
             <Link
               href={customer ? "/shop/account" : "/shop/login"}
-              className="flex flex-col items-center gap-0.5 text-gray-800 hover:text-pink-600"
+              className="flex flex-col items-center gap-0.5 text-gray-800 hover:text-pink-600 dark:text-gray-200"
             >
               <User size={20} />
               <span className="text-xs font-medium">
@@ -146,31 +149,31 @@ export default function ShopHeader() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 8 }}
                   transition={{ duration: 0.15 }}
-                  className="absolute right-0 top-full mt-2 min-w-[180px] rounded-lg border bg-white py-2 shadow-xl"
+                  className="absolute right-0 top-full mt-2 min-w-[180px] rounded-lg border bg-white py-2 shadow-xl dark:border-gray-700 dark:bg-gray-800"
                 >
                   {customer ? (
                     <>
                       <Link
                         href="/shop/account/orders"
-                        className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-600"
+                        className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-600 dark:text-gray-200 dark:hover:bg-gray-700"
                       >
                         <Package size={15} /> Orders
                       </Link>
                       <Link
                         href="/shop/wishlist"
-                        className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-600"
+                        className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-600 dark:text-gray-200 dark:hover:bg-gray-700"
                       >
                         <Heart size={15} /> Wishlist
                       </Link>
                       <Link
                         href="/shop/cart"
-                        className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-600"
+                        className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-600 dark:text-gray-200 dark:hover:bg-gray-700"
                       >
                         <ShoppingBag size={15} /> Cart
                       </Link>
                       <button
                         onClick={() => logout.mutate()}
-                        className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-600"
+                        className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-600 dark:text-gray-200 dark:hover:bg-gray-700"
                       >
                         <LogOut size={15} /> Logout
                       </button>
@@ -179,13 +182,13 @@ export default function ShopHeader() {
                     <>
                       <Link
                         href="/shop/login"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-600"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-600 dark:text-gray-200 dark:hover:bg-gray-700"
                       >
                         Login
                       </Link>
                       <Link
                         href="/shop/signup"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-600"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-600 dark:text-gray-200 dark:hover:bg-gray-700"
                       >
                         Signup
                       </Link>
@@ -198,7 +201,7 @@ export default function ShopHeader() {
 
           <Link
             href="/shop/wishlist"
-            className="relative flex flex-col items-center gap-0.5 text-gray-800 hover:text-pink-600"
+            className="relative flex flex-col items-center gap-0.5 text-gray-800 hover:text-pink-600 dark:text-gray-200"
           >
             <motion.span whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} className="relative">
               <Heart size={20} />
@@ -222,7 +225,7 @@ export default function ShopHeader() {
 
           <Link
             href="/shop/cart"
-            className="relative flex flex-col items-center gap-0.5 text-gray-800 hover:text-pink-600"
+            className="relative flex flex-col items-center gap-0.5 text-gray-800 hover:text-pink-600 dark:text-gray-200"
           >
             <motion.span whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} className="relative">
               <ShoppingBag size={20} />
@@ -256,7 +259,7 @@ export default function ShopHeader() {
             transition={{ duration: 0.15 }}
             onMouseEnter={() => openWithClear(openMenu)}
             onMouseLeave={scheduleClose}
-            className="absolute inset-x-0 top-full z-30 border-t bg-white shadow-2xl"
+            className="absolute inset-x-0 top-full z-30 border-t bg-white shadow-2xl dark:border-gray-700 dark:bg-gray-800"
           >
             <div className="mx-auto max-w-6xl px-8 py-8">
               <MegaMenuColumns
@@ -282,16 +285,16 @@ export default function ShopHeader() {
         )}
       </AnimatePresence>
 
-      <div className="border-t px-4 py-2 md:hidden">
+      <div className="border-t px-4 py-2 dark:border-gray-700 md:hidden">
         <nav className="flex items-center gap-5 overflow-x-auto">
-          <Link href="/shop" className="whitespace-nowrap text-sm font-medium text-gray-700">
+          <Link href="/shop" className="whitespace-nowrap text-sm font-medium text-gray-700 dark:text-gray-200">
             Home
           </Link>
           {womenCategories.map((cat) => (
             <Link
               key={cat.id}
               href={`/shop/categories/${cat.slug}`}
-              className="whitespace-nowrap text-sm text-gray-500"
+              className="whitespace-nowrap text-sm text-gray-500 dark:text-gray-400"
             >
               {cat.name}
             </Link>
@@ -300,7 +303,7 @@ export default function ShopHeader() {
             <Link
               key={cat.id}
               href={`/shop/categories/${cat.slug}`}
-              className="whitespace-nowrap text-sm text-gray-500"
+              className="whitespace-nowrap text-sm text-gray-500 dark:text-gray-400"
             >
               {cat.name}
             </Link>
@@ -333,7 +336,7 @@ function MegaMenuColumns({
           <Link
             key={cat.id}
             href={`/shop/categories/${cat.slug}`}
-            className="text-sm text-gray-800 hover:text-pink-600"
+            className="text-sm text-gray-800 hover:text-pink-600 dark:text-gray-200"
           >
             {cat.name}
           </Link>

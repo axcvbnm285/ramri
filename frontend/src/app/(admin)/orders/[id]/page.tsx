@@ -23,7 +23,7 @@ export default function OrderDetailPage() {
 
   if (isError || !order) {
     return (
-      <div className="rounded-xl border bg-white p-8 text-center">
+      <div className="rounded-xl border dark:border-gray-700 bg-white dark:bg-gray-800 p-8 text-center">
         <p className="text-red-500">Failed to load order.</p>
       </div>
     );
@@ -34,7 +34,7 @@ export default function OrderDetailPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">{order.orderNumber}</h1>
-          <p className="mt-1 text-gray-500">
+          <p className="mt-1 text-gray-500 dark:text-gray-400">
             Placed on{" "}
             {new Date(order.createdAt).toLocaleString("en-IN", {
               dateStyle: "medium",
@@ -47,7 +47,7 @@ export default function OrderDetailPage() {
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div className="space-y-6 lg:col-span-2">
-          <div className="rounded-2xl border bg-white p-6 shadow-sm">
+          <div className="rounded-2xl border dark:border-gray-700 bg-white dark:bg-gray-800 p-6 shadow-sm">
             <h2 className="mb-4 text-lg font-bold">Items</h2>
 
             <div className="divide-y">
@@ -55,7 +55,7 @@ export default function OrderDetailPage() {
                 <div key={item.id} className="flex items-center justify-between py-3">
                   <div>
                     <p className="font-medium">{item.productName}</p>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
                       {[item.size, item.color].filter(Boolean).join(" / ")} × {item.quantity}
                     </p>
                   </div>
@@ -64,24 +64,24 @@ export default function OrderDetailPage() {
               ))}
             </div>
 
-            <div className="mt-4 flex justify-between border-t pt-4 text-lg font-bold">
+            <div className="mt-4 flex justify-between border-t dark:border-gray-700 pt-4 text-lg font-bold">
               <span>Total</span>
               <span>₹{Number(order.total).toLocaleString("en-IN")}</span>
             </div>
 
             {order.paymentMethod === "COD" && (
-              <p className="mt-1 text-right text-sm text-gray-500">Payment: Cash on Delivery</p>
+              <p className="mt-1 text-right text-sm text-gray-500 dark:text-gray-400">Payment: Cash on Delivery</p>
             )}
           </div>
 
           {order.paymentMethod === "QR" && <PaymentVerificationCard order={order} />}
 
           {(order.trackingId || order.trackingUrl) && (
-            <div className="rounded-2xl border bg-white p-6 shadow-sm">
+            <div className="rounded-2xl border dark:border-gray-700 bg-white dark:bg-gray-800 p-6 shadow-sm">
               <h2 className="mb-3 text-lg font-bold">Shipment</h2>
-              <p className="text-sm text-gray-500">Courier: {order.courierName}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Courier: {order.courierName}</p>
               {order.trackingId && (
-                <p className="text-sm text-gray-500">Tracking ID: {order.trackingId}</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Tracking ID: {order.trackingId}</p>
               )}
               {order.trackingUrl && (
                 <a
@@ -97,7 +97,7 @@ export default function OrderDetailPage() {
           )}
 
           {order.statusLogs && order.statusLogs.length > 0 && (
-            <div className="rounded-2xl border bg-white p-6 shadow-sm">
+            <div className="rounded-2xl border dark:border-gray-700 bg-white dark:bg-gray-800 p-6 shadow-sm">
               <h2 className="mb-4 text-lg font-bold">Status Timeline</h2>
               <OrderTimeline logs={order.statusLogs} />
             </div>
@@ -107,18 +107,18 @@ export default function OrderDetailPage() {
         <div className="space-y-6">
           <OrderActions order={order} />
 
-          <div className="rounded-2xl border bg-white p-6 shadow-sm">
+          <div className="rounded-2xl border dark:border-gray-700 bg-white dark:bg-gray-800 p-6 shadow-sm">
             <h2 className="mb-3 text-lg font-bold">Customer</h2>
             <p className="font-medium">{order.customer?.name}</p>
-            <p className="text-sm text-gray-500">{order.customer?.phone}</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">{order.customer?.phone}</p>
           </div>
 
           {order.address && (
-            <div className="rounded-2xl border bg-white p-6 shadow-sm">
+            <div className="rounded-2xl border dark:border-gray-700 bg-white dark:bg-gray-800 p-6 shadow-sm">
               <h2 className="mb-3 text-lg font-bold">Delivery Address</h2>
               <p className="font-medium">{order.address.fullName}</p>
-              <p className="text-sm text-gray-500">{order.address.phone}</p>
-              <p className="mt-2 text-sm text-gray-500">
+              <p className="text-sm text-gray-500 dark:text-gray-400">{order.address.phone}</p>
+              <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
                 {order.address.line1}
                 {order.address.line2 ? `, ${order.address.line2}` : ""}
                 <br />

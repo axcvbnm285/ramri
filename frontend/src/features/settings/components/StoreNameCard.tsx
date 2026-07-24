@@ -33,9 +33,9 @@ export default function StoreNameCard({ store }: Props) {
   };
 
   return (
-    <div className="rounded-2xl border border-nepal-gold/20 bg-white p-6 shadow-sm">
+    <div className="rounded-2xl border border-nepal-gold/20 bg-white dark:bg-gray-800 p-6 shadow-sm">
       <h2 className="text-lg font-bold">Store Name</h2>
-      <p className="mt-1 text-sm text-gray-500">
+      <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
         This is the name that goes on every parcel your customers unbox — make it one they remember.
       </p>
 
@@ -45,7 +45,7 @@ export default function StoreNameCard({ store }: Props) {
             value={name}
             onChange={(e) => setName(e.target.value)}
             autoFocus
-            className="w-full max-w-sm rounded-lg border border-nepal-gold/40 px-4 py-2.5 outline-none focus:border-nepal-maroon"
+            className="w-full max-w-sm rounded-lg border border-nepal-gold/40 px-4 py-2.5 outline-none focus:border-nepal-maroon dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-500"
           />
         ) : (
           <span className="text-xl font-semibold">{store.name}</span>
@@ -63,7 +63,7 @@ export default function StoreNameCard({ store }: Props) {
         ) : (
           <button
             onClick={() => setEditing(true)}
-            className="flex items-center gap-1.5 rounded-lg border border-nepal-gold/40 px-4 py-2.5 text-sm font-medium text-gray-600 transition hover:border-nepal-maroon hover:text-nepal-maroon"
+            className="flex items-center gap-1.5 rounded-lg border border-nepal-gold/40 px-4 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-300 transition hover:border-nepal-maroon hover:text-nepal-maroon"
           >
             <Pencil size={14} />
             Rename

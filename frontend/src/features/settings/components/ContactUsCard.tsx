@@ -4,9 +4,9 @@ import { getWhatsAppSupportUrl } from "@/lib/support";
 
 export default function ContactUsCard() {
   return (
-    <div className="rounded-2xl border border-nepal-gold/20 bg-white p-6 shadow-sm">
+    <div className="rounded-2xl border border-nepal-gold/20 bg-white dark:bg-gray-800 p-6 shadow-sm">
       <h2 className="text-lg font-bold">Contact Us</h2>
-      <p className="mt-1 text-sm text-gray-500">
+      <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
         Stuck on something, or just want to say namaste? We&apos;re rooting for your store — reach out anytime.
       </p>
 

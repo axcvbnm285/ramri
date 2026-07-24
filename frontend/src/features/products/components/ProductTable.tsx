@@ -9,11 +9,11 @@ export default function ProductTable({
   products,
 }: Props) {
   return (
-    <div className="overflow-x-auto rounded-xl border bg-white">
+    <div className="overflow-x-auto rounded-xl border dark:border-gray-700 bg-white dark:bg-gray-800">
 
       <table className="w-full">
 
-        <thead className="border-b bg-gray-50">
+        <thead className="border-b dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
 
           <tr>
 

@@ -19,9 +19,9 @@ export default function VariantSection() {
   });
 
   return (
-    <div className="rounded-xl border bg-white p-6 shadow-sm">
+    <div className="rounded-xl border dark:border-gray-700 bg-white dark:bg-gray-800 p-6 shadow-sm">
       <h2 className="mb-1 text-xl font-semibold">Pricing & Stock</h2>
-      <p className="mb-5 text-sm text-gray-500">
+      <p className="mb-5 text-sm text-gray-500 dark:text-gray-400">
         Set a base price, then add each color and the sizes it comes in. Leave color or size
         blank for items that don&apos;t have one (e.g. jewelry, sunglasses).
       </p>
@@ -33,12 +33,12 @@ export default function VariantSection() {
           step="0.01"
           {...register("basePrice", { valueAsNumber: true })}
           placeholder="999"
-          className="w-full max-w-xs rounded-lg border px-4 py-3 outline-none focus:ring-2 focus:ring-nepal-maroon"
+          className="w-full max-w-xs rounded-lg border dark:border-gray-700 px-4 py-3 outline-none focus:ring-2 focus:ring-nepal-maroon dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-500"
         />
         {errors.basePrice && (
           <p className="mt-1 text-sm text-red-500">{errors.basePrice.message}</p>
         )}
-        <p className="mt-1 text-xs text-gray-400">
+        <p className="mt-1 text-xs text-gray-400 dark:text-gray-500">
           Applies to every color unless you set a price override for it below.
         </p>
       </div>

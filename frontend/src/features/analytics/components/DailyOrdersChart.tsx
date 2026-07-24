@@ -30,13 +30,13 @@ export default function DailyOrdersChart({ data }: Props) {
   const labelEvery = Math.ceil(data.length / 6);
 
   return (
-    <div className="rounded-2xl border bg-white p-6 shadow-sm">
+    <div className="rounded-2xl border dark:border-gray-700 bg-white dark:bg-gray-800 p-6 shadow-sm">
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-lg font-bold">Orders (last {data.length} days)</h2>
 
         <button
           onClick={() => setView(view === "chart" ? "table" : "chart")}
-          className="flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-sm text-gray-600 hover:bg-gray-50"
+          className="flex items-center gap-1.5 rounded-lg border dark:border-gray-700 px-3 py-1.5 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:bg-gray-900"
         >
           {view === "chart" ? <Table2 size={14} /> : <BarChart3 size={14} />}
           {view === "chart" ? "Table view" : "Chart view"}
@@ -44,11 +44,11 @@ export default function DailyOrdersChart({ data }: Props) {
       </div>
 
       {data.every((d) => d.count === 0) ? (
-        <p className="py-10 text-center text-sm text-gray-400">No orders in this period yet.</p>
+        <p className="py-10 text-center text-sm text-gray-400 dark:text-gray-500">No orders in this period yet.</p>
       ) : view === "table" ? (
         <div className="max-h-72 overflow-y-auto">
           <table className="w-full text-left text-sm">
-            <thead className="sticky top-0 bg-white text-gray-500">
+            <thead className="sticky top-0 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400">
               <tr>
                 <th className="py-2 pr-4 font-medium">Date</th>
                 <th className="py-2 pr-4 font-medium">Orders</th>
@@ -137,7 +137,7 @@ export default function DailyOrdersChart({ data }: Props) {
           </svg>
 
           {hoverIndex !== null && data[hoverIndex] && (
-            <div className="pointer-events-none absolute left-0 top-0 rounded-lg border bg-white px-3 py-2 text-xs shadow-md">
+            <div className="pointer-events-none absolute left-0 top-0 rounded-lg border dark:border-gray-700 bg-white dark:bg-gray-800 px-3 py-2 text-xs shadow-md">
               <p className="font-medium">
                 {new Date(data[hoverIndex].date).toLocaleDateString("en-IN", {
                   day: "numeric",
@@ -145,8 +145,8 @@ export default function DailyOrdersChart({ data }: Props) {
                   year: "numeric",
                 })}
               </p>
-              <p className="text-gray-500">{data[hoverIndex].count} order(s)</p>
-              <p className="text-gray-500">
+              <p className="text-gray-500 dark:text-gray-400">{data[hoverIndex].count} order(s)</p>
+              <p className="text-gray-500 dark:text-gray-400">
                 ₹{data[hoverIndex].revenue.toLocaleString("en-IN")}
               </p>
             </div>

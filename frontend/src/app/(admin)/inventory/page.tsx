@@ -29,7 +29,7 @@ export default function InventoryPage() {
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl font-bold">Inventory</h1>
-        <p className="mt-1 text-gray-500">Monitor stock levels and restock as needed.</p>
+        <p className="mt-1 text-gray-500 dark:text-gray-400">Monitor stock levels and restock as needed.</p>
       </div>
 
       <div>
@@ -40,13 +40,13 @@ export default function InventoryPage() {
             <Loader2 className="h-6 w-6 animate-spin" />
           </div>
         ) : !lowStock || lowStock.length === 0 ? (
-          <div className="rounded-xl border bg-white p-6 text-center text-gray-500">
+          <div className="rounded-xl border dark:border-gray-700 bg-white dark:bg-gray-800 p-6 text-center text-gray-500 dark:text-gray-400">
             All stock levels look healthy.
           </div>
         ) : (
-          <div className="overflow-x-auto rounded-xl border bg-white">
+          <div className="overflow-x-auto rounded-xl border dark:border-gray-700 bg-white dark:bg-gray-800">
             <table className="w-full text-left text-sm">
-              <thead className="bg-gray-50 text-gray-500">
+              <thead className="bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400">
                 <tr>
                   <th className="px-4 py-3 font-medium">Product</th>
                   <th className="px-4 py-3 font-medium">Stock</th>
@@ -71,13 +71,13 @@ export default function InventoryPage() {
             <Loader2 className="h-6 w-6 animate-spin" />
           </div>
         ) : logs.length === 0 ? (
-          <div className="rounded-xl border bg-white p-6 text-center text-gray-500">
+          <div className="rounded-xl border dark:border-gray-700 bg-white dark:bg-gray-800 p-6 text-center text-gray-500 dark:text-gray-400">
             No inventory activity yet.
           </div>
         ) : (
-          <div className="overflow-x-auto rounded-xl border bg-white">
+          <div className="overflow-x-auto rounded-xl border dark:border-gray-700 bg-white dark:bg-gray-800">
             <table className="w-full text-left text-sm">
-              <thead className="bg-gray-50 text-gray-500">
+              <thead className="bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400">
                 <tr>
                   <th className="px-4 py-3 font-medium">Product</th>
                   <th className="px-4 py-3 font-medium">Change</th>
@@ -91,7 +91,7 @@ export default function InventoryPage() {
                   <tr key={log.id}>
                     <td className="px-4 py-3">
                       <p className="font-medium">{log.variant.product.name}</p>
-                      <p className="text-sm text-gray-500">
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
                         {[log.variant.size, log.variant.color].filter(Boolean).join(" / ") ||
                           log.variant.sku}
                       </p>
@@ -107,7 +107,7 @@ export default function InventoryPage() {
                       {log.previousStock} → {log.newStock}
                     </td>
                     <td className="px-4 py-3">{REASON_LABELS[log.reason] ?? log.reason}</td>
-                    <td className="px-4 py-3 text-gray-500">
+                    <td className="px-4 py-3 text-gray-500 dark:text-gray-400">
                       {new Date(log.createdAt).toLocaleDateString("en-IN", {
                         day: "numeric",
                         month: "short",
@@ -122,7 +122,7 @@ export default function InventoryPage() {
         )}
 
         {pagination && (
-          <div className="mt-4 flex items-center justify-between text-sm text-gray-500">
+          <div className="mt-4 flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
             <span>
               Page {pagination.page} of {pagination.totalPages}
             </span>
@@ -131,14 +131,14 @@ export default function InventoryPage() {
               <button
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
                 disabled={page <= 1}
-                className="rounded-lg border px-3 py-1.5 disabled:opacity-40"
+                className="rounded-lg border dark:border-gray-700 px-3 py-1.5 disabled:opacity-40"
               >
                 Previous
               </button>
               <button
                 onClick={() => setPage((p) => Math.min(pagination.totalPages, p + 1))}
                 disabled={page >= pagination.totalPages}
-                className="rounded-lg border px-3 py-1.5 disabled:opacity-40"
+                className="rounded-lg border dark:border-gray-700 px-3 py-1.5 disabled:opacity-40"
               >
                 Next
               </button>

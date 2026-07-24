@@ -53,9 +53,9 @@ export default function ProductCard({ product, index = 0 }: Props) {
     >
       <Link
         href={`/shop/products/${product.slug}`}
-        className="block overflow-hidden rounded-sm bg-white transition-shadow duration-300 hover:shadow-lg"
+        className="block overflow-hidden rounded-sm bg-white transition-shadow duration-300 hover:shadow-lg dark:bg-gray-800"
       >
-        <div className="relative aspect-[3/4] w-full overflow-hidden bg-gray-100">
+        <div className="relative aspect-[3/4] w-full overflow-hidden bg-gray-100 dark:bg-gray-800">
           {images.length > 0 ? (
             <AnimatePresence mode="sync">
               <MotionImage
@@ -73,7 +73,7 @@ export default function ProductCard({ product, index = 0 }: Props) {
               />
             </AnimatePresence>
           ) : (
-            <div className="flex h-full w-full items-center justify-center text-gray-300">
+            <div className="flex h-full w-full items-center justify-center text-gray-300 dark:text-gray-600">
               No image
             </div>
           )}
@@ -126,12 +126,12 @@ export default function ProductCard({ product, index = 0 }: Props) {
         </div>
 
         <div className="p-2 pt-2.5">
-          <p className="truncate text-sm font-medium text-gray-900">{product.name}</p>
-          <p className="mt-0.5 flex items-center gap-1.5 truncate text-xs text-gray-500">
+          <p className="truncate text-sm font-medium text-gray-900 dark:text-gray-100">{product.name}</p>
+          <p className="mt-0.5 flex items-center gap-1.5 truncate text-xs text-gray-500 dark:text-gray-400">
             <StoreLogoAvatar logoUrl={product.store.logo} name={product.store.name} size={16} />
             Sold by {product.store.name}
           </p>
-          <p className="mt-1 text-sm font-semibold text-gray-900">
+          <p className="mt-1 text-sm font-semibold text-gray-900 dark:text-gray-100">
             ₹{minPrice.toLocaleString("en-IN")}
           </p>
         </div>

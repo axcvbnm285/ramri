@@ -9,7 +9,7 @@ export default function LowStock() {
   const variants = data ?? [];
 
   return (
-    <div className="rounded-2xl bg-white p-6 shadow-sm">
+    <div className="rounded-2xl bg-white p-6 shadow-sm dark:bg-gray-800">
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-lg font-bold">Low Stock</h2>
         <Link href="/inventory" className="text-sm font-medium text-nepal-maroon hover:underline">
@@ -26,11 +26,11 @@ export default function LowStock() {
           {variants.map((variant) => (
             <div
               key={variant.id}
-              className="flex items-center justify-between rounded-xl border border-orange-100 bg-orange-50 p-3"
+              className="flex items-center justify-between rounded-xl border border-orange-100 bg-orange-50 p-3 dark:border-orange-900/40 dark:bg-orange-950/30"
             >
               <div>
                 <p className="font-medium">{variant.product.name}</p>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-gray-500 dark:text-gray-400">
                   {[variant.size, variant.color].filter(Boolean).join(" / ") || variant.sku}
                 </p>
               </div>

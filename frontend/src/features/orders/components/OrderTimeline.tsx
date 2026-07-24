@@ -13,14 +13,14 @@ export default function OrderTimeline({ logs }: Props) {
           <div>
             <p className="font-medium">
               {log.status}{" "}
-              <span className="font-normal text-gray-400">
+              <span className="font-normal text-gray-400 dark:text-gray-500">
                 by {log.changedBy.toLowerCase()}
               </span>
             </p>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-500 dark:text-gray-400">
               {new Date(log.createdAt).toLocaleString("en-IN")}
             </p>
-            {log.note && <p className="text-sm text-gray-500">{log.note}</p>}
+            {log.note && <p className="text-sm text-gray-500 dark:text-gray-400">{log.note}</p>}
           </div>
         </div>
       ))}

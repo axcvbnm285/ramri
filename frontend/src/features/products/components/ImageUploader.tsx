@@ -91,7 +91,7 @@ export default function ImageUploader() {
   });
 
   return (
-    <div className="rounded-xl border bg-white p-6 shadow-sm">
+    <div className="rounded-xl border dark:border-gray-700 bg-white dark:bg-gray-800 p-6 shadow-sm">
       <h2 className="mb-5 text-xl font-semibold">
         Product Images
       </h2>
@@ -109,7 +109,7 @@ export default function ImageUploader() {
               className="animate-spin"
             />
 
-            <p className="mt-3 text-sm text-gray-500">
+            <p className="mt-3 text-sm text-gray-500 dark:text-gray-400">
               Uploading images...
             </p>
           </div>
@@ -123,7 +123,7 @@ export default function ImageUploader() {
                 : "Drag & drop images here"}
             </p>
 
-            <p className="mt-1 text-sm text-gray-500">
+            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
               or click to select images
             </p>
           </div>
@@ -135,7 +135,7 @@ export default function ImageUploader() {
           {images.map((image) => (
             <div
               key={image.publicId}
-              className="relative h-40 w-full overflow-hidden rounded-lg border"
+              className="relative h-40 w-full overflow-hidden rounded-lg border dark:border-gray-700"
             >
               <Image
                 src={image.url}

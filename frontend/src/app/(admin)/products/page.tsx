@@ -51,7 +51,7 @@ export default function ProductsPage() {
 
   if (isError) {
     return (
-      <div className="rounded-xl border bg-white p-8 text-center">
+      <div className="rounded-xl border dark:border-gray-700 bg-white dark:bg-gray-800 p-8 text-center">
         <p className="text-red-500">
           Failed to load products.
         </p>
@@ -68,7 +68,7 @@ export default function ProductsPage() {
             Products
           </h1>
 
-          <p className="mt-1 text-gray-500">
+          <p className="mt-1 text-gray-500 dark:text-gray-400">
             Manage your store products.
           </p>
         </div>
@@ -105,7 +105,7 @@ export default function ProductsPage() {
       )}
 
       {pagination && (
-        <div className="flex items-center justify-between text-sm text-gray-500">
+        <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
           <span>
             Page {pagination.page} of {pagination.totalPages} • {pagination.total} products
           </span>
@@ -114,14 +114,14 @@ export default function ProductsPage() {
             <button
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={page <= 1}
-              className="rounded-lg border px-3 py-1.5 disabled:opacity-40"
+              className="rounded-lg border dark:border-gray-700 px-3 py-1.5 disabled:opacity-40"
             >
               Previous
             </button>
             <button
               onClick={() => setPage((p) => Math.min(pagination.totalPages, p + 1))}
               disabled={page >= pagination.totalPages}
-              className="rounded-lg border px-3 py-1.5 disabled:opacity-40"
+              className="rounded-lg border dark:border-gray-700 px-3 py-1.5 disabled:opacity-40"
             >
               Next
             </button>

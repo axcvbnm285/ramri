@@ -12,10 +12,10 @@ export default function StatsCard({
   icon: Icon,
 }: Props) {
   return (
-    <div className="rounded-2xl bg-white p-6 shadow-sm">
+    <div className="rounded-2xl bg-white p-6 shadow-sm dark:bg-gray-800">
       <div className="flex justify-between">
         <div>
-          <p className="text-gray-500">
+          <p className="text-gray-500 dark:text-gray-400">
             {title}
           </p>
 

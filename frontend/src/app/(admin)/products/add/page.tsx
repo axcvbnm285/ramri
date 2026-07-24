@@ -8,7 +8,7 @@ export default function AddProductPage() {
           Add Product
         </h1>
 
-        <p className="text-gray-500 mt-1">
+        <p className="text-gray-500 dark:text-gray-400 mt-1">
           Create a new product for your store.
         </p>
       </div>

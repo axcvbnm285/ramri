@@ -26,7 +26,7 @@ export default function SidebarItem({ item, onClick }: Props) {
         "flex items-center gap-3 rounded-xl px-4 py-3 transition-all duration-200",
         active
           ? "bg-nepal-maroon text-white shadow-md"
-          : "text-gray-600 hover:bg-nepal-cream-3/60 hover:text-nepal-maroon"
+          : "text-gray-600 hover:bg-nepal-cream-3/60 hover:text-nepal-maroon dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-nepal-gold"
       )}
     >
       <Icon size={20} />

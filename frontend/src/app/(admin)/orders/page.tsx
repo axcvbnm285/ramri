@@ -40,7 +40,7 @@ export default function OrdersPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold">Orders</h1>
-        <p className="mt-1 text-gray-500">Track and manage customer orders.</p>
+        <p className="mt-1 text-gray-500 dark:text-gray-400">Track and manage customer orders.</p>
       </div>
 
       <OrderFilters
@@ -55,11 +55,11 @@ export default function OrdersPage() {
           <Loader2 className="h-8 w-8 animate-spin" />
         </div>
       ) : isError ? (
-        <div className="rounded-xl border bg-white p-8 text-center">
+        <div className="rounded-xl border dark:border-gray-700 bg-white dark:bg-gray-800 p-8 text-center">
           <p className="text-red-500">Failed to load orders.</p>
         </div>
       ) : orders.length === 0 ? (
-        <div className="rounded-xl border bg-white p-8 text-center text-gray-500">
+        <div className="rounded-xl border dark:border-gray-700 bg-white dark:bg-gray-800 p-8 text-center text-gray-500 dark:text-gray-400">
           No orders found.
         </div>
       ) : (
@@ -67,7 +67,7 @@ export default function OrdersPage() {
       )}
 
       {pagination && (
-        <div className="flex items-center justify-between text-sm text-gray-500">
+        <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
           <span>
             Page {pagination.page} of {pagination.totalPages} • {pagination.total} orders
           </span>
@@ -76,14 +76,14 @@ export default function OrdersPage() {
             <button
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={page <= 1}
-              className="rounded-lg border px-3 py-1.5 disabled:opacity-40"
+              className="rounded-lg border dark:border-gray-700 px-3 py-1.5 disabled:opacity-40"
             >
               Previous
             </button>
             <button
               onClick={() => setPage((p) => Math.min(pagination.totalPages, p + 1))}
               disabled={page >= pagination.totalPages}
-              className="rounded-lg border px-3 py-1.5 disabled:opacity-40"
+              className="rounded-lg border dark:border-gray-700 px-3 py-1.5 disabled:opacity-40"
             >
               Next
             </button>

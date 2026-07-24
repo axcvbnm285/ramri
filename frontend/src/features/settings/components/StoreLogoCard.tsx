@@ -37,9 +37,9 @@ export default function StoreLogoCard({ store }: Props) {
   const busy = isUploading || isPending;
 
   return (
-    <div className="rounded-2xl border border-nepal-gold/20 bg-white p-6 shadow-sm">
+    <div className="rounded-2xl border border-nepal-gold/20 bg-white dark:bg-gray-800 p-6 shadow-sm">
       <h2 className="text-lg font-bold">Store Logo</h2>
-      <p className="mt-1 text-sm text-gray-500">
+      <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
         First impressions matter — customers see this before they see a single product.
       </p>
 
@@ -65,7 +65,7 @@ export default function StoreLogoCard({ store }: Props) {
         <button
           onClick={() => fileInputRef.current?.click()}
           disabled={busy}
-          className="flex items-center gap-1.5 rounded-lg border border-nepal-gold/40 px-4 py-2.5 text-sm font-medium text-gray-600 transition hover:border-nepal-maroon hover:text-nepal-maroon disabled:opacity-50"
+          className="flex items-center gap-1.5 rounded-lg border border-nepal-gold/40 px-4 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-300 transition hover:border-nepal-maroon hover:text-nepal-maroon disabled:opacity-50"
         >
           <ImagePlus size={14} />
           {store.logo ? "Change logo" : "Upload logo"}

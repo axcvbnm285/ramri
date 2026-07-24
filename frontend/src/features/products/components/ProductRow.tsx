@@ -25,7 +25,7 @@ export default function ProductRow({
     getLowestPrice(product);
 
   return (
-    <tr className="hover:bg-gray-50">
+    <tr className="hover:bg-gray-50 dark:bg-gray-900">
 
       <td className="px-6 py-4">
         <div className="flex items-center gap-4">
@@ -39,10 +39,10 @@ export default function ProductRow({
               className="rounded-lg object-cover"
             />
           ) : (
-            <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-gray-100">
+            <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-700">
               <Package
                 size={22}
-                className="text-gray-400"
+                className="text-gray-400 dark:text-gray-500"
               />
             </div>
           )}
@@ -54,7 +54,7 @@ export default function ProductRow({
             </p>
 
             {product.brand && (
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-500 dark:text-gray-400">
                 {product.brand}
               </p>
             )}
