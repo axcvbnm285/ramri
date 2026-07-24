@@ -12,6 +12,7 @@ import { signupSchema, SignupSchema } from "../schemas/signup.schema";
 
 import { useSignup } from "../hooks/useSignup";
 import { getErrorMessage } from "@/lib/getErrorMessage";
+import { getWhatsAppSupportUrl } from "@/lib/support";
 
 export default function SignupForm() {
   const router = useRouter();
@@ -149,6 +150,18 @@ export default function SignupForm() {
         <Link href="/login" className="font-semibold text-[#7A2436] hover:underline">
           Log in
         </Link>
+      </p>
+
+      <p className="mt-2 text-center text-sm text-gray-500">
+        Need help?{" "}
+        <a
+          href={getWhatsAppSupportUrl()}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-semibold text-[#7A2436] hover:underline"
+        >
+          Chat with us on WhatsApp
+        </a>
       </p>
     </div>
   );

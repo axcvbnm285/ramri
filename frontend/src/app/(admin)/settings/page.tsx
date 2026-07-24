@@ -40,7 +40,7 @@ export default function SettingsPage() {
       <StoreLogoCard store={store} />
       <PaymentQrCard store={store} />
       <PromotionCard store={store} />
-      <ContactUsCard storeEmail={store.email} />
+      <ContactUsCard />
       <DeleteStoreCard store={store} />
     </div>
   );

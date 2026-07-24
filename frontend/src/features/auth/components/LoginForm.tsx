@@ -15,6 +15,7 @@ import {
 
 import { useLogin } from "../hooks/useLogin";
 import { getErrorMessage } from "@/lib/getErrorMessage";
+import { getWhatsAppSupportUrl } from "@/lib/support";
 
 export default function LoginForm() {
   const router = useRouter();
@@ -146,6 +147,18 @@ export default function LoginForm() {
         <Link href="/signup" className="font-semibold text-[#7A2436] hover:underline">
           Create one
         </Link>
+      </p>
+
+      <p className="mt-2 text-center text-sm text-gray-500">
+        Need help?{" "}
+        <a
+          href={getWhatsAppSupportUrl()}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-semibold text-[#7A2436] hover:underline"
+        >
+          Chat with us on WhatsApp
+        </a>
       </p>
     </div>
   );

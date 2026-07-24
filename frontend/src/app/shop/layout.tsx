@@ -1,5 +1,6 @@
 import ShopHeader from "@/components/shop/ShopHeader";
 import ShopFooter from "@/components/shop/ShopFooter";
+import FloatingSupportButton from "@/components/shop/FloatingSupportButton";
 
 export default function ShopLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -13,6 +14,8 @@ export default function ShopLayout({ children }: { children: React.ReactNode }) 
         <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">{children}</main>
         <ShopFooter />
       </div>
+
+      <FloatingSupportButton />
     </div>
   );
 }

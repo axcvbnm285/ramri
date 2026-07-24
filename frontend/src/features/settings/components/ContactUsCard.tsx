@@ -1,17 +1,8 @@
-import { Mail } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 
-interface Props {
-  storeEmail: string;
-}
+import { getWhatsAppSupportUrl } from "@/lib/support";
 
-// Routes to the platform owner's real inbox rather than a placeholder
-// support address, so this button actually reaches someone.
-const SUPPORT_EMAIL = "abhinavverma9026@gmail.com";
-
-export default function ContactUsCard({ storeEmail }: Props) {
-  const subject = encodeURIComponent("Support request from SandroNepal store admin");
-  const body = encodeURIComponent(`Hi,\n\nMy store's registered email is ${storeEmail}.\n\n`);
-
+export default function ContactUsCard() {
   return (
     <div className="rounded-2xl border border-nepal-gold/20 bg-white p-6 shadow-sm">
       <h2 className="text-lg font-bold">Contact Us</h2>
@@ -21,11 +12,13 @@ export default function ContactUsCard({ storeEmail }: Props) {
 
       <div className="mt-4">
         <a
-          href={`mailto:${SUPPORT_EMAIL}?subject=${subject}&body=${body}`}
+          href={getWhatsAppSupportUrl()}
+          target="_blank"
+          rel="noopener noreferrer"
           className="flex w-fit items-center gap-2 rounded-lg bg-nepal-maroon px-4 py-2.5 text-sm font-medium text-white transition hover:bg-nepal-maroon-dark"
         >
-          <Mail size={16} />
-          Email SandroNepal support
+          <MessageCircle size={16} />
+          Chat with SandroNepal support
         </a>
       </div>
     </div>
