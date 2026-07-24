@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { Loader2, Plus, TriangleAlert, Upload } from "lucide-react";
+import { Loader2, Plus, TriangleAlert, Upload, X, ZoomIn } from "lucide-react";
 import { toast } from "sonner";
 
 import { useCurrentCustomer } from "@/features/customerAuth/hooks/useCurrentCustomer";
@@ -30,6 +30,7 @@ export default function CheckoutPageClient() {
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [payments, setPayments] = useState<Record<string, PaymentProofPayload>>({});
   const [uploadingStoreId, setUploadingStoreId] = useState<string | null>(null);
+  const [zoomedQr, setZoomedQr] = useState<{ url: string; storeName: string } | null>(null);
 
   const { mutate: placeOrder, isPending } = usePlaceOrder();
   const { uploadProof } = useUploadPaymentProof();
@@ -224,7 +225,11 @@ export default function CheckoutPageClient() {
                     </div>
                   ) : (
                     <div className="flex flex-col gap-4 sm:flex-row">
-                      <div className="relative h-40 w-40 shrink-0 overflow-hidden rounded-lg border bg-gray-50">
+                      <button
+                        type="button"
+                        onClick={() => setZoomedQr({ url: storeQrUrl, storeName })}
+                        className="group relative h-40 w-40 shrink-0 overflow-hidden rounded-lg border bg-gray-50"
+                      >
                         <Image
                           src={storeQrUrl}
                           alt={`${storeName} payment QR`}
@@ -232,7 +237,19 @@ export default function CheckoutPageClient() {
                           sizes="160px"
                           className="object-contain"
                         />
-                      </div>
+                        <span className="absolute inset-0 flex items-center justify-center bg-black/0 opacity-0 transition group-hover:bg-black/40 group-hover:opacity-100">
+                          <ZoomIn size={22} className="text-white" />
+                        </span>
+                      </button>
+                      <p className="sm:hidden">
+                        <button
+                          type="button"
+                          onClick={() => setZoomedQr({ url: storeQrUrl, storeName })}
+                          className="text-xs font-medium text-pink-600 hover:underline"
+                        >
+                          Tap QR to zoom in
+                        </button>
+                      </p>
 
                       <div className="flex-1 space-y-3">
                         <div>
@@ -327,6 +344,41 @@ export default function CheckoutPageClient() {
           Place Order
         </button>
       </div>
+
+      {zoomedQr && (
+        <div
+          onClick={() => setZoomedQr(null)}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-md rounded-xl bg-white p-4"
+          >
+            <div className="mb-3 flex items-center justify-between">
+              <p className="text-sm font-semibold uppercase tracking-wide text-gray-500">
+                {zoomedQr.storeName}
+              </p>
+              <button
+                onClick={() => setZoomedQr(null)}
+                className="rounded-lg p-1.5 text-gray-500 hover:bg-gray-100"
+                aria-label="Close"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            <div className="relative aspect-square w-full overflow-hidden rounded-lg bg-gray-50">
+              <Image
+                src={zoomedQr.url}
+                alt={`${zoomedQr.storeName} payment QR (zoomed)`}
+                fill
+                sizes="448px"
+                className="object-contain"
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
