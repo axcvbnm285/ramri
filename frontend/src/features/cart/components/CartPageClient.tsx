@@ -3,18 +3,29 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Minus, Plus, Trash2 } from "lucide-react";
+import { Loader2, Minus, Plus, Trash2 } from "lucide-react";
 
-import { useCartStore, useCartTotal } from "@/features/cart/store/cartStore";
+import { useCart } from "@/features/cart/hooks/useCart";
+import { useUpdateCartItem } from "@/features/cart/hooks/useUpdateCartItem";
+import { useRemoveCartItem } from "@/features/cart/hooks/useRemoveCartItem";
+import { useCartTotal } from "@/features/cart/hooks/useCartTotal";
 
 export default function CartPageClient() {
   const router = useRouter();
-  const items = useCartStore((state) => state.items);
-  const updateQuantity = useCartStore((state) => state.updateQuantity);
-  const removeItem = useCartStore((state) => state.removeItem);
+  const { data: items, isLoading } = useCart();
+  const { mutate: updateQuantity } = useUpdateCartItem();
+  const { mutate: removeItemMutation } = useRemoveCartItem();
   const total = useCartTotal();
 
-  if (items.length === 0) {
+  if (isLoading) {
+    return (
+      <div className="flex min-h-[300px] items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin" />
+      </div>
+    );
+  }
+
+  if (!items || items.length === 0) {
     return (
       <div className="flex min-h-[300px] flex-col items-center justify-center rounded-xl border bg-white text-center">
         <p className="text-lg font-medium">Your cart is empty</p>
@@ -59,14 +70,18 @@ export default function CartPageClient() {
 
             <div className="flex items-center rounded-lg border">
               <button
-                onClick={() => updateQuantity(item.variantId, item.quantity - 1)}
+                onClick={() =>
+                  updateQuantity({ variantId: item.variantId, quantity: item.quantity - 1 })
+                }
                 className="p-2 text-gray-600 hover:text-black"
               >
                 <Minus size={14} />
               </button>
               <span className="w-8 text-center text-sm">{item.quantity}</span>
               <button
-                onClick={() => updateQuantity(item.variantId, item.quantity + 1)}
+                onClick={() =>
+                  updateQuantity({ variantId: item.variantId, quantity: item.quantity + 1 })
+                }
                 disabled={item.quantity >= item.stock}
                 className="p-2 text-gray-600 hover:text-black disabled:opacity-30"
               >
@@ -75,7 +90,7 @@ export default function CartPageClient() {
             </div>
 
             <button
-              onClick={() => removeItem(item.variantId)}
+              onClick={() => removeItemMutation(item.variantId)}
               className="p-2 text-gray-400 hover:text-red-500"
             >
               <Trash2 size={18} />

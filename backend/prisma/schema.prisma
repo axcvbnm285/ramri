@@ -199,6 +199,7 @@ model ProductVariant {
 
   inventoryLogs InventoryLog[]
   orderItems    OrderItem[]
+  cartItems     CartItem[]
 }
 
 model InventoryLog {
@@ -242,6 +243,7 @@ model Customer {
 
   addresses Address[]
   orders    Order[]
+  cartItems CartItem[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -271,6 +273,23 @@ model Address {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model CartItem {
+  id String @id @default(cuid())
+
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+  variantId String
+  variant   ProductVariant @relation(fields: [variantId], references: [id], onDelete: Cascade)
+
+  quantity Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([customerId, variantId])
 }
 
 model Order {

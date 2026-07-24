@@ -7,7 +7,8 @@ import { usePathname, useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { Heart, LogOut, Package, Search, ShoppingBag, User } from "lucide-react";
 
-import { useCartCount } from "@/features/cart/store/cartStore";
+import { useCartCount } from "@/features/cart/hooks/useCartCount";
+import { useMigrateLegacyCart } from "@/features/cart/hooks/useMigrateLegacyCart";
 import { useWishlistCount } from "@/features/wishlist/store/wishlistStore";
 import { useCurrentCustomer } from "@/features/customerAuth/hooks/useCurrentCustomer";
 import { useCustomerLogout } from "@/features/customerAuth/hooks/useCustomerLogout";
@@ -19,6 +20,7 @@ type MenuKey = "women" | "beauty" | "profile" | null;
 export default function ShopHeader() {
   const router = useRouter();
   const pathname = usePathname();
+  useMigrateLegacyCart();
   const cartCount = useCartCount();
   const wishlistCount = useWishlistCount();
   const { data: customer } = useCurrentCustomer();

@@ -8,7 +8,9 @@ import { toast } from "sonner";
 import { useCurrentCustomer } from "@/features/customerAuth/hooks/useCurrentCustomer";
 import { useAddresses } from "@/features/customerAddresses/hooks/useAddresses";
 import AddressForm from "@/features/customerAddresses/components/AddressForm";
-import { useCartStore, useCartTotal } from "@/features/cart/store/cartStore";
+import { useCart } from "@/features/cart/hooks/useCart";
+import { useCartTotal } from "@/features/cart/hooks/useCartTotal";
+import { useClearCart } from "@/features/cart/hooks/useClearCart";
 import { usePlaceOrder } from "@/features/customerOrders/hooks/usePlaceOrder";
 import { getErrorMessage } from "@/lib/getErrorMessage";
 
@@ -17,8 +19,8 @@ export default function CheckoutPageClient() {
   const { data: customer, isLoading: isLoadingCustomer, isError } = useCurrentCustomer();
   const { data: addresses, isLoading: isLoadingAddresses } = useAddresses();
 
-  const items = useCartStore((state) => state.items);
-  const clearCart = useCartStore((state) => state.clear);
+  const { data: items, isLoading: isLoadingCart } = useCart();
+  const { mutate: clearCart } = useClearCart();
   const total = useCartTotal();
 
   const [selectedAddressId, setSelectedAddressId] = useState<string | null>(null);
@@ -35,7 +37,7 @@ export default function CheckoutPageClient() {
   const effectiveAddressId =
     selectedAddressId ?? addresses?.find((a) => a.isDefault)?.id ?? addresses?.[0]?.id ?? null;
 
-  if (isLoadingCustomer || !customer) {
+  if (isLoadingCustomer || !customer || isLoadingCart) {
     return (
       <div className="flex min-h-[300px] items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin" />
@@ -43,7 +45,7 @@ export default function CheckoutPageClient() {
     );
   }
 
-  if (items.length === 0) {
+  if (!items || items.length === 0) {
     return (
       <div className="rounded-xl border bg-white p-8 text-center text-gray-500">
         Your cart is empty.

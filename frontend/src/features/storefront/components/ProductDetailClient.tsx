@@ -9,9 +9,10 @@ import { toast } from "sonner";
 import { useStorefrontProduct } from "@/features/storefront/hooks/useStorefrontProduct";
 import ImageGallery from "@/features/storefront/components/ImageGallery";
 import MultiVariantPicker from "@/features/storefront/components/MultiVariantPicker";
-import { useCartStore } from "@/features/cart/store/cartStore";
+import { useAddToCart } from "@/features/cart/hooks/useAddToCart";
 import WishlistButton from "@/features/wishlist/components/WishlistButton";
 import { useCurrentCustomer } from "@/features/customerAuth/hooks/useCurrentCustomer";
+import { getErrorMessage } from "@/lib/getErrorMessage";
 
 export default function ProductDetailClient() {
   const { slug } = useParams<{ slug: string }>();
@@ -19,7 +20,7 @@ export default function ProductDetailClient() {
   const pathname = usePathname();
   const { data: product, isLoading, isError } = useStorefrontProduct(slug);
   const { data: customer } = useCurrentCustomer();
-  const addItem = useCartStore((state) => state.addItem);
+  const { mutate: addToCart } = useAddToCart();
 
   const [quantities, setQuantities] = useState<Record<string, number>>({});
 
@@ -81,19 +82,10 @@ export default function ProductDetailClient() {
     }
 
     selectedEntries.forEach((variant) => {
-      addItem({
-        variantId: variant.id,
-        productSlug: product.slug,
-        productName: product.name,
-        image: product.images[0]?.url,
-        size: variant.size,
-        color: variant.color,
-        price: Number(variant.price),
-        quantity: quantities[variant.id],
-        stock: variant.stock,
-        storeId: product.store.id,
-        storeName: product.store.name,
-      });
+      addToCart(
+        { variantId: variant.id, quantity: quantities[variant.id] },
+        { onError: (error) => toast.error(getErrorMessage(error, "Failed to add to cart.")) }
+      );
     });
 
     toast.success(
