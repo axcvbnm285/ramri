@@ -94,6 +94,19 @@ export class OrderController {
     }
   };
 
+  verifyPayment = async (req: AuthRequest, res: Response) => {
+    try {
+      const order = await this.service.verifyPayment(
+        req.params.id as string,
+        req.user!.storeId,
+        req.body
+      );
+      return success(res, "Payment verification updated.", order);
+    } catch (error) {
+      return failure(res, (error as Error).message);
+    }
+  };
+
   markReceivedByAdmin = async (req: AuthRequest, res: Response) => {
     try {
       const order = await this.service.markReceivedByAdmin(

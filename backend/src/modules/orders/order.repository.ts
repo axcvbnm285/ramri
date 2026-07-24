@@ -1,6 +1,6 @@
 import prisma from "@/lib/prisma";
 import { OrderStatus, StatusChangedBy } from "@prisma/client";
-import { PlaceOrderItemDto } from "./order.types";
+import { PaymentProofDto, PlaceOrderItemDto } from "./order.types";
 import { generateOrderNumber } from "@/utils/orderNumber";
 
 export class OrderRepository {
@@ -17,7 +17,8 @@ export class OrderRepository {
     customerId: string,
     addressId: string,
     items: PlaceOrderItemDto[],
-    notes?: string
+    notes?: string,
+    paymentProofs?: Record<string, PaymentProofDto>
   ) {
     return prisma.$transaction(
       async (tx) => {
@@ -26,7 +27,7 @@ export class OrderRepository {
       for (const item of items) {
         const variant = await tx.productVariant.findUnique({
           where: { id: item.variantId },
-          include: { product: true },
+          include: { product: { include: { store: true } } },
         });
 
         if (!variant) {
@@ -50,6 +51,16 @@ export class OrderRepository {
 
       for (const [storeId, groupedItems] of itemsByStore) {
         const orderNumber = generateOrderNumber();
+
+        // Checkout is QR-payment-only — there's no COD fallback since Porter
+        // (the courier every store uses) can't collect cash on delivery — so
+        // every store represented in the cart must have a proof entry.
+        const proof = paymentProofs?.[storeId];
+
+        if (!proof || (!proof.proofUrl && !proof.reference)) {
+          const storeName = groupedItems[0].variant.product.store.name;
+          throw new Error(`Payment proof is required for ${storeName}.`);
+        }
 
         let subtotal = 0;
 
@@ -120,6 +131,11 @@ export class OrderRepository {
             notes,
             subtotal,
             total: subtotal,
+            paymentMethod: "QR",
+            paymentStatus: "PENDING_VERIFICATION",
+            paymentProofUrl: proof.proofUrl,
+            paymentProofPublicId: proof.proofPublicId,
+            paymentReference: proof.reference,
             items: { create: orderItemsData },
             statusLogs: {
               create: { status: "PENDING", changedBy: "CUSTOMER" },
@@ -281,6 +297,28 @@ export class OrderRepository {
       },
       { maxWait: 10000, timeout: 20000 }
     );
+  }
+
+  async verifyPayment(
+    id: string,
+    currentStatus: OrderStatus,
+    approved: boolean,
+    note?: string
+  ) {
+    return prisma.order.update({
+      where: { id },
+      data: {
+        paymentStatus: approved ? "PAID" : "REJECTED",
+        paymentVerifiedAt: approved ? new Date() : null,
+        statusLogs: {
+          create: {
+            status: currentStatus,
+            changedBy: "ADMIN",
+            note: note ?? (approved ? "Payment verified" : "Payment rejected"),
+          },
+        },
+      },
+    });
   }
 
   async markReceived(id: string, changedBy: StatusChangedBy) {

@@ -6,7 +6,7 @@ const CART_ITEM_INCLUDE = {
       product: {
         include: {
           images: { orderBy: { position: "asc" as const }, take: 1 },
-          store: { select: { id: true, name: true } },
+          store: { select: { id: true, name: true, paymentQrUrl: true } },
         },
       },
     },

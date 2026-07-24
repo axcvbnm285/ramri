@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { Order } from "../types/order.types";
 import OrderStatusBadge from "./OrderStatusBadge";
+import PaymentStatusBadge from "./PaymentStatusBadge";
 
 interface Props {
   order: Order;
@@ -22,7 +23,12 @@ export default function OrderRow({ order }: Props) {
       <td className="px-6 py-4">{order.items.length} item(s)</td>
       <td className="px-6 py-4">₹{Number(order.total).toLocaleString("en-IN")}</td>
       <td className="px-6 py-4">
-        <OrderStatusBadge status={order.status} />
+        <div className="flex flex-col items-start gap-1">
+          <OrderStatusBadge status={order.status} />
+          {order.paymentMethod === "QR" && order.paymentStatus && (
+            <PaymentStatusBadge status={order.paymentStatus} />
+          )}
+        </div>
       </td>
       <td className="px-6 py-4 text-gray-500">
         {new Date(order.createdAt).toLocaleDateString("en-IN", {

@@ -19,6 +19,8 @@ export class SettingsService {
       ...(data.name && { name: data.name }),
       ...(data.logo && { logo: data.logo }),
       ...(data.logoPublicId && { logoPublicId: data.logoPublicId }),
+      ...(data.paymentQrUrl && { paymentQrUrl: data.paymentQrUrl }),
+      ...(data.paymentQrPublicId && { paymentQrPublicId: data.paymentQrPublicId }),
     });
   }
 

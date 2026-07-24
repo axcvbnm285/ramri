@@ -1,9 +1,16 @@
 import { api } from "@/services/api";
 
+export interface PaymentProofPayload {
+  proofUrl?: string;
+  proofPublicId?: string;
+  reference?: string;
+}
+
 export interface PlaceOrderPayload {
   addressId: string;
   items: { variantId: string; quantity: number }[];
   notes?: string;
+  paymentProofs?: Record<string, PaymentProofPayload>;
 }
 
 export const customerOrderService = {

@@ -10,4 +10,5 @@ export interface CartItem {
   stock: number;
   storeId?: string;
   storeName?: string;
+  storeQrUrl?: string | null;
 }

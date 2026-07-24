@@ -13,7 +13,7 @@ function toCartItem(row: {
       slug: string;
       name: string;
       images: { url: string }[];
-      store: { id: string; name: string };
+      store: { id: string; name: string; paymentQrUrl: string | null };
     };
   };
 }) {
@@ -29,6 +29,7 @@ function toCartItem(row: {
     stock: row.variant.stock,
     storeId: row.variant.product.store.id,
     storeName: row.variant.product.store.name,
+    storeQrUrl: row.variant.product.store.paymentQrUrl,
   };
 }
 

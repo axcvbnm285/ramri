@@ -1,5 +1,5 @@
 import { OrderRepository } from "./order.repository";
-import { PlaceOrderDto, UpdateOrderStatusDto } from "./order.types";
+import { PlaceOrderDto, UpdateOrderStatusDto, VerifyPaymentDto } from "./order.types";
 
 const ALLOWED_TRANSITIONS: Record<string, string[]> = {
   PENDING: ["CONFIRMED"],
@@ -20,7 +20,13 @@ export class OrderService {
       throw new Error("Delivery address not found.");
     }
 
-    return this.repository.placeOrder(customerId, data.addressId, data.items, data.notes);
+    return this.repository.placeOrder(
+      customerId,
+      data.addressId,
+      data.items,
+      data.notes,
+      data.paymentProofs
+    );
   }
 
   async getAllForStore(storeId: string, query: any) {
@@ -94,6 +100,17 @@ export class OrderService {
     }
 
     return this.repository.markReceived(id, "CUSTOMER");
+  }
+
+  async verifyPayment(id: string, storeId: string, data: VerifyPaymentDto) {
+    const order = await this.repository.findById(id, storeId);
+    if (!order) throw new Error("Order not found.");
+
+    if (order.paymentStatus !== "PENDING_VERIFICATION") {
+      throw new Error("This order has no payment pending verification.");
+    }
+
+    return this.repository.verifyPayment(id, order.status, data.approved, data.note);
   }
 
   async markReceivedByAdmin(id: string, storeId: string) {

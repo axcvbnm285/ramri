@@ -1,4 +1,5 @@
 export type OrderStatus = "PENDING" | "CONFIRMED" | "DISPATCHED" | "RECEIVED" | "CANCELLED";
+export type PaymentStatus = "PENDING_VERIFICATION" | "PAID" | "REJECTED";
 
 export interface OrderItem {
   id: string;
@@ -35,6 +36,10 @@ export interface CustomerOrder {
   status: OrderStatus;
   subtotal: number;
   total: number;
+  paymentMethod: "COD" | "QR";
+  paymentStatus?: PaymentStatus | null;
+  paymentProofUrl?: string | null;
+  paymentReference?: string | null;
   courierName?: string | null;
   trackingId?: string | null;
   trackingUrl?: string | null;

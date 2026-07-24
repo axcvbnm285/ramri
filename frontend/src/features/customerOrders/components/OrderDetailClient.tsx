@@ -9,6 +9,7 @@ import { useCurrentCustomer } from "@/features/customerAuth/hooks/useCurrentCust
 import { useMyOrder } from "@/features/customerOrders/hooks/useMyOrder";
 import { useMarkMyOrderReceived } from "@/features/customerOrders/hooks/useMarkMyOrderReceived";
 import OrderStatusBadge from "@/features/orders/components/OrderStatusBadge";
+import PaymentStatusBadge from "@/features/orders/components/PaymentStatusBadge";
 import { getErrorMessage } from "@/lib/getErrorMessage";
 
 export default function OrderDetailClient() {
@@ -136,8 +137,26 @@ export default function OrderDetailClient() {
           <span>₹{Number(order.total).toLocaleString("en-IN")}</span>
         </div>
 
-        <p className="mt-1 text-right text-sm text-gray-500">Payment: Cash on Delivery</p>
+        <div className="mt-1 flex items-center justify-end gap-2">
+          {order.paymentMethod === "COD" ? (
+            <p className="text-sm text-gray-500">Payment: Cash on Delivery</p>
+          ) : (
+            order.paymentStatus && <PaymentStatusBadge status={order.paymentStatus} />
+          )}
+        </div>
       </div>
+
+      {order.paymentMethod === "QR" && order.paymentStatus === "PENDING_VERIFICATION" && (
+        <div className="rounded-xl border border-yellow-200 bg-yellow-50 p-4 text-sm text-yellow-800">
+          We&apos;ve received your payment proof — the seller will confirm it shortly.
+        </div>
+      )}
+
+      {order.paymentMethod === "QR" && order.paymentStatus === "REJECTED" && (
+        <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+          The seller couldn&apos;t verify this payment. Please contact them to resolve it.
+        </div>
+      )}
 
       {order.address && (
         <div className="rounded-xl border bg-white p-6">

@@ -14,3 +14,7 @@ export const updateStatusValidator = [
     .isIn(["CONFIRMED", "DISPATCHED"])
     .withMessage("Invalid status transition."),
 ];
+
+export const verifyPaymentValidator = [
+  body("approved").isBoolean().withMessage("approved must be true or false."),
+];

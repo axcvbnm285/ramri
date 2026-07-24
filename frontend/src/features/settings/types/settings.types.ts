@@ -5,6 +5,8 @@ export interface Store {
   phone?: string | null;
   logo?: string | null;
   logoPublicId?: string | null;
+  paymentQrUrl?: string | null;
+  paymentQrPublicId?: string | null;
   isActive: boolean;
   address?: string | null;
   instagram?: string | null;
@@ -17,4 +19,6 @@ export interface UpdateStorePayload {
   name?: string;
   logo?: string;
   logoPublicId?: string;
+  paymentQrUrl?: string;
+  paymentQrPublicId?: string;
 }

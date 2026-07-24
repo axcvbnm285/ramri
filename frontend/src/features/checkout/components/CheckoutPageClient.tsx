@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Loader2, Plus } from "lucide-react";
+import Image from "next/image";
+import { Loader2, Plus, TriangleAlert, Upload } from "lucide-react";
 import { toast } from "sonner";
 
 import { useCurrentCustomer } from "@/features/customerAuth/hooks/useCurrentCustomer";
@@ -12,6 +13,8 @@ import { useCart } from "@/features/cart/hooks/useCart";
 import { useCartTotal } from "@/features/cart/hooks/useCartTotal";
 import { useClearCart } from "@/features/cart/hooks/useClearCart";
 import { usePlaceOrder } from "@/features/customerOrders/hooks/usePlaceOrder";
+import { PaymentProofPayload } from "@/features/customerOrders/services/customerOrder.service";
+import { useUploadPaymentProof } from "@/features/checkout/hooks/useUploadPaymentProof";
 import { getErrorMessage } from "@/lib/getErrorMessage";
 
 export default function CheckoutPageClient() {
@@ -25,8 +28,11 @@ export default function CheckoutPageClient() {
 
   const [selectedAddressId, setSelectedAddressId] = useState<string | null>(null);
   const [showAddressForm, setShowAddressForm] = useState(false);
+  const [payments, setPayments] = useState<Record<string, PaymentProofPayload>>({});
+  const [uploadingStoreId, setUploadingStoreId] = useState<string | null>(null);
 
   const { mutate: placeOrder, isPending } = usePlaceOrder();
+  const { uploadProof } = useUploadPaymentProof();
 
   useEffect(() => {
     if (!isLoadingCustomer && isError) {
@@ -54,11 +60,36 @@ export default function CheckoutPageClient() {
   }
 
   const storeGroups = items.reduce<Record<string, typeof items>>((groups, item) => {
-    const key = item.storeName ?? "Other";
+    const key = item.storeId ?? "unknown";
     groups[key] = [...(groups[key] ?? []), item];
     return groups;
   }, {});
-  const storeNames = Object.keys(storeGroups);
+  const storeIds = Object.keys(storeGroups);
+
+  const updatePayment = (storeId: string, patch: PaymentProofPayload) => {
+    setPayments((prev) => ({ ...prev, [storeId]: { ...prev[storeId], ...patch } }));
+  };
+
+  const handleProofFileChange = async (storeId: string, file: File) => {
+    setUploadingStoreId(storeId);
+    try {
+      const uploaded = await uploadProof(file);
+      updatePayment(storeId, { proofUrl: uploaded.url, proofPublicId: uploaded.publicId });
+    } catch (error) {
+      toast.error(getErrorMessage(error, "Failed to upload payment proof."));
+    } finally {
+      setUploadingStoreId(null);
+    }
+  };
+
+  const isPaymentReady = (storeId: string) => {
+    const hasQr = !!storeGroups[storeId][0].storeQrUrl;
+    if (!hasQr) return false;
+    const payment = payments[storeId];
+    return !!(payment?.proofUrl || payment?.reference?.trim());
+  };
+
+  const allPaymentsReady = storeIds.every(isPaymentReady);
 
   const handlePlaceOrder = () => {
     if (!effectiveAddressId) {
@@ -66,10 +97,21 @@ export default function CheckoutPageClient() {
       return;
     }
 
+    if (!allPaymentsReady) {
+      toast.error("Please complete payment for every seller before placing the order.");
+      return;
+    }
+
+    const paymentProofs: Record<string, PaymentProofPayload> = {};
+    storeIds.forEach((storeId) => {
+      paymentProofs[storeId] = payments[storeId] ?? {};
+    });
+
     placeOrder(
       {
         addressId: effectiveAddressId,
         items: items.map((item) => ({ variantId: item.variantId, quantity: item.quantity })),
+        paymentProofs,
       },
       {
         onSuccess: (response) => {
@@ -127,7 +169,9 @@ export default function CheckoutPageClient() {
                 <label
                   key={address.id}
                   className={`flex cursor-pointer items-start gap-3 rounded-lg border p-3 ${
-                    effectiveAddressId === address.id ? "border-pink-600 bg-pink-50" : ""
+                    effectiveAddressId === address.id
+                      ? "border-pink-600 bg-pink-50"
+                      : ""
                   }`}
                 >
                   <input
@@ -150,26 +194,115 @@ export default function CheckoutPageClient() {
             </div>
           )}
         </div>
+
+        <div className="rounded-xl border bg-white p-5">
+          <h2 className="mb-1 font-bold">Payment</h2>
+          <p className="mb-4 text-sm text-gray-500">
+            {storeIds.length > 1
+              ? "Scan each seller's QR code and pay them separately — the order is split one per seller."
+              : "Scan the QR code below to pay, then upload a screenshot or enter the transaction reference."}
+          </p>
+
+          <div className="space-y-5">
+            {storeIds.map((storeId) => {
+              const group = storeGroups[storeId];
+              const storeName = group[0].storeName ?? "Seller";
+              const storeQrUrl = group[0].storeQrUrl;
+              const payment = payments[storeId];
+              const isUploading = uploadingStoreId === storeId;
+
+              return (
+                <div key={storeId} className="rounded-lg border p-4">
+                  <p className="mb-3 text-sm font-semibold uppercase tracking-wide text-gray-500">
+                    {storeName}
+                  </p>
+
+                  {!storeQrUrl ? (
+                    <div className="flex gap-2 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+                      <TriangleAlert size={16} className="mt-0.5 shrink-0" />
+                      <p>This seller hasn&apos;t set up payment yet — contact them before ordering.</p>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col gap-4 sm:flex-row">
+                      <div className="relative h-40 w-40 shrink-0 overflow-hidden rounded-lg border bg-gray-50">
+                        <Image
+                          src={storeQrUrl}
+                          alt={`${storeName} payment QR`}
+                          fill
+                          sizes="160px"
+                          className="object-contain"
+                        />
+                      </div>
+
+                      <div className="flex-1 space-y-3">
+                        <div>
+                          <label className="mb-1 block text-sm font-medium">
+                            Payment screenshot
+                          </label>
+                          <label className="flex w-fit cursor-pointer items-center gap-2 rounded-lg border px-4 py-2 text-sm font-medium text-gray-600 hover:border-pink-400 hover:text-pink-600">
+                            {isUploading ? (
+                              <Loader2 size={16} className="animate-spin" />
+                            ) : (
+                              <Upload size={16} />
+                            )}
+                            {payment?.proofUrl ? "Replace screenshot" : "Upload screenshot"}
+                            <input
+                              type="file"
+                              accept="image/jpeg,image/png,image/webp"
+                              className="hidden"
+                              onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                e.target.value = "";
+                                if (file) handleProofFileChange(storeId, file);
+                              }}
+                            />
+                          </label>
+                          {payment?.proofUrl && (
+                            <p className="mt-1 text-xs text-green-600">Screenshot uploaded.</p>
+                          )}
+                        </div>
+
+                        <div>
+                          <label className="mb-1 block text-sm font-medium">
+                            Or transaction reference
+                          </label>
+                          <input
+                            value={payment?.reference ?? ""}
+                            onChange={(e) =>
+                              updatePayment(storeId, { reference: e.target.value })
+                            }
+                            placeholder="e.g. transaction ID from your banking app"
+                            className="w-full rounded-lg border px-3 py-2 text-sm outline-none focus:border-pink-400"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </div>
 
       <div className="h-fit space-y-4 rounded-xl border bg-white p-6">
         <h2 className="text-lg font-bold">Order Summary</h2>
 
-        {storeNames.length > 1 ? (
+        {storeIds.length > 1 ? (
           <p className="text-xs text-gray-500">
-            Items from {storeNames.length} sellers — this will be placed as {storeNames.length}{" "}
+            Items from {storeIds.length} sellers — this will be placed as {storeIds.length}{" "}
             separate orders.
           </p>
         ) : null}
 
-        {storeNames.map((storeName) => (
-          <div key={storeName} className="space-y-2">
-            {storeNames.length > 1 && (
+        {storeIds.map((storeId) => (
+          <div key={storeId} className="space-y-2">
+            {storeIds.length > 1 && (
               <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">
-                {storeName}
+                {storeGroups[storeId][0].storeName}
               </p>
             )}
-            {storeGroups[storeName].map((item) => (
+            {storeGroups[storeId].map((item) => (
               <div key={item.variantId} className="flex justify-between text-sm text-gray-600">
                 <span>
                   {item.productName} × {item.quantity}
@@ -185,11 +318,9 @@ export default function CheckoutPageClient() {
           <span>₹{total.toLocaleString("en-IN")}</span>
         </div>
 
-        <p className="text-sm text-gray-500">Payment: Cash on Delivery</p>
-
         <button
           onClick={handlePlaceOrder}
-          disabled={isPending || !effectiveAddressId}
+          disabled={isPending || !effectiveAddressId || !allPaymentsReady}
           className="flex w-full items-center justify-center gap-2 rounded-lg bg-black py-3 font-medium text-white transition hover:bg-gray-800 disabled:opacity-50"
         >
           {isPending && <Loader2 size={16} className="animate-spin" />}

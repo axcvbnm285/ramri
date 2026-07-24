@@ -3,7 +3,11 @@ import { OrderController } from "./order.controller";
 import { authMiddleware } from "@/middlewares/auth.middleware";
 import { customerAuthMiddleware } from "@/middlewares/customerAuth.middleware";
 import { validate } from "@/middlewares/validate.middleware";
-import { placeOrderValidator, updateStatusValidator } from "./order.validator";
+import {
+  placeOrderValidator,
+  updateStatusValidator,
+  verifyPaymentValidator,
+} from "./order.validator";
 
 const router = Router();
 const controller = new OrderController();
@@ -23,6 +27,13 @@ router.patch(
   updateStatusValidator,
   validate,
   controller.updateStatus
+);
+router.patch(
+  "/:id/verify-payment",
+  authMiddleware,
+  verifyPaymentValidator,
+  validate,
+  controller.verifyPayment
 );
 router.patch("/:id/cancel", authMiddleware, controller.cancel);
 router.patch("/:id/mark-received", authMiddleware, controller.markReceivedByAdmin);

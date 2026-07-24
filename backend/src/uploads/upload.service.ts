@@ -2,11 +2,11 @@ import cloudinary from "./cloudinary";
 import streamifier from "streamifier";
 
 export class UploadService {
-  async upload(file: Express.Multer.File) {
+  async upload(file: Express.Multer.File, folder = "ramri/products") {
     return new Promise((resolve, reject) => {
       const stream = cloudinary.uploader.upload_stream(
         {
-          folder: "ramri/products",
+          folder,
         },
         (error, result) => {
           if (error) return reject(error);

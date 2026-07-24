@@ -7,6 +7,7 @@ import { useOrder } from "@/features/orders/hooks/useOrder";
 import OrderStatusBadge from "@/features/orders/components/OrderStatusBadge";
 import OrderActions from "@/features/orders/components/OrderActions";
 import OrderTimeline from "@/features/orders/components/OrderTimeline";
+import PaymentVerificationCard from "@/features/orders/components/PaymentVerificationCard";
 
 export default function OrderDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -68,8 +69,12 @@ export default function OrderDetailPage() {
               <span>₹{Number(order.total).toLocaleString("en-IN")}</span>
             </div>
 
-            <p className="mt-1 text-right text-sm text-gray-500">Payment: Cash on Delivery</p>
+            {order.paymentMethod === "COD" && (
+              <p className="mt-1 text-right text-sm text-gray-500">Payment: Cash on Delivery</p>
+            )}
           </div>
+
+          {order.paymentMethod === "QR" && <PaymentVerificationCard order={order} />}
 
           {(order.trackingId || order.trackingUrl) && (
             <div className="rounded-2xl border bg-white p-6 shadow-sm">

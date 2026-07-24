@@ -43,4 +43,22 @@ export class UploadController {
       );
     }
   };
+
+  uploadPaymentProof = async (req: Request, res: Response) => {
+    try {
+      const file = req.file as Express.Multer.File | undefined;
+
+      if (!file) {
+        return failure(res, "No proof image provided.", 400);
+      }
+
+      const uploaded = await this.service.upload(file, "ramri/payment-proofs");
+
+      return success(res, "Payment proof uploaded successfully.", uploaded);
+    } catch (error) {
+      console.error("Payment proof upload error:", error);
+
+      return failure(res, (error as Error).message, 400);
+    }
+  };
 }

@@ -47,6 +47,13 @@ enum OrderStatus {
 
 enum PaymentMethod {
   COD
+  QR
+}
+
+enum PaymentStatus {
+  PENDING_VERIFICATION
+  PAID
+  REJECTED
 }
 
 enum StatusChangedBy {
@@ -69,6 +76,9 @@ model Store {
 
   logo String?
   logoPublicId String?
+
+  paymentQrUrl String?
+  paymentQrPublicId String?
 
   isActive Boolean @default(true)
 
@@ -314,6 +324,12 @@ model Order {
   total    Decimal @db.Decimal(10, 2)
 
   paymentMethod PaymentMethod @default(COD)
+
+  paymentStatus        PaymentStatus?
+  paymentProofUrl      String?
+  paymentProofPublicId String?
+  paymentReference     String?
+  paymentVerifiedAt    DateTime?
 
   courierName String? @default("Porter")
   trackingId  String?

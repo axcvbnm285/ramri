@@ -8,6 +8,7 @@ import { Loader2 } from "lucide-react";
 import { useCurrentCustomer } from "@/features/customerAuth/hooks/useCurrentCustomer";
 import { useMyOrders } from "@/features/customerOrders/hooks/useMyOrders";
 import OrderStatusBadge from "@/features/orders/components/OrderStatusBadge";
+import PaymentStatusBadge from "@/features/orders/components/PaymentStatusBadge";
 
 export default function OrderHistoryClient() {
   const router = useRouter();
@@ -61,9 +62,16 @@ export default function OrderHistoryClient() {
                 </p>
               </div>
 
-              <div className="flex items-center gap-3">
-                <span className="font-medium">₹{Number(order.total).toLocaleString("en-IN")}</span>
-                <OrderStatusBadge status={order.status} />
+              <div className="flex flex-col items-end gap-1">
+                <div className="flex items-center gap-3">
+                  <span className="font-medium">
+                    ₹{Number(order.total).toLocaleString("en-IN")}
+                  </span>
+                  <OrderStatusBadge status={order.status} />
+                </div>
+                {order.paymentMethod === "QR" && order.paymentStatus && (
+                  <PaymentStatusBadge status={order.paymentStatus} />
+                )}
               </div>
             </Link>
           ))}

@@ -15,6 +15,11 @@ export interface UpdateOrderStatusPayload {
   note?: string;
 }
 
+export interface VerifyPaymentPayload {
+  approved: boolean;
+  note?: string;
+}
+
 export const orderService = {
   getAll(query: OrderQuery = {}) {
     return api.get("/orders", { params: query });
@@ -26,6 +31,10 @@ export const orderService = {
 
   updateStatus(id: string, data: UpdateOrderStatusPayload) {
     return api.patch(`/orders/${id}/status`, data);
+  },
+
+  verifyPayment(id: string, data: VerifyPaymentPayload) {
+    return api.patch(`/orders/${id}/verify-payment`, data);
   },
 
   cancel(id: string) {
