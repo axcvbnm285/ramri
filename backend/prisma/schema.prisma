@@ -67,6 +67,12 @@ enum CategorySection {
   BEAUTY
 }
 
+enum StoreStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
 model Store {
   id String @id @default(cuid())
 
@@ -87,7 +93,8 @@ model Store {
   promoStartsAt    DateTime?
   promoEndsAt      DateTime?
 
-  isActive Boolean @default(true)
+  isActive Boolean     @default(true)
+  status   StoreStatus @default(PENDING)
 
   address String?
 

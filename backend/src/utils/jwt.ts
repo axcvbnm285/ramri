@@ -17,3 +17,15 @@ export function generateToken(userId: string) {
 export function verifyToken(token: string) {
   return jwt.verify(token, SECRET);
 }
+
+export function generatePlatformToken() {
+  return jwt.sign(
+    {
+      role: "PLATFORM_ADMIN",
+    },
+    SECRET,
+    {
+      expiresIn: "7d",
+    }
+  );
+}

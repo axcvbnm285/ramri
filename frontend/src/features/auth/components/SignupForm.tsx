@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Eye, EyeOff, Loader2 } from "lucide-react";
+import { Eye, EyeOff, Loader2, MailCheck } from "lucide-react";
+import { toast } from "sonner";
 
 import { signupSchema, SignupSchema } from "../schemas/signup.schema";
 
@@ -15,9 +15,8 @@ import { getErrorMessage } from "@/lib/getErrorMessage";
 import { getWhatsAppSupportUrl } from "@/lib/support";
 
 export default function SignupForm() {
-  const router = useRouter();
-
   const [showPassword, setShowPassword] = useState(false);
+  const [submitted, setSubmitted] = useState<{ storeName: string; email: string } | null>(null);
 
   const {
     register,
@@ -31,15 +30,53 @@ export default function SignupForm() {
 
   const onSubmit = (data: SignupSchema) => {
     mutate(data, {
-      onSuccess: () => {
-        router.replace("/dashboard");
+      onSuccess: (response) => {
+        const store = response.data.data.store;
+        setSubmitted({ storeName: store.name, email: data.email });
       },
 
       onError: (error) => {
-        alert(getErrorMessage(error, "Signup failed."));
+        toast.error(getErrorMessage(error, "Signup failed."));
       },
     });
   };
+
+  if (submitted) {
+    return (
+      <div className="w-full max-w-md rounded-2xl p-8 text-center">
+        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#7A2436]/10">
+          <MailCheck size={28} className="text-[#7A2436]" />
+        </div>
+
+        <h1 className="mt-5 text-2xl font-bold">Application submitted</h1>
+
+        <p className="mt-3 text-gray-500">
+          Thank you for creating <strong>{submitted.storeName}</strong> on SandroNepal. Our team is reviewing your
+          application, and we&apos;ll email <strong>{submitted.email}</strong> the moment a decision is made —
+          usually within 24 hours.
+        </p>
+
+        <Link
+          href="/login"
+          className="mt-6 inline-block rounded-lg bg-gradient-to-r from-[#2B0A12] to-[#7A2436] px-6 py-3 font-medium text-white transition hover:opacity-90"
+        >
+          Back to login
+        </Link>
+
+        <p className="mt-4 text-center text-sm text-gray-500">
+          Need help?{" "}
+          <a
+            href={getWhatsAppSupportUrl()}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-semibold text-[#7A2436] hover:underline"
+          >
+            Chat with us on WhatsApp
+          </a>
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full max-w-md rounded-2xl p-8">

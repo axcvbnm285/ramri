@@ -1,6 +1,7 @@
 import { AuthRepository } from "./auth.repository";
 import { SignupDto, LoginDto } from "./auth.types";
 import { hashPassword, comparePassword } from "@/utils/password";
+import { sendMail } from "@/utils/mailer";
 
 export class AuthService {
   private repository = new AuthRepository();
@@ -20,6 +21,16 @@ export class AuthService {
   );
 
   const { password, ...safeUser } = result.user;
+
+  try {
+    await sendMail({
+      to: process.env.PLATFORM_ADMIN_EMAIL!,
+      subject: "New store signup needs approval — SandroNepal",
+      html: `<p><strong>${result.store.name}</strong> (${result.user.email}) just signed up and needs approval.</p><p>Review it at <a href="${process.env.CLIENT_URL}/platform/dashboard">/platform/dashboard</a>.</p>`,
+    });
+  } catch (error) {
+    console.error("Failed to send store-approval email:", error);
+  }
 
   return {
     user: safeUser,
@@ -45,6 +56,14 @@ export class AuthService {
 
   if (!user.store.isActive) {
     throw new Error("This store has been deactivated.");
+  }
+
+  if (user.store.status === "PENDING") {
+    throw new Error("Your store is awaiting approval. We'll notify you once it's reviewed.");
+  }
+
+  if (user.store.status === "REJECTED") {
+    throw new Error("Your store application wasn't approved. Contact support.");
   }
 
   const { password, ...safeUser } = user;

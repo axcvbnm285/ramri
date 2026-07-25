@@ -41,11 +41,11 @@ export async function authMiddleware(
         email: true,
         role: true,
         storeId: true,
-        store: { select: { isActive: true } },
+        store: { select: { isActive: true, status: true } },
       },
     });
 
-    if (!user || !user.store.isActive) {
+    if (!user || !user.store.isActive || user.store.status !== "APPROVED") {
       return res.status(401).json({
         success: false,
         message: "Unauthorized",
