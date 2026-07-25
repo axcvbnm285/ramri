@@ -16,12 +16,14 @@ import { useStorefrontCategories } from "@/features/storefront/hooks/useStorefro
 import { StorefrontCategory } from "@/features/storefront/types/storefront.types";
 import PromoBar from "@/components/shop/PromoBar";
 import ThemeToggle from "@/components/ThemeToggle";
+import { useShopTheme } from "@/components/providers/ShopThemeProvider";
 
 type MenuKey = "women" | "beauty" | "profile" | null;
 
 export default function ShopHeader() {
   const router = useRouter();
   const pathname = usePathname();
+  const { theme, toggleTheme } = useShopTheme();
   useMigrateLegacyCart();
   const cartCount = useCartCount();
   const wishlistCount = useWishlistCount();
@@ -125,7 +127,11 @@ export default function ShopHeader() {
         </form>
 
         <div className="flex shrink-0 items-center gap-6">
-          <ThemeToggle className="text-gray-800 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-800" />
+          <ThemeToggle
+            theme={theme}
+            onToggle={toggleTheme}
+            className="text-gray-800 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-800"
+          />
 
           <div
             className="relative"

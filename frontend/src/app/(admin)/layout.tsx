@@ -11,14 +11,20 @@ import Sidebar from "@/components/layout/sidebar/Sidebar";
 import Logo from "@/components/layout/sidebar/Logo";
 import StoreBrandBanner from "@/components/layout/StoreBrandBanner";
 import ThemeToggle from "@/components/ThemeToggle";
+import { AdminThemeProvider, useAdminTheme } from "@/components/providers/AdminThemeProvider";
 
-export default function AdminLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <AdminThemeProvider>
+      <AdminLayoutContent>{children}</AdminLayoutContent>
+    </AdminThemeProvider>
+  );
+}
+
+function AdminLayoutContent({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { theme, toggleTheme } = useAdminTheme();
 
   const {
     data,
@@ -60,7 +66,11 @@ export default function AdminLayout({
           <div className="flex flex-1 justify-center">
             <Logo compact />
           </div>
-          <ThemeToggle className="text-gray-600 hover:bg-nepal-cream-3/60 dark:text-gray-300 dark:hover:bg-gray-800" />
+          <ThemeToggle
+            theme={theme}
+            onToggle={toggleTheme}
+            className="text-gray-600 hover:bg-nepal-cream-3/60 dark:text-gray-300 dark:hover:bg-gray-800"
+          />
         </header>
 
         <main className="relative min-w-0 flex-1 overflow-x-hidden bg-gradient-to-br from-nepal-cream/60 via-gray-50 to-nepal-cream-3/40 p-4 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 sm:p-6">
