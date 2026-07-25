@@ -10,7 +10,7 @@ export class CustomerRepository {
 
   async findById(id: string, storeId: string) {
     return prisma.customer.findFirst({
-      where: { id, storeId },
+      where: { id, orders: { some: { storeId } } },
     });
   }
 
@@ -31,7 +31,13 @@ export class CustomerRepository {
     const page = query.page ?? 1;
     const limit = query.limit ?? 10;
 
-    const where: any = { storeId };
+    // Customer accounts are platform-wide now, not owned by one store — the
+    // Customer.storeId column only records whichever store's signup form
+    // they used first (see customer.service.ts), which is useless for
+    // scoping "my customers" since it's almost always the same one default
+    // store for everyone. What a store owner actually means by "customer"
+    // is someone who has bought from them, so scope by their Order history.
+    const where: any = { orders: { some: { storeId } } };
 
     if (query.search) {
       where.OR = [
@@ -47,7 +53,7 @@ export class CustomerRepository {
         take: limit,
         orderBy: { createdAt: "desc" },
         include: {
-          _count: { select: { orders: true } },
+          _count: { select: { orders: { where: { storeId } } } },
         },
       }),
       prisma.customer.count({ where }),
@@ -66,10 +72,13 @@ export class CustomerRepository {
 
   async findDetail(id: string, storeId: string) {
     return prisma.customer.findFirst({
-      where: { id, storeId },
+      where: { id, orders: { some: { storeId } } },
       include: {
         addresses: true,
+        // Only this store's own orders — a customer's history with other
+        // sellers on the platform isn't this store owner's business.
         orders: {
+          where: { storeId },
           orderBy: { createdAt: "desc" },
           include: { items: true },
         },

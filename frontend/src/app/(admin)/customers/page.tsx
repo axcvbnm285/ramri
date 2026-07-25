@@ -31,7 +31,7 @@ export default function CustomersPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold">Customers</h1>
-        <p className="mt-1 text-gray-500 dark:text-gray-400">People who have signed up on your storefront.</p>
+        <p className="mt-1 text-gray-500 dark:text-gray-400">People who have ordered from your store.</p>
       </div>
 
       <input
