@@ -15,6 +15,7 @@ import { useClearCart } from "@/features/cart/hooks/useClearCart";
 import { usePlaceOrder } from "@/features/customerOrders/hooks/usePlaceOrder";
 import { PaymentProofPayload } from "@/features/customerOrders/services/customerOrder.service";
 import { useUploadPaymentProof } from "@/features/checkout/hooks/useUploadPaymentProof";
+import OrderStampAnimation from "@/features/checkout/components/OrderStampAnimation";
 import { getErrorMessage } from "@/lib/getErrorMessage";
 
 export default function CheckoutPageClient() {
@@ -31,6 +32,7 @@ export default function CheckoutPageClient() {
   const [payments, setPayments] = useState<Record<string, PaymentProofPayload>>({});
   const [uploadingStoreId, setUploadingStoreId] = useState<string | null>(null);
   const [zoomedQr, setZoomedQr] = useState<{ url: string; storeName: string } | null>(null);
+  const [stampLabel, setStampLabel] = useState<string | null>(null);
 
   const { mutate: placeOrder, isPending } = usePlaceOrder();
   const { uploadProof } = useUploadPaymentProof();
@@ -119,15 +121,19 @@ export default function CheckoutPageClient() {
           clearCart();
           const orders: { id: string }[] = response.data.data;
 
-          if (orders.length === 1) {
-            toast.success("Order placed successfully!");
-            router.push(`/shop/account/orders/${orders[0].id}`);
-          } else {
-            toast.success(
-              `Order placed! Split into ${orders.length} orders — one per seller.`
-            );
-            router.push("/shop/account/orders");
-          }
+          setStampLabel(orders.length === 1 ? "Order Confirmed" : `${orders.length} Orders Confirmed`);
+
+          setTimeout(() => {
+            if (orders.length === 1) {
+              toast.success("Order placed successfully!");
+              router.push(`/shop/account/orders/${orders[0].id}`);
+            } else {
+              toast.success(
+                `Order placed! Split into ${orders.length} orders — one per seller.`
+              );
+              router.push("/shop/account/orders");
+            }
+          }, 1300);
         },
         onError: (error) => toast.error(getErrorMessage(error, "Failed to place order.")),
       }
@@ -379,6 +385,8 @@ export default function CheckoutPageClient() {
           </div>
         </div>
       )}
+
+      {stampLabel && <OrderStampAnimation label={stampLabel} />}
     </div>
   );
 }
