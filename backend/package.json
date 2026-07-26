@@ -25,8 +25,8 @@
     "jsonwebtoken": "^9.0.3",
     "morgan": "^1.11.0",
     "multer": "^2.2.0",
-    "nodemailer": "^9.0.3",
     "prisma": "^6.19.0",
+    "resend": "^6.18.0",
     "streamifier": "^0.1.1"
   },
   "devDependencies": {
@@ -38,7 +38,6 @@
     "@types/morgan": "^1.9.10",
     "@types/multer": "^2.2.0",
     "@types/node": "^26.1.1",
-    "@types/nodemailer": "^8.0.1",
     "@types/streamifier": "^0.1.2",
     "nodemon": "^3.1.14",
     "tsc-alias": "^1.9.1",
