@@ -10,7 +10,9 @@ const TIMEOUTS = {
 };
 
 const adminTransporter = nodemailer.createTransport({
-  service: "gmail",
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
   auth: {
     user: process.env.GMAIL_USER,
     pass: process.env.GMAIL_APP_PASSWORD,
@@ -19,7 +21,9 @@ const adminTransporter = nodemailer.createTransport({
 });
 
 const ordersTransporter = nodemailer.createTransport({
-  service: "gmail",
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
   auth: {
     user: process.env.ORDERS_GMAIL_USER,
     pass: process.env.ORDERS_GMAIL_APP_PASSWORD,
