@@ -141,7 +141,7 @@ export class OrderRepository {
               create: { status: "PENDING", changedBy: "CUSTOMER" },
             },
           },
-          include: { items: true, address: true },
+          include: { items: true, address: true, customer: true, store: true },
         });
 
         if (inventoryLogs.length > 0) {

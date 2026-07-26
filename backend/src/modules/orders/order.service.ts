@@ -1,5 +1,6 @@
 import { OrderRepository } from "./order.repository";
 import { PlaceOrderDto, UpdateOrderStatusDto, VerifyPaymentDto } from "./order.types";
+import { sendOrderConfirmationEmail, sendOrderReceivedEmail } from "./order.mailer";
 
 const ALLOWED_TRANSITIONS: Record<string, string[]> = {
   PENDING: ["CONFIRMED"],
@@ -20,13 +21,30 @@ export class OrderService {
       throw new Error("Delivery address not found.");
     }
 
-    return this.repository.placeOrder(
+    const orders = await this.repository.placeOrder(
       customerId,
       data.addressId,
       data.items,
       data.notes,
       data.paymentProofs
     );
+
+    // Best-effort — a mail outage should never fail an already-placed order.
+    for (const order of orders) {
+      try {
+        await sendOrderConfirmationEmail(order);
+      } catch (error) {
+        console.error("Failed to send order confirmation email:", error);
+      }
+
+      try {
+        await sendOrderReceivedEmail(order);
+      } catch (error) {
+        console.error("Failed to send order received email:", error);
+      }
+    }
+
+    return orders;
   }
 
   async getAllForStore(storeId: string, query: any) {
