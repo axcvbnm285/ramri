@@ -22,15 +22,14 @@ export class AuthService {
 
   const { password, ...safeUser } = result.user;
 
-  try {
-    await sendMail({
-      to: process.env.PLATFORM_ADMIN_EMAIL!,
-      subject: "New store signup needs approval — SandroNepal",
-      html: `<p><strong>${result.store.name}</strong> (${result.user.email}) just signed up and needs approval.</p><p>Review it at <a href="${process.env.CLIENT_URL}/platform/dashboard">/platform/dashboard</a>.</p>`,
-    });
-  } catch (error) {
+  // Fire-and-forget — never let a slow/stuck SMTP connection hang signup.
+  sendMail({
+    to: process.env.PLATFORM_ADMIN_EMAIL!,
+    subject: "New store signup needs approval — SandroNepal",
+    html: `<p><strong>${result.store.name}</strong> (${result.user.email}) just signed up and needs approval.</p><p>Review it at <a href="${process.env.CLIENT_URL}/platform/dashboard">/platform/dashboard</a>.</p>`,
+  }).catch((error) => {
     console.error("Failed to send store-approval email:", error);
-  }
+  });
 
   return {
     user: safeUser,

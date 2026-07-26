@@ -32,23 +32,21 @@ export class PlatformAdminService {
     const owner = store.users[0];
 
     if (owner?.email) {
-      try {
-        await sendMail({
-          to: owner.email,
-          subject: "Your SandroNepal store has been approved",
-          html: renderBrandedEmail({
-            heading: `Congratulations, ${owner.name}!`,
-            bodyHtml: `
-              <p><strong>${store.name}</strong> has been reviewed and approved on SandroNepal.</p>
-              <p>Your storefront is now live and ready to take orders. Log in to your dashboard to add products, set up your payment QR, and start selling.</p>
-            `,
-            ctaText: "Log in to your dashboard",
-            ctaUrl: `${process.env.CLIENT_URL}/login`,
-          }),
-        });
-      } catch (error) {
+      sendMail({
+        to: owner.email,
+        subject: "Your SandroNepal store has been approved",
+        html: renderBrandedEmail({
+          heading: `Congratulations, ${owner.name}!`,
+          bodyHtml: `
+            <p><strong>${store.name}</strong> has been reviewed and approved on SandroNepal.</p>
+            <p>Your storefront is now live and ready to take orders. Log in to your dashboard to add products, set up your payment QR, and start selling.</p>
+          `,
+          ctaText: "Log in to your dashboard",
+          ctaUrl: `${process.env.CLIENT_URL}/login`,
+        }),
+      }).catch((error) => {
         console.error("Failed to send store-approved email:", error);
-      }
+      });
     }
 
     return store;
@@ -59,23 +57,21 @@ export class PlatformAdminService {
     const owner = store.users[0];
 
     if (owner?.email) {
-      try {
-        await sendMail({
-          to: owner.email,
-          subject: "Update on your SandroNepal store application",
-          html: renderBrandedEmail({
-            heading: `Sorry, ${owner.name}`,
-            bodyHtml: `
-              <p>We reviewed <strong>${store.name}</strong> and aren't able to approve it on SandroNepal at this time.</p>
-              <p>This isn't necessarily final — you're welcome to review your details and submit a new application.</p>
-            `,
-            ctaText: "Try again",
-            ctaUrl: `${process.env.CLIENT_URL}/signup`,
-          }),
-        });
-      } catch (error) {
+      sendMail({
+        to: owner.email,
+        subject: "Update on your SandroNepal store application",
+        html: renderBrandedEmail({
+          heading: `Sorry, ${owner.name}`,
+          bodyHtml: `
+            <p>We reviewed <strong>${store.name}</strong> and aren't able to approve it on SandroNepal at this time.</p>
+            <p>This isn't necessarily final — you're welcome to review your details and submit a new application.</p>
+          `,
+          ctaText: "Try again",
+          ctaUrl: `${process.env.CLIENT_URL}/signup`,
+        }),
+      }).catch((error) => {
         console.error("Failed to send store-rejected email:", error);
-      }
+      });
     }
 
     return store;

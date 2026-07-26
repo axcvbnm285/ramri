@@ -29,19 +29,15 @@ export class OrderService {
       data.paymentProofs
     );
 
-    // Best-effort — a mail outage should never fail an already-placed order.
+    // Fire-and-forget — a slow/stuck SMTP connection must never hang checkout.
     for (const order of orders) {
-      try {
-        await sendOrderConfirmationEmail(order);
-      } catch (error) {
+      sendOrderConfirmationEmail(order).catch((error) => {
         console.error("Failed to send order confirmation email:", error);
-      }
+      });
 
-      try {
-        await sendOrderReceivedEmail(order);
-      } catch (error) {
+      sendOrderReceivedEmail(order).catch((error) => {
         console.error("Failed to send order received email:", error);
-      }
+      });
     }
 
     return orders;

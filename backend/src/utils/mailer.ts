@@ -1,11 +1,21 @@
 import nodemailer from "nodemailer";
 
+// Nodemailer's defaults (up to a 10-minute socket timeout) let a stuck SMTP
+// connection hang far longer than useful, even fire-and-forget in the
+// background — cap all three so a dead connection fails fast and logs.
+const TIMEOUTS = {
+  connectionTimeout: 10_000,
+  greetingTimeout: 10_000,
+  socketTimeout: 10_000,
+};
+
 const adminTransporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
     user: process.env.GMAIL_USER,
     pass: process.env.GMAIL_APP_PASSWORD,
   },
+  ...TIMEOUTS,
 });
 
 const ordersTransporter = nodemailer.createTransport({
@@ -14,6 +24,7 @@ const ordersTransporter = nodemailer.createTransport({
     user: process.env.ORDERS_GMAIL_USER,
     pass: process.env.ORDERS_GMAIL_APP_PASSWORD,
   },
+  ...TIMEOUTS,
 });
 
 function toPlainText(html: string) {
