@@ -1,6 +1,6 @@
-import { MessageCircle } from "lucide-react";
+import { Mail } from "lucide-react";
 
-import { getWhatsAppSupportUrl } from "@/lib/support";
+import { getSupportEmailUrl } from "@/lib/support";
 
 export default function ContactUsCard() {
   return (
@@ -12,13 +12,11 @@ export default function ContactUsCard() {
 
       <div className="mt-4">
         <a
-          href={getWhatsAppSupportUrl()}
-          target="_blank"
-          rel="noopener noreferrer"
+          href={getSupportEmailUrl()}
           className="flex w-fit items-center gap-2 rounded-lg bg-nepal-maroon px-4 py-2.5 text-sm font-medium text-white transition hover:bg-nepal-maroon-dark"
         >
-          <MessageCircle size={16} />
-          Chat with SandroNepal support
+          <Mail size={16} />
+          Email SandroNepal support
         </a>
       </div>
     </div>

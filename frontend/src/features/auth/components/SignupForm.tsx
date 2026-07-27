@@ -12,7 +12,7 @@ import { signupSchema, SignupSchema } from "../schemas/signup.schema";
 
 import { useSignup } from "../hooks/useSignup";
 import { getErrorMessage } from "@/lib/getErrorMessage";
-import { getWhatsAppSupportUrl } from "@/lib/support";
+import { getSupportEmailUrl } from "@/lib/support";
 
 export default function SignupForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -66,12 +66,10 @@ export default function SignupForm() {
         <p className="mt-4 text-center text-sm text-gray-500">
           Need help?{" "}
           <a
-            href={getWhatsAppSupportUrl()}
-            target="_blank"
-            rel="noopener noreferrer"
+            href={getSupportEmailUrl()}
             className="font-semibold text-[#7A2436] hover:underline"
           >
-            Chat with us on WhatsApp
+            Email us
           </a>
         </p>
       </div>
@@ -192,12 +190,10 @@ export default function SignupForm() {
       <p className="mt-2 text-center text-sm text-gray-500">
         Need help?{" "}
         <a
-          href={getWhatsAppSupportUrl()}
-          target="_blank"
-          rel="noopener noreferrer"
+          href={getSupportEmailUrl()}
           className="font-semibold text-[#7A2436] hover:underline"
         >
-          Chat with us on WhatsApp
+          Email us
         </a>
       </p>
     </div>

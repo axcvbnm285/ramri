@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { getWhatsAppSupportUrl } from "@/lib/support";
+import { getSupportEmailUrl } from "@/lib/support";
 
 export default function ShopFooter() {
   return (
@@ -11,12 +11,10 @@ export default function ShopFooter() {
         <p className="mt-3 text-xs text-gray-400 dark:text-gray-500">
           Need help?{" "}
           <a
-            href={getWhatsAppSupportUrl()}
-            target="_blank"
-            rel="noopener noreferrer"
+            href={getSupportEmailUrl()}
             className="hover:text-gray-600 hover:underline dark:hover:text-gray-300"
           >
-            Chat with us on WhatsApp
+            Email us
           </a>
         </p>
         <Link

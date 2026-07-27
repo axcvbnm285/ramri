@@ -6,7 +6,7 @@ import { Loader2, TriangleAlert } from "lucide-react";
 import { Store } from "../types/settings.types";
 import { useDeleteStore } from "../hooks/useDeleteStore";
 import { getErrorMessage } from "@/lib/getErrorMessage";
-import { getWhatsAppSupportUrl } from "@/lib/support";
+import { getSupportEmailUrl } from "@/lib/support";
 
 interface Props {
   store: Store;
@@ -49,12 +49,10 @@ export default function DeleteStoreCard({ store }: Props) {
               This immediately takes <strong>{store.name}</strong> off the SandroNepal storefront and logs you out
               of the dashboard. Your products, orders and customer history are kept, not erased —{" "}
               <a
-                href={getWhatsAppSupportUrl()}
-                target="_blank"
-                rel="noopener noreferrer"
+                href={getSupportEmailUrl()}
                 className="font-medium underline"
               >
-                message us on WhatsApp
+                email us
               </a>{" "}
               if you ever want them permanently removed.
             </p>

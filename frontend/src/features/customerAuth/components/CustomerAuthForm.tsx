@@ -13,7 +13,7 @@ import { customerLoginSchema } from "../schemas/customerLogin.schema";
 import { customerSignupSchema } from "../schemas/customerSignup.schema";
 import { useCheckPhone } from "../hooks/useCheckPhone";
 import { useCustomerLogin } from "../hooks/useCustomerLogin";
-import { getWhatsAppSupportUrl } from "@/lib/support";
+import { getSupportEmailUrl } from "@/lib/support";
 import { useCustomerSignup } from "../hooks/useCustomerSignup";
 import { getErrorMessage } from "@/lib/getErrorMessage";
 
@@ -144,9 +144,7 @@ export default function CustomerAuthForm() {
           <p className="mt-6 text-center text-sm text-gray-500">
             Have trouble logging in?{" "}
             <a
-              href={getWhatsAppSupportUrl()}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={getSupportEmailUrl()}
               className="font-semibold text-[#7A2436] hover:underline"
             >
               Get help
