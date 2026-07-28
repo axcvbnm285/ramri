@@ -1,5 +1,5 @@
 import { api } from "@/services/api";
-import { LoginDto, SignupDto } from "../types";
+import { LoginDto, SignupDto, ForgotPasswordDto, ResetPasswordDto, ChangePasswordDto } from "../types";
 
 export const authService = {
   login(data: LoginDto) {
@@ -16,5 +16,17 @@ export const authService = {
 
   logout() {
     return api.post("/auth/logout");
+  },
+
+  forgotPassword(data: ForgotPasswordDto) {
+    return api.post("/auth/forgot-password", data);
+  },
+
+  resetPassword(data: ResetPasswordDto) {
+    return api.post("/auth/reset-password", data);
+  },
+
+  changePassword(data: ChangePasswordDto) {
+    return api.patch("/auth/change-password", data);
   },
 };

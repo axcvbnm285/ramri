@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { Heart, LogOut, Package, Search, ShoppingBag, User } from "lucide-react";
+import { Heart, KeyRound, LogOut, Package, Search, ShoppingBag, User } from "lucide-react";
 
 import { useCartCount } from "@/features/cart/hooks/useCartCount";
 import { useMigrateLegacyCart } from "@/features/cart/hooks/useMigrateLegacyCart";
@@ -176,6 +176,12 @@ export default function ShopHeader() {
                         className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-600 dark:text-gray-200 dark:hover:bg-gray-700"
                       >
                         <ShoppingBag size={15} /> Cart
+                      </Link>
+                      <Link
+                        href="/shop/account/change-password"
+                        className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-600 dark:text-gray-200 dark:hover:bg-gray-700"
+                      >
+                        <KeyRound size={15} /> Change Password
                       </Link>
                       <button
                         onClick={() => logout.mutate()}

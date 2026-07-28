@@ -1,7 +1,16 @@
 import { CustomerRepository } from "./customer.repository";
-import { CustomerSignupDto, CustomerLoginDto, AddressDto } from "./customer.types";
+import {
+  CustomerSignupDto,
+  CustomerLoginDto,
+  AddressDto,
+  ForgotPasswordDto,
+  ResetPasswordDto,
+  ChangePasswordDto,
+} from "./customer.types";
 import { hashPassword, comparePassword } from "@/utils/password";
 import { getDefaultStore } from "@/lib/store";
+import { createResetToken, hashResetToken } from "@/utils/resetToken";
+import { sendPasswordResetEmail, sendPasswordChangedEmail } from "@/utils/passwordEmails";
 
 export class CustomerService {
   private repository = new CustomerRepository();
@@ -32,7 +41,7 @@ export class CustomerService {
       storeId: store.id,
     });
 
-    const { password, ...safeCustomer } = customer;
+    const { password, resetToken, resetTokenExpiresAt, ...safeCustomer } = customer;
     return safeCustomer;
   }
 
@@ -49,7 +58,7 @@ export class CustomerService {
       throw new Error("Invalid phone number or password.");
     }
 
-    const { password, ...safeCustomer } = customer;
+    const { password, resetToken, resetTokenExpiresAt, ...safeCustomer } = customer;
     return safeCustomer;
   }
 
@@ -68,7 +77,7 @@ export class CustomerService {
       throw new Error("Customer not found.");
     }
 
-    const { password, ...safeCustomer } = customer;
+    const { password, resetToken, resetTokenExpiresAt, ...safeCustomer } = customer;
     return safeCustomer;
   }
 
@@ -102,5 +111,79 @@ export class CustomerService {
     }
 
     return this.repository.deleteAddress(addressId);
+  }
+
+  async forgotPassword(data: ForgotPasswordDto) {
+    const customer = await this.repository.findByPhone(data.phone);
+
+    if (customer?.email) {
+      const { token, hashedToken, expiresAt } = createResetToken();
+      await this.repository.setResetToken(customer.id, hashedToken, expiresAt);
+
+      sendPasswordResetEmail({
+        to: customer.email,
+        name: customer.name,
+        resetUrl: `${process.env.CLIENT_URL}/shop/reset-password?token=${token}`,
+      }).catch((error) => {
+        console.error("Failed to send password-reset email:", error);
+      });
+    }
+
+    return {
+      message: "If that phone number is registered and has an email on file, we've sent a password reset link.",
+    };
+  }
+
+  async resetPassword(data: ResetPasswordDto) {
+    const hashedToken = hashResetToken(data.token);
+    const customer = await this.repository.findByResetToken(hashedToken);
+
+    if (!customer) {
+      throw new Error("This reset link is invalid or has expired.");
+    }
+
+    const hashedPassword = await hashPassword(data.newPassword);
+    await this.repository.updatePassword(customer.id, hashedPassword);
+
+    if (customer.email) {
+      sendPasswordChangedEmail({
+        to: customer.email,
+        name: customer.name,
+        loginUrl: `${process.env.CLIENT_URL}/shop/login`,
+      }).catch((error) => {
+        console.error("Failed to send password-changed email:", error);
+      });
+    }
+
+    return { message: "Password reset successfully." };
+  }
+
+  async changePassword(customerId: string, data: ChangePasswordDto) {
+    const customer = await this.repository.findByPk(customerId);
+
+    if (!customer) {
+      throw new Error("Customer not found.");
+    }
+
+    const valid = await comparePassword(data.currentPassword, customer.password);
+
+    if (!valid) {
+      throw new Error("Current password is incorrect.");
+    }
+
+    const hashedPassword = await hashPassword(data.newPassword);
+    await this.repository.updatePassword(customer.id, hashedPassword);
+
+    if (customer.email) {
+      sendPasswordChangedEmail({
+        to: customer.email,
+        name: customer.name,
+        loginUrl: `${process.env.CLIENT_URL}/shop/login`,
+      }).catch((error) => {
+        console.error("Failed to send password-changed email:", error);
+      });
+    }
+
+    return { message: "Password changed successfully." };
   }
 }

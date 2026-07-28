@@ -1,7 +1,9 @@
 import { AuthRepository } from "./auth.repository";
-import { SignupDto, LoginDto } from "./auth.types";
+import { SignupDto, LoginDto, ForgotPasswordDto, ResetPasswordDto, ChangePasswordDto } from "./auth.types";
 import { hashPassword, comparePassword } from "@/utils/password";
 import { sendMail } from "@/utils/mailer";
+import { createResetToken, hashResetToken } from "@/utils/resetToken";
+import { sendPasswordResetEmail, sendPasswordChangedEmail } from "@/utils/passwordEmails";
 
 export class AuthService {
   private repository = new AuthRepository();
@@ -20,7 +22,7 @@ export class AuthService {
     hashedPassword
   );
 
-  const { password, ...safeUser } = result.user;
+  const { password, resetToken, resetTokenExpiresAt, ...safeUser } = result.user;
 
   // Fire-and-forget — never let a slow/stuck SMTP connection hang signup.
   sendMail({
@@ -65,8 +67,76 @@ export class AuthService {
     throw new Error("Your store application wasn't approved. Contact support.");
   }
 
-  const { password, ...safeUser } = user;
+  const { password, resetToken, resetTokenExpiresAt, ...safeUser } = user;
 
   return safeUser;
 }
+
+  async forgotPassword(data: ForgotPasswordDto) {
+    const user = await this.repository.findUserByEmail(data.email);
+
+    if (user) {
+      const { token, hashedToken, expiresAt } = createResetToken();
+      await this.repository.setResetToken(user.id, hashedToken, expiresAt);
+
+      sendPasswordResetEmail({
+        to: user.email,
+        name: user.name,
+        resetUrl: `${process.env.CLIENT_URL}/reset-password?token=${token}`,
+      }).catch((error) => {
+        console.error("Failed to send password-reset email:", error);
+      });
+    }
+
+    return { message: "If that email is registered, we've sent a password reset link." };
+  }
+
+  async resetPassword(data: ResetPasswordDto) {
+    const hashedToken = hashResetToken(data.token);
+    const user = await this.repository.findByResetToken(hashedToken);
+
+    if (!user) {
+      throw new Error("This reset link is invalid or has expired.");
+    }
+
+    const hashedPassword = await hashPassword(data.newPassword);
+    await this.repository.updatePassword(user.id, hashedPassword);
+
+    sendPasswordChangedEmail({
+      to: user.email,
+      name: user.name,
+      loginUrl: `${process.env.CLIENT_URL}/login`,
+    }).catch((error) => {
+      console.error("Failed to send password-changed email:", error);
+    });
+
+    return { message: "Password reset successfully." };
+  }
+
+  async changePassword(userId: string, data: ChangePasswordDto) {
+    const user = await this.repository.findById(userId);
+
+    if (!user) {
+      throw new Error("User not found.");
+    }
+
+    const valid = await comparePassword(data.currentPassword, user.password);
+
+    if (!valid) {
+      throw new Error("Current password is incorrect.");
+    }
+
+    const hashedPassword = await hashPassword(data.newPassword);
+    await this.repository.updatePassword(user.id, hashedPassword);
+
+    sendPasswordChangedEmail({
+      to: user.email,
+      name: user.name,
+      loginUrl: `${process.env.CLIENT_URL}/login`,
+    }).catch((error) => {
+      console.error("Failed to send password-changed email:", error);
+    });
+
+    return { message: "Password changed successfully." };
+  }
 }

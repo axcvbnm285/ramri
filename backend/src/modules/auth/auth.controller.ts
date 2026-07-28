@@ -75,4 +75,31 @@ logout = async (_req: Request, res: Response) => {
     "Logged out successfully."
   );
 };
+
+  forgotPassword = async (req: Request, res: Response) => {
+    try {
+      const result = await this.service.forgotPassword(req.body);
+      return success(res, result.message);
+    } catch (error) {
+      return failure(res, (error as Error).message);
+    }
+  };
+
+  resetPassword = async (req: Request, res: Response) => {
+    try {
+      const result = await this.service.resetPassword(req.body);
+      return success(res, result.message);
+    } catch (error) {
+      return failure(res, (error as Error).message);
+    }
+  };
+
+  changePassword = async (req: AuthRequest, res: Response) => {
+    try {
+      const result = await this.service.changePassword(req.user!.id, req.body);
+      return success(res, result.message);
+    } catch (error) {
+      return failure(res, (error as Error).message);
+    }
+  };
 }

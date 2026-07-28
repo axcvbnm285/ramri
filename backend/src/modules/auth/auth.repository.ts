@@ -46,4 +46,35 @@ export class AuthRepository {
       },
     });
   }
+
+  async findById(id: string) {
+    return prisma.user.findUnique({ where: { id } });
+  }
+
+  async setResetToken(userId: string, hashedToken: string, expiresAt: Date) {
+    return prisma.user.update({
+      where: { id: userId },
+      data: { resetToken: hashedToken, resetTokenExpiresAt: expiresAt },
+    });
+  }
+
+  async findByResetToken(hashedToken: string) {
+    return prisma.user.findFirst({
+      where: {
+        resetToken: hashedToken,
+        resetTokenExpiresAt: { gt: new Date() },
+      },
+    });
+  }
+
+  async updatePassword(userId: string, hashedPassword: string) {
+    return prisma.user.update({
+      where: { id: userId },
+      data: {
+        password: hashedPassword,
+        resetToken: null,
+        resetTokenExpiresAt: null,
+      },
+    });
+  }
 }

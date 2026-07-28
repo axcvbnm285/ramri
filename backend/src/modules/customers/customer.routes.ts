@@ -8,6 +8,9 @@ import {
   loginValidator,
   addressValidator,
   checkPhoneValidator,
+  forgotPasswordValidator,
+  resetPasswordValidator,
+  changePasswordValidator,
 } from "./customer.validator";
 
 const router = Router();
@@ -30,6 +33,21 @@ router.post(
 );
 router.patch("/addresses/:id", customerAuthMiddleware, controller.updateAddress);
 router.delete("/addresses/:id", customerAuthMiddleware, controller.deleteAddress);
+
+router.post(
+  "/forgot-password",
+  forgotPasswordValidator,
+  validate,
+  controller.forgotPassword
+);
+router.post("/reset-password", resetPasswordValidator, validate, controller.resetPassword);
+router.patch(
+  "/change-password",
+  customerAuthMiddleware,
+  changePasswordValidator,
+  validate,
+  controller.changePassword
+);
 
 // Admin views of customers
 router.get("/", authMiddleware, controller.getAll);

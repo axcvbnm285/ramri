@@ -113,4 +113,31 @@ export class CustomerController {
       return failure(res, (error as Error).message, 404);
     }
   };
+
+  forgotPassword = async (req: Request, res: Response) => {
+    try {
+      const result = await this.service.forgotPassword(req.body);
+      return success(res, result.message);
+    } catch (error) {
+      return failure(res, (error as Error).message);
+    }
+  };
+
+  resetPassword = async (req: Request, res: Response) => {
+    try {
+      const result = await this.service.resetPassword(req.body);
+      return success(res, result.message);
+    } catch (error) {
+      return failure(res, (error as Error).message);
+    }
+  };
+
+  changePassword = async (req: CustomerAuthRequest, res: Response) => {
+    try {
+      const result = await this.service.changePassword(req.customer!.id, req.body);
+      return success(res, result.message);
+    } catch (error) {
+      return failure(res, (error as Error).message);
+    }
+  };
 }

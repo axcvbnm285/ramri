@@ -24,6 +24,27 @@ export const loginValidator = [
   body("password").notEmpty().withMessage("Password is required."),
 ];
 
+export const forgotPasswordValidator = [
+  body("phone")
+    .trim()
+    .matches(/^9[678]\d{8}$/)
+    .withMessage("Enter a valid 10-digit phone number."),
+];
+
+export const resetPasswordValidator = [
+  body("token").trim().notEmpty().withMessage("Reset token is required."),
+  body("newPassword")
+    .isLength({ min: 6 })
+    .withMessage("Password must be at least 6 characters."),
+];
+
+export const changePasswordValidator = [
+  body("currentPassword").notEmpty().withMessage("Current password is required."),
+  body("newPassword")
+    .isLength({ min: 6 })
+    .withMessage("Password must be at least 6 characters."),
+];
+
 export const addressValidator = [
   body("fullName").trim().notEmpty().withMessage("Full name is required."),
   body("phone")

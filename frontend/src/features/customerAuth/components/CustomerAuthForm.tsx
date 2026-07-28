@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
@@ -167,7 +168,15 @@ export default function CustomerAuthForm() {
 
           <form onSubmit={loginForm.handleSubmit(onLogin)} className="mt-6 space-y-5">
             <div>
-              <label className="mb-2 block text-sm font-medium">Password</label>
+              <div className="flex items-center justify-between">
+                <label className="mb-2 block text-sm font-medium">Password</label>
+                <Link
+                  href="/shop/forgot-password"
+                  className="mb-2 text-sm font-medium text-[#7A2436] hover:underline"
+                >
+                  Forgot password?
+                </Link>
+              </div>
               <div className="relative">
                 <input
                   {...loginForm.register("password")}

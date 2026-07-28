@@ -1,5 +1,5 @@
 import { api } from "@/services/api";
-import { CustomerLoginDto, CustomerSignupDto } from "../types";
+import { CustomerLoginDto, CustomerSignupDto, ForgotPasswordDto, ResetPasswordDto, ChangePasswordDto } from "../types";
 
 export const customerAuthService = {
   checkPhone(phone: string) {
@@ -20,5 +20,17 @@ export const customerAuthService = {
 
   me() {
     return api.get("/customers/me");
+  },
+
+  forgotPassword(data: ForgotPasswordDto) {
+    return api.post("/customers/forgot-password", data);
+  },
+
+  resetPassword(data: ResetPasswordDto) {
+    return api.post("/customers/reset-password", data);
+  },
+
+  changePassword(data: ChangePasswordDto) {
+    return api.patch("/customers/change-password", data);
   },
 };

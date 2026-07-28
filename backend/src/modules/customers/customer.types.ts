@@ -10,6 +10,20 @@ export interface CustomerLoginDto {
   password: string;
 }
 
+export interface ForgotPasswordDto {
+  phone: string;
+}
+
+export interface ResetPasswordDto {
+  token: string;
+  newPassword: string;
+}
+
+export interface ChangePasswordDto {
+  currentPassword: string;
+  newPassword: string;
+}
+
 export interface AddressDto {
   fullName: string;
   phone: string;

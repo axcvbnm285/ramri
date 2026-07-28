@@ -14,6 +14,37 @@ export class CustomerRepository {
     });
   }
 
+  async findByPk(id: string) {
+    return prisma.customer.findUnique({ where: { id } });
+  }
+
+  async setResetToken(customerId: string, hashedToken: string, expiresAt: Date) {
+    return prisma.customer.update({
+      where: { id: customerId },
+      data: { resetToken: hashedToken, resetTokenExpiresAt: expiresAt },
+    });
+  }
+
+  async findByResetToken(hashedToken: string) {
+    return prisma.customer.findFirst({
+      where: {
+        resetToken: hashedToken,
+        resetTokenExpiresAt: { gt: new Date() },
+      },
+    });
+  }
+
+  async updatePassword(customerId: string, hashedPassword: string) {
+    return prisma.customer.update({
+      where: { id: customerId },
+      data: {
+        password: hashedPassword,
+        resetToken: null,
+        resetTokenExpiresAt: null,
+      },
+    });
+  }
+
   async create(data: {
     name: string;
     phone: string;
