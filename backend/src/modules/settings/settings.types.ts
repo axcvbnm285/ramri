@@ -10,4 +10,7 @@ export interface UpdateStoreDto {
   promoDescription?: string;
   promoStartsAt?: string;
   promoEndsAt?: string;
+  instagram?: string;
+  facebook?: string;
+  tiktok?: string;
 }

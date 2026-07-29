@@ -17,6 +17,7 @@ export interface Store {
   address?: string | null;
   instagram?: string | null;
   facebook?: string | null;
+  tiktok?: string | null;
   whatsapp?: string | null;
   createdAt: string;
 }
@@ -33,4 +34,7 @@ export interface UpdateStorePayload {
   promoDescription?: string;
   promoStartsAt?: string;
   promoEndsAt?: string;
+  instagram?: string;
+  facebook?: string;
+  tiktok?: string;
 }

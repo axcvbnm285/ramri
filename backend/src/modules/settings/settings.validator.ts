@@ -14,4 +14,19 @@ export const updateStoreValidator = [
     .withMessage("Description cannot be empty."),
   body("promoStartsAt").optional().isISO8601().withMessage("Invalid start date."),
   body("promoEndsAt").optional().isISO8601().withMessage("Invalid end date."),
+  body("instagram")
+    .optional({ values: "falsy" })
+    .trim()
+    .isURL()
+    .withMessage("Instagram must be a valid URL."),
+  body("facebook")
+    .optional({ values: "falsy" })
+    .trim()
+    .isURL()
+    .withMessage("Facebook must be a valid URL."),
+  body("tiktok")
+    .optional({ values: "falsy" })
+    .trim()
+    .isURL()
+    .withMessage("TikTok must be a valid URL."),
 ];

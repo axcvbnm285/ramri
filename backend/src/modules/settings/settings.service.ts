@@ -27,6 +27,12 @@ export class SettingsService {
       ...(data.promoDescription && { promoDescription: data.promoDescription }),
       ...(data.promoStartsAt && { promoStartsAt: new Date(data.promoStartsAt) }),
       ...(data.promoEndsAt && { promoEndsAt: new Date(data.promoEndsAt) }),
+      // Unlike the fields above, social links can legitimately be cleared
+      // back out (a store removing a handle they no longer use), so an
+      // empty string is a valid update here, not a no-op.
+      ...(data.instagram !== undefined && { instagram: data.instagram || null }),
+      ...(data.facebook !== undefined && { facebook: data.facebook || null }),
+      ...(data.tiktok !== undefined && { tiktok: data.tiktok || null }),
     });
   }
 

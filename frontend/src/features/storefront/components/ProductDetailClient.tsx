@@ -15,6 +15,7 @@ import { useCurrentCustomer } from "@/features/customerAuth/hooks/useCurrentCust
 import { getErrorMessage } from "@/lib/getErrorMessage";
 import { isPromoActive } from "@/features/storefront/utils/promo";
 import StoreLogoAvatar from "@/components/StoreLogoAvatar";
+import SocialLinks from "@/components/SocialLinks";
 
 export default function ProductDetailClient() {
   const { slug } = useParams<{ slug: string }>();
@@ -115,10 +116,18 @@ export default function ProductDetailClient() {
             <div>
               {product.brand && <p className="text-sm text-gray-500">{product.brand}</p>}
               <h1 className="text-2xl font-bold">{product.name}</h1>
-              <p className="mt-1 flex items-center gap-1.5 text-xs font-medium text-gray-400">
-                <StoreLogoAvatar logoUrl={product.store.logo} name={product.store.name} size={18} />
-                Sold by {product.store.name}
-              </p>
+              <div className="mt-1 flex items-center gap-2.5">
+                <p className="flex items-center gap-1.5 text-xs font-medium text-gray-400">
+                  <StoreLogoAvatar logoUrl={product.store.logo} name={product.store.name} size={18} />
+                  Sold by {product.store.name}
+                </p>
+                <SocialLinks
+                  instagram={product.store.instagram}
+                  tiktok={product.store.tiktok}
+                  facebook={product.store.facebook}
+                  size={14}
+                />
+              </div>
               {isPromoActive(product.store) && (
                 <p className="mt-2 inline-flex items-center gap-1.5 rounded-lg bg-nepal-cream-3/60 px-2.5 py-1 text-xs font-semibold text-nepal-maroon-dark">
                   <Sparkles size={12} />

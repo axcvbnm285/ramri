@@ -7,6 +7,7 @@ import StoreNameCard from "@/features/settings/components/StoreNameCard";
 import StoreLogoCard from "@/features/settings/components/StoreLogoCard";
 import PaymentQrCard from "@/features/settings/components/PaymentQrCard";
 import PromotionCard from "@/features/settings/components/PromotionCard";
+import SocialMediaCard from "@/features/settings/components/SocialMediaCard";
 import ChangePasswordCard from "@/features/settings/components/ChangePasswordCard";
 import ContactUsCard from "@/features/settings/components/ContactUsCard";
 import DeleteStoreCard from "@/features/settings/components/DeleteStoreCard";
@@ -41,6 +42,7 @@ export default function SettingsPage() {
       <StoreLogoCard store={store} />
       <PaymentQrCard store={store} />
       <PromotionCard store={store} />
+      <SocialMediaCard store={store} />
       <ChangePasswordCard />
       <ContactUsCard />
       <DeleteStoreCard store={store} />

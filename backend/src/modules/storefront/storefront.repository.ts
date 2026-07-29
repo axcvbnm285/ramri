@@ -11,6 +11,9 @@ const STORE_SELECT = {
     promoDescription: true,
     promoStartsAt: true,
     promoEndsAt: true,
+    instagram: true,
+    facebook: true,
+    tiktok: true,
   },
 };
 

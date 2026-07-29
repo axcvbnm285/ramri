@@ -102,6 +102,8 @@ model Store {
 
   facebook String?
 
+  tiktok String?
+
   whatsapp String?
 
   createdAt DateTime @default(now())

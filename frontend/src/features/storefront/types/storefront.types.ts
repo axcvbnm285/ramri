@@ -10,6 +10,9 @@ export interface StorefrontStore {
   promoDescription?: string | null;
   promoStartsAt?: string | null;
   promoEndsAt?: string | null;
+  instagram?: string | null;
+  facebook?: string | null;
+  tiktok?: string | null;
 }
 
 export interface Promotion {
